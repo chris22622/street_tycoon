@@ -171,7 +171,7 @@ class MasterCriminalService {
         );
 
       case 'gang_alliance_opportunity':
-        final alliances = ['Los Hermanos Cartel', 'Russian Bratva', 'Italian Famiglia', 'Yakuza Clan'];
+        final alliances = ['Shadow Phoenix Syndicate', 'Northern Wolf Pack', 'Golden Dragon Family', 'Silver Serpent Clan'];
         final alliance = alliances[_random.nextInt(alliances.length)];
         return EmpireEvent(
           id: 'empire_${DateTime.now().millisecondsSinceEpoch}',

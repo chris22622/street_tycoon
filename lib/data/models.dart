@@ -94,6 +94,14 @@ class GameState {
     return cash + bank + stashValue;
   }
 
+  int netWorthWithPrices(Map<String, int> prices) {
+    var total = cash + bank;
+    stash.forEach((item, qty) {
+      total += (prices[item] ?? 0) * qty;
+    });
+    return total;
+  }
+
   int get usedCapacity {
     return stash.values.fold(0, (sum, qty) => sum + qty);
   }

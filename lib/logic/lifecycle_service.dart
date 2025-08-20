@@ -279,7 +279,7 @@ class LifecycleService {
         description: 'Connect with high-level drug supplier',
         icon: '📦',
         effects: {
-          'supplierAccess': 'cartel',
+          'supplierAccess': 'syndicate',
           'priceDiscount': 0.15,
           'qualityBoost': 20,
         },
@@ -438,7 +438,7 @@ class LifecycleService {
       legacy['description'] = 'Your name will be whispered in the streets for generations';
     } else if (totalScore > 5000) {
       legacy['rating'] = 'Criminal Mastermind';
-      legacy['description'] = 'You built an empire that rivals the cartels';
+      legacy['description'] = 'You built an empire that rivals the syndicates';
     } else if (totalScore > 2000) {
       legacy['rating'] = 'Street Legend';
       legacy['description'] = 'Your reputation extends far beyond your territory';

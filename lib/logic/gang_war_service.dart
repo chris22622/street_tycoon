@@ -257,9 +257,9 @@ class GangWarService {
     return [
       // Los Angeles Gangs
       const RivalGang(
-        id: 'crips_la',
-        name: 'West Side Crips',
-        leader: 'Big C',
+        id: 'blue_wolves_la',
+        name: 'Blue Wolves',
+        leader: 'Alpha Blue',
         territory: 'South Central LA',
         state: 'California',
         icon: '🔵',
@@ -274,17 +274,17 @@ class GangWarService {
         },
         members: [],
         relationships: {
-          'bloods_la': -90, // Enemy
-          'mexican_mafia': -60,
-          'black_guerillas': 20,
+          'red_serpents_la': -90, // Enemy
+          'desert_scorpions': -60,
+          'shadow_panthers': 20,
         },
         isHostile: true,
       ),
       
       const RivalGang(
-        id: 'bloods_la',
-        name: 'Piru Blood Gang',
-        leader: 'Blood King',
+        id: 'red_serpents_la',
+        name: 'Red Serpents',
+        leader: 'Crimson King',
         territory: 'East LA',
         state: 'California',
         icon: '🔴',
@@ -299,18 +299,18 @@ class GangWarService {
         },
         members: [],
         relationships: {
-          'crips_la': -90, // Enemy
-          'mexican_mafia': -40,
-          'latin_kings': 30,
+          'blue_wolves_la': -90, // Enemy
+          'desert_scorpions': -40,
+          'golden_eagles': 30,
         },
         isHostile: true,
       ),
       
       // Chicago Gangs
       const RivalGang(
-        id: 'gd_chicago',
-        name: 'Gangster Disciples',
-        leader: 'King David',
+        id: 'iron_ravens_chicago',
+        name: 'Iron Ravens',
+        leader: 'Raven King',
         territory: 'South Side Chicago',
         state: 'Illinois',
         icon: '👑',
@@ -325,18 +325,18 @@ class GangWarService {
         },
         members: [],
         relationships: {
-          'bd_chicago': -95, // War
-          'vice_lords': -70,
-          'latin_kings': 10,
+          'steel_dragons_chicago': -95, // War
+          'thunder_wolves': -70,
+          'golden_eagles': 10,
         },
         isHostile: true,
       ),
       
       // New York Gangs
       const RivalGang(
-        id: 'latin_kings_ny',
-        name: 'Almighty Latin King Nation',
-        leader: 'King Tone',
+        id: 'golden_eagles_ny',
+        name: 'Golden Eagles Empire',
+        leader: 'Eagle Lord',
         territory: 'Bronx',
         state: 'New York',
         icon: '👑',
@@ -351,25 +351,25 @@ class GangWarService {
         },
         members: [],
         relationships: {
-          'trinitarios': -80,
-          'ms13': -60,
-          'bloods_ny': 20,
+          'shadow_vipers': -80,
+          'storm_hawks': -60,
+          'midnight_tigers': 20,
         },
         isHostile: false,
       ),
       
       // Miami Gangs
       const RivalGang(
-        id: 'zoe_pound',
-        name: 'Zoe Pound',
-        leader: 'Big Zoe',
-        territory: 'Little Haiti',
+        id: 'ocean_sharks',
+        name: 'Ocean Sharks',
+        leader: 'Shark Boss',
+        territory: 'South Beach',
         state: 'Florida',
-        icon: '🇭🇹',
+        icon: '🦈',
         strength: 70,
         reputation: 75,
         territory_control: 60,
-        controlledAreas: ['Little Haiti', 'North Miami'],
+        controlledAreas: ['South Beach', 'North Miami'],
         operations: {
           'drug_revenue': 35000,
           'gun_running': 25000,
@@ -377,18 +377,18 @@ class GangWarService {
         },
         members: [],
         relationships: {
-          'ms13': -70,
-          'surenos': -50,
-          'crips_miami': 30,
+          'storm_hawks': -70,
+          'desert_coyotes': -50,
+          'midnight_tigers': 30,
         },
         isHostile: false,
       ),
       
       // Atlanta Gangs
       const RivalGang(
-        id: 'ysl_atlanta',
-        name: 'Young Slime Life',
-        leader: 'Young Thug',
+        id: 'platinum_cobras_atlanta',
+        name: 'Platinum Cobras',
+        leader: 'Cobra Prince',
         territory: 'Zone 6 Atlanta',
         state: 'Georgia',
         icon: '🐍',
@@ -403,9 +403,9 @@ class GangWarService {
         },
         members: [],
         relationships: {
-          'gd_atlanta': -80,
-          'bloods_atlanta': 40,
-          'crips_atlanta': -30,
+          'silver_vipers_atlanta': -80,
+          'midnight_tigers_atlanta': 40,
+          'storm_hawks_atlanta': -30,
         },
         isHostile: false,
       ),
@@ -421,7 +421,7 @@ class GangWarService {
         name: 'Compton',
         city: 'Los Angeles',
         state: 'California',
-        controlledBy: 'crips_la',
+        controlledBy: 'blue_wolves_la',
         profitMultiplier: 150,
         difficulty: 85,
         resources: {'drug_demand': 90, 'weapons_access': 80, 'police_presence': 70},
@@ -434,7 +434,7 @@ class GangWarService {
         name: 'Watts',
         city: 'Los Angeles',
         state: 'California',
-        controlledBy: 'crips_la',
+        controlledBy: 'blue_wolves_la',
         profitMultiplier: 130,
         difficulty: 80,
         resources: {'drug_demand': 85, 'weapons_access': 75, 'police_presence': 75},
@@ -448,7 +448,7 @@ class GangWarService {
         name: 'Englewood',
         city: 'Chicago',
         state: 'Illinois',
-        controlledBy: 'gd_chicago',
+        controlledBy: 'iron_ravens_chicago',
         profitMultiplier: 140,
         difficulty: 90,
         resources: {'drug_demand': 95, 'weapons_access': 85, 'police_presence': 80},
@@ -462,7 +462,7 @@ class GangWarService {
         name: 'South Bronx',
         city: 'New York',
         state: 'New York',
-        controlledBy: 'latin_kings_ny',
+        controlledBy: 'golden_eagles_ny',
         profitMultiplier: 120,
         difficulty: 75,
         resources: {'drug_demand': 80, 'weapons_access': 70, 'police_presence': 85},

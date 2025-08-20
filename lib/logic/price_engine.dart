@@ -4,7 +4,11 @@ import '../data/models.dart';
 
 class PriceEngine {
   static final Random _random = Random();
-  static final PriceHistory _history = PriceHistory({});
+  static PriceHistory _history = PriceHistory({});
+
+  static void resetHistory() {
+    _history = PriceHistory({});
+  }
 
   static Map<String, int> getDailyPrices(
     String area, 

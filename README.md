@@ -8,16 +8,25 @@
 ### 🎮 **Game Overview**
 Street Tycoon is a comprehensive criminal empire simulation game built with Flutter. Manage your criminal organization across 9 different operational areas including drug trafficking, gang warfare, heist operations, bribery networks, and asset management.
 
+**⚠️ FICTIONAL CONTENT DISCLAIMER:** This game features entirely fictional gangs, organizations, and scenarios. All names including "Blue Wolves," "Red Serpents," "Golden Eagles Empire," and similar organizations are completely fictional and created for entertainment purposes only. No real-world criminal organizations are depicted or referenced.
+
 ### 🏆 **Key Features**
-- **Market Trading** - Buy and sell contraband across multiple cities
-- **Gang Warfare** - Control territories with named characters and strategic operations
+- **Market Trading** - Buy and sell contraband across multiple cities with dynamic pricing
+- **Gang Warfare** - Control territories with fictional characters and strategic operations
 - **Heist Operations** - Execute high-risk bank robberies and federal reserve jobs
 - **Asset Management** - Build a fleet of vehicles, properties, and luxury items
 - **Bribery Networks** - Corrupt law enforcement and government officials
-- **Banking System** - Secure your wealth with interest-earning deposits
-- **Federal Investigations** - Navigate law enforcement pressure
-- **Prison Operations** - Manage incarceration risks and escapes
-- **Interstate Operations** - Expand your empire across state lines
+- **Banking System** - Secure your wealth with interest-earning deposits (0.1% daily)
+- **Federal Investigations** - Navigate law enforcement pressure and heat management
+- **Prison Operations** - Manage incarceration risks and escape planning
+- **Interstate Operations** - Expand your empire across state lines with master criminal status
+
+### 🎯 **Game Mechanics**
+- **Dynamic Market System** - Prices fluctuate based on supply, demand, and law enforcement
+- **Heat Management** - Actions increase police attention, requiring strategic cooling-off periods
+- **Net Worth Goals** - Achieve victory by building a $1M+ criminal empire within time limits
+- **Risk vs Reward** - Balance profit opportunities against law enforcement risks
+- **Character Progression** - Recruit gang members, corrupt officials, and build your organization
 
 ### 🛡️ **Copyright Notice**
 ```

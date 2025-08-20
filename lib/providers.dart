@@ -52,6 +52,7 @@ class GameController extends StateNotifier<GameState> {
   }
 
   void newGame() {
+    PriceEngine.resetHistory(); // Clear price history for new game
     state = SharedPrefsStorage.createInitialGameState();
     ref.read(gameEventsProvider.notifier).state = [];
     _updatePrices();
@@ -515,15 +516,17 @@ class GameController extends StateNotifier<GameState> {
   }
 
   void _processEndDay() {
-    // Heat decay
+    // Better heat decay with safehouse bonus
     final safehouseLevel = state.upgrades['safehouse'] ?? 0;
-    final newHeat = HeatService.nightlyDecay(state.heat, safehouseLevel);
+    final decay = 1 + (safehouseLevel * 2);
+    final newHeat = (state.heat - decay).clamp(0, 100);
     
     // Trend drift
     final newTrend = PriceEngine.updateTrends(state.trend);
     
-    // Bank interest
-    final interest = BankService.calculateDailyInterest(state.bank);
+    // Better bank interest (0.1% daily)
+    final newBank = (state.bank * 1.001).round();
+    final interest = newBank - state.bank;
     
     // Update habits
     final newHabits = Map<String, int>.from(state.habits);
@@ -533,14 +536,14 @@ class GameController extends StateNotifier<GameState> {
       day: state.day + 1,
       heat: newHeat,
       trend: newTrend,
-      bank: state.bank + interest,
+      bank: newBank,
       habits: newHabits,
     );
     
     if (interest > 0) {
       _addEvent(GameEvent(
         type: 'positive',
-        message: 'Bank interest: \$${interest.toStringAsFixed(0)}',
+        message: 'Bank interest: ${Formatters.money(interest)}',
         cashImpact: interest,
       ));
     }
@@ -570,31 +573,20 @@ class GameController extends StateNotifier<GameState> {
   }
 
   void _checkGameEnd() {
-    final currentNetWorth = _calculateNetWorth();
+    final prices = ref.read(currentPricesProvider);
+    final currentNetWorth = state.netWorthWithPrices(prices);
     
     if (currentNetWorth >= state.goalNetWorth) {
       _addEvent(GameEvent(
         type: 'positive',
-        message: 'WINNER! Goal achieved: \$${currentNetWorth.toStringAsFixed(0)}',
+        message: 'WINNER! Goal achieved: ${Formatters.money(currentNetWorth)}',
       ));
     } else if (state.day > state.daysLimit) {
       _addEvent(GameEvent(
         type: 'negative',
-        message: 'Time up! Final net worth: \$${currentNetWorth.toStringAsFixed(0)}',
+        message: 'Time up! Final net worth: ${Formatters.money(currentNetWorth)}',
       ));
     }
-  }
-
-  int _calculateNetWorth() {
-    final prices = ref.read(currentPricesProvider);
-    int stashValue = 0;
-    
-    for (final entry in state.stash.entries) {
-      final price = prices[entry.key] ?? 0;
-      stashValue += price * entry.value;
-    }
-    
-    return state.cash + state.bank + stashValue;
   }
 
   void _addEvent(GameEvent event) {
