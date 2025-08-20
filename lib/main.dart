@@ -12,10 +12,18 @@ import 'providers.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  // DISABLE ALL DEBUG PAINTING AND OVERLAYS
+  // FORCE DISABLE ALL DEBUG MODES COMPLETELY
   debugPaintSizeEnabled = false;
   debugRepaintRainbowEnabled = false;
   debugRepaintTextRainbowEnabled = false;
+  
+  // Override in release and debug mode
+  assert(() {
+    debugPaintSizeEnabled = false;
+    debugRepaintRainbowEnabled = false;
+    debugRepaintTextRainbowEnabled = false;
+    return true;
+  }());
   
   // Set preferred orientations for mobile
   await SystemChrome.setPreferredOrientations([
@@ -63,16 +71,16 @@ class StreetTycoonApp extends ConsumerWidget {
       darkTheme: AppTheme.darkTheme,
       themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
       routerConfig: _router,
+      // FORCE DISABLE ALL DEBUG BANNERS AND OVERLAYS
       debugShowCheckedModeBanner: false,
-      // Completely disable all debug modes and overlays
       showPerformanceOverlay: false,
       showSemanticsDebugger: false,
       debugShowMaterialGrid: false,
+      checkerboardRasterCacheImages: false,
+      checkerboardOffscreenLayers: false,
       builder: (context, child) {
-        // Disable all debug painting and performance overlays
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(
-            // Ensure proper scaling for mobile devices
             textScaleFactor: MediaQuery.of(context).textScaleFactor.clamp(0.8, 1.2),
           ),
           child: child!,
