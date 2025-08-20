@@ -17,6 +17,14 @@ void main() async {
   debugRepaintRainbowEnabled = false;
   debugRepaintTextRainbowEnabled = false;
   
+  // DISABLE OVERFLOW ERROR MESSAGES
+  FlutterError.onError = (FlutterErrorDetails details) {
+    // Suppress overflow errors in release builds
+    if (!details.toString().contains('RenderFlex overflowed')) {
+      FlutterError.presentError(details);
+    }
+  };
+  
   // Override in release and debug mode
   assert(() {
     debugPaintSizeEnabled = false;

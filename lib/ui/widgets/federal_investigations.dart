@@ -11,38 +11,46 @@ class FederalInvestigationsWidget extends ConsumerWidget {
     final gameState = ref.watch(gameControllerProvider);
     final agencies = FederalService.getAllAgencies();
     
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(Icons.account_balance, color: Colors.blue),
-                const SizedBox(width: 8),
-                Text(
-                  'Federal Investigations',
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    color: Colors.blue,
-                    fontWeight: FontWeight.bold,
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.account_balance, color: Colors.blue),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Federal Investigations',
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Spacer(),
+                      _buildOverallHeatLevel(context, gameState.statistics['totalSales'] ?? 0),
+                    ],
                   ),
-                ),
-                const Spacer(),
-                _buildOverallHeatLevel(context, gameState.statistics['totalSales'] ?? 0),
-              ],
+                  const SizedBox(height: 16),
+                  
+                  // Agency Status Cards
+                  ...agencies.map((agency) => _buildAgencyCard(context, ref, agency, gameState)),
+                  
+                  const SizedBox(height: 16),
+                  
+                  // Active Investigations Summary
+                  _buildActiveInvestigations(context, gameState),
+                ],
+              ),
             ),
-            const SizedBox(height: 16),
-            
-            // Agency Status Cards
-            ...agencies.map((agency) => _buildAgencyCard(context, ref, agency, gameState)),
-            
-            const SizedBox(height: 16),
-            
-            // Active Investigations Summary
-            _buildActiveInvestigations(context, gameState),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

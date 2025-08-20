@@ -218,60 +218,69 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
           child: MarketTable(),
         ),
         
-        // Action buttons
+        // Action buttons - Made scrollable and more compact for mobile
         Container(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: () => _showInventoryDrawer(),
-                      icon: const Icon(Icons.inventory),
-                      label: Text('Inventory (${gameState.usedCapacity}/${gameState.capacity})'),
+          height: 120, // Fixed height to prevent overflow
+          padding: const EdgeInsets.all(12), // Reduced padding
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: () => _showInventoryDrawer(),
+                        icon: const Icon(Icons.inventory, size: 18),
+                        label: Text(
+                          'Inventory (${gameState.usedCapacity}/${gameState.capacity})',
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: () => _showBankModal(),
-                      icon: const Icon(Icons.account_balance),
-                      label: Text('Bank (\$${Formatters.money(gameState.bank)})'),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: () => _showBankModal(),
+                        icon: const Icon(Icons.account_balance, size: 18),
+                        label: Text(
+                          'Bank (\$${Formatters.money(gameState.bank)})',
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: () => _showUpgradesModal(),
-                      icon: const Icon(Icons.upgrade),
-                      label: const Text('Upgrades'),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: gameState.cash >= 40 ? () => ref.read(gameControllerProvider.notifier).layLow() : null,
-                      icon: const Icon(Icons.spa),
-                      label: const Text('Lay Low'),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton.icon(
-                  onPressed: () => _showEndDayConfirmation(),
-                  icon: const Icon(Icons.bedtime),
-                  label: const Text('End Day'),
+                  ],
                 ),
-              ),
-            ],
+                const SizedBox(height: 6),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: () => _showUpgradesModal(),
+                        icon: const Icon(Icons.upgrade, size: 18),
+                        label: const Text('Upgrades', style: TextStyle(fontSize: 12)),
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: gameState.cash >= 40 ? () => ref.read(gameControllerProvider.notifier).layLow() : null,
+                        icon: const Icon(Icons.spa, size: 18),
+                        label: const Text('Lay Low', style: TextStyle(fontSize: 12)),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton.icon(
+                    onPressed: () => _showEndDayConfirmation(),
+                    icon: const Icon(Icons.bedtime, size: 18),
+                    label: const Text('End Day', style: TextStyle(fontSize: 12)),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         
