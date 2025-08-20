@@ -10,6 +10,7 @@ import 'logic/upgrade_service.dart';
 import 'logic/bank_service.dart';
 import 'logic/achievement_service.dart';
 import 'logic/random_event_service.dart';
+import 'util/formatters.dart';
 
 // Current prices provider
 final currentPricesProvider = StateProvider<Map<String, int>>((ref) => {});
@@ -116,7 +117,7 @@ class GameController extends StateNotifier<GameState> {
     
     _addEvent(GameEvent(
       type: 'buy',
-      message: 'Bought $quantity $item for \$${totalCost.toStringAsFixed(0)}',
+      message: 'Bought $quantity $item for ${Formatters.money(totalCost)}',
       cashImpact: -totalCost,
     ));
     
@@ -180,7 +181,7 @@ class GameController extends StateNotifier<GameState> {
     
     _addEvent(GameEvent(
       type: 'sell',
-      message: 'Sold $quantity $item for \$${totalValue.toStringAsFixed(0)}',
+      message: 'Sold $quantity $item for ${Formatters.money(totalValue)}',
       cashImpact: totalValue,
     ));
     
@@ -213,7 +214,7 @@ class GameController extends StateNotifier<GameState> {
     
     _addEvent(GameEvent(
       type: 'bank',
-      message: 'Deposited \$${amount.toStringAsFixed(0)}',
+      message: 'Deposited ${Formatters.money(amount)}',
       cashImpact: -amount,
     ));
     _saveGame();
@@ -229,7 +230,7 @@ class GameController extends StateNotifier<GameState> {
     
     _addEvent(GameEvent(
       type: 'bank',
-      message: 'Withdrew \$${amount.toStringAsFixed(0)}',
+      message: 'Withdrew ${Formatters.money(amount)}',
       cashImpact: amount,
     ));
     _saveGame();

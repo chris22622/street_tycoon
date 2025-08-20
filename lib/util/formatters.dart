@@ -1,7 +1,10 @@
-import 'dart:math';
 
 class Formatters {
-  static String money(int amount) {
+  static String money(num amount) {
+    return '\$${amount.toStringAsFixed(0)}';
+  }
+
+  static String moneyShort(int amount) {
     if (amount >= 1000000) {
       return '${(amount / 1000000).toStringAsFixed(1)}M';
     } else if (amount >= 1000) {
