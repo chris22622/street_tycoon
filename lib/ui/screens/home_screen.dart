@@ -147,9 +147,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
             ),
           ),
           
-          // Tab bar
+          // Tab bar - Make it scrollable for mobile
           TabBar(
             controller: _tabController,
+            isScrollable: true,
+            tabAlignment: TabAlignment.start,
             tabs: const [
               Tab(icon: Icon(Icons.store), text: 'Market'),
               Tab(icon: Icon(Icons.security), text: 'Arsenal'),
