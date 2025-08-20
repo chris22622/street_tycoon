@@ -61,42 +61,42 @@ permission is strictly prohibited.
 ### Market Trading Interface
 *Dynamic pricing system with real-time market fluctuations across multiple cities*
 
-<img src="screenshots/market_trading.png" alt="Market Trading" width="800"/>
+![Market Trading](https://raw.githubusercontent.com/chris22622/street_tycoon/main/screenshots/market_trading.png)
 
 ### Federal Investigations System  
 *Navigate law enforcement pressure with DEA, FBI, and ATF monitoring*
 
-<img src="screenshots/federal_investigations.png" alt="Federal Investigations" width="800"/>
+![Federal Investigations](https://raw.githubusercontent.com/chris22622/street_tycoon/main/screenshots/federal_investigations.png)
 
 ### Interstate Criminal Operations
 *Expand your empire across states with unique opportunities and challenges*
 
-<img src="screenshots/interstate_operations.png" alt="Interstate Operations" width="800"/>
+![Interstate Operations](https://raw.githubusercontent.com/chris22622/street_tycoon/main/screenshots/interstate_operations.png)
 
 ### Gang Warfare Operations
 *Control territories and manage gang operations with strategic planning*
 
-<img src="screenshots/gang_warfare.png" alt="Gang Warfare" width="800"/>
+![Gang Warfare](https://raw.githubusercontent.com/chris22622/street_tycoon/main/screenshots/gang_warfare.png)
 
 ### Asset Management
 *Build your criminal empire with luxury vehicles, properties, and investments*
 
-<img src="screenshots/assets_management.png" alt="Assets Management" width="800"/>
+![Assets Management](https://raw.githubusercontent.com/chris22622/street_tycoon/main/screenshots/assets_management.png)
 
 ### Bribery & Corruption Networks
 *Corrupt law enforcement and government officials to reduce heat and investigations*
 
-<img src="screenshots/bribery_corruption.png" alt="Bribery & Corruption" width="800"/>
+![Bribery & Corruption](https://raw.githubusercontent.com/chris22622/street_tycoon/main/screenshots/bribery_corruption.png)
 
 ### Combat & Heist Operations
 *Execute high-risk bank robberies and build your weapons arsenal*
 
-<img src="screenshots/combat_heist.png" alt="Combat & Heist" width="800"/>
+![Combat & Heist](https://raw.githubusercontent.com/chris22622/street_tycoon/main/screenshots/combat_heist.png)
 
 ### Banking & Finance
 *Secure wealth management with interest-earning deposits and financial planning*
 
-<img src="screenshots/banking_system.png" alt="Banking System" width="800"/>
+![Banking System](https://raw.githubusercontent.com/chris22622/street_tycoon/main/screenshots/banking_system.png)
 
 ## 🎮 **Quick Start**
 
