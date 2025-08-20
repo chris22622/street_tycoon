@@ -56,7 +56,31 @@ permission is strictly prohibited.
 - ❌ No creation of derivative works
 - ✅ Educational/reference viewing only
 
-## Quick Start
+## 📸 **Screenshots & Gameplay**
+
+### Market Trading Interface
+*Dynamic pricing system with real-time market fluctuations*
+![Market Trading](screenshots/market_trading.png)
+
+### Gang Warfare Operations  
+*Control territories with fictional organizations across multiple states*
+![Gang Warfare](screenshots/gang_warfare.png)
+
+### Heat Management System
+*Navigate law enforcement pressure and federal investigations*
+![Heat System](screenshots/heat_management.png)
+
+### Asset Management
+*Build your criminal empire with luxury vehicles and properties*
+![Assets](screenshots/asset_management.png)
+
+### Banking & Finance
+*Secure wealth management with interest-earning deposits*
+![Banking](screenshots/banking_system.png)
+
+*Screenshots coming soon - Game is fully functional and ready to play!*
+
+## 🎮 **Quick Start**
 
 ### Prerequisites
 
@@ -77,23 +101,50 @@ permission is strictly prohibited.
    flutter run
    ```
 
-## Building for Release
+## 🏗️ **Building for Release**
 
-### Debug APK
-
+### Debug APK (Development)
 ```bash
 flutter build apk --debug
 ```
+*Output: `build/app/outputs/flutter-apk/app-debug.apk`*
 
-### Release APK
+### Release APK (Production)
+```bash
+flutter build apk --release
+```
+*Output: `build/app/outputs/flutter-apk/app-release.apk`*
 
-1. Create a keystore:
-   ```bash
-   keytool -genkey -v -keystore upload-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload
-   ```
+### Windows Desktop
+```bash
+flutter build windows --release
+```
+*Output: `build/windows/runner/Release/`*
 
-2. Create `android/key.properties`:
-   ```properties
+### 📱 **Download & Play**
+- **Latest Release APK**: [Download from Releases](../../releases)
+- **System Requirements**: Android 5.0+ or Windows 10+
+- **File Size**: ~50MB
+- **No Permissions Required**: Offline gameplay
+
+## 🧪 **Testing & Quality**
+
+### Automated Testing
+```bash
+flutter test
+```
+
+### Code Analysis
+```bash
+flutter analyze
+```
+
+### Key Test Coverage
+- ✅ Market price calculations and fluctuations
+- ✅ Heat system and law enforcement mechanics  
+- ✅ Net worth calculations with current market prices
+- ✅ Gang territory management and fictional organizations
+- ✅ Banking system with realistic interest rates
    storePassword=<password from previous step>
    keyPassword=<password from previous step>
    keyAlias=upload
