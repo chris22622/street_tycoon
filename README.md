@@ -60,35 +60,43 @@ permission is strictly prohibited.
 
 ### Market Trading Interface
 *Dynamic pricing system with real-time market fluctuations across multiple cities*
-![Market Trading](screenshots/market_trading.png)
+
+<img src="screenshots/market_trading.png" alt="Market Trading" width="800"/>
 
 ### Federal Investigations System  
 *Navigate law enforcement pressure with DEA, FBI, and ATF monitoring*
-![Federal Investigations](screenshots/federal_investigations.png)
+
+<img src="screenshots/federal_investigations.png" alt="Federal Investigations" width="800"/>
 
 ### Interstate Criminal Operations
 *Expand your empire across states with unique opportunities and challenges*
-![Interstate Operations](screenshots/interstate_operations.png)
+
+<img src="screenshots/interstate_operations.png" alt="Interstate Operations" width="800"/>
 
 ### Gang Warfare Operations
 *Control territories and manage gang operations with strategic planning*
-![Gang Warfare](screenshots/gang_warfare.png)
+
+<img src="screenshots/gang_warfare.png" alt="Gang Warfare" width="800"/>
 
 ### Asset Management
 *Build your criminal empire with luxury vehicles, properties, and investments*
-![Assets Management](screenshots/assets_management.png)
+
+<img src="screenshots/assets_management.png" alt="Assets Management" width="800"/>
 
 ### Bribery & Corruption Networks
 *Corrupt law enforcement and government officials to reduce heat and investigations*
-![Bribery & Corruption](screenshots/bribery_corruption.png)
+
+<img src="screenshots/bribery_corruption.png" alt="Bribery & Corruption" width="800"/>
 
 ### Combat & Heist Operations
 *Execute high-risk bank robberies and build your weapons arsenal*
-![Combat & Heist](screenshots/combat_heist.png)
+
+<img src="screenshots/combat_heist.png" alt="Combat & Heist" width="800"/>
 
 ### Banking & Finance
 *Secure wealth management with interest-earning deposits and financial planning*
-![Banking System](screenshots/banking_system.png)
+
+<img src="screenshots/banking_system.png" alt="Banking System" width="800"/>
 
 ## 🎮 **Quick Start**
 
