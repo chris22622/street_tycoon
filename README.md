@@ -98,15 +98,24 @@ permission is strictly prohibited.
 
 ![Banking System](https://raw.githubusercontent.com/chris22622/street_tycoon/main/screenshots/banking_system.png)
 
-## 🎮 **Quick Start**
+## 📱 **Download & Install**
 
-### Prerequisites
+### 🚀 **Quick Install (Android)**
+**[📱 Download APK from Releases](https://github.com/chris22622/street_tycoon/releases/latest)**
 
+1. Click the link above to go to the latest release
+2. Download `StreetTycoon-v1.0.0-debug.apk` 
+3. Install on your Android device (enable "Install from unknown sources" if needed)
+4. Launch and enjoy!
+
+### 💻 **Run from Source Code**
+
+#### Prerequisites
 - Flutter SDK (3.10.0 or later)
 - Android SDK
 - Android Studio or VS Code with Flutter extensions
 
-### Installation
+#### Installation Steps
 
 1. Clone or download the project
 2. Install dependencies:
