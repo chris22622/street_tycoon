@@ -59,26 +59,36 @@ permission is strictly prohibited.
 ## 📸 **Screenshots & Gameplay**
 
 ### Market Trading Interface
-*Dynamic pricing system with real-time market fluctuations*
+*Dynamic pricing system with real-time market fluctuations across multiple cities*
 ![Market Trading](screenshots/market_trading.png)
 
-### Gang Warfare Operations  
-*Control territories with fictional organizations across multiple states*
+### Federal Investigations System  
+*Navigate law enforcement pressure with DEA, FBI, and ATF monitoring*
+![Federal Investigations](screenshots/federal_investigations.png)
+
+### Interstate Criminal Operations
+*Expand your empire across states with unique opportunities and challenges*
+![Interstate Operations](screenshots/interstate_operations.png)
+
+### Gang Warfare Operations
+*Control territories and manage gang operations with strategic planning*
 ![Gang Warfare](screenshots/gang_warfare.png)
 
-### Heat Management System
-*Navigate law enforcement pressure and federal investigations*
-![Heat System](screenshots/heat_management.png)
-
 ### Asset Management
-*Build your criminal empire with luxury vehicles and properties*
-![Assets](screenshots/asset_management.png)
+*Build your criminal empire with luxury vehicles, properties, and investments*
+![Assets Management](screenshots/assets_management.png)
+
+### Bribery & Corruption Networks
+*Corrupt law enforcement and government officials to reduce heat and investigations*
+![Bribery & Corruption](screenshots/bribery_corruption.png)
+
+### Combat & Heist Operations
+*Execute high-risk bank robberies and build your weapons arsenal*
+![Combat & Heist](screenshots/combat_heist.png)
 
 ### Banking & Finance
-*Secure wealth management with interest-earning deposits*
-![Banking](screenshots/banking_system.png)
-
-*Screenshots coming soon - Game is fully functional and ready to play!*
+*Secure wealth management with interest-earning deposits and financial planning*
+![Banking System](screenshots/banking_system.png)
 
 ## 🎮 **Quick Start**
 
