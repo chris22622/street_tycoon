@@ -1,0 +1,41 @@
+# Street Tycoon App Icon Generator
+# This creates a professional looking app icon with money/tycoon theme
+
+# We'll create the icon using text art for now, then you can enhance it
+# The icon will feature:
+# - Black background with gold gradient border
+# - Large golden dollar sign ($) in center  
+# - Crown symbol above for "tycoon" theme
+# - Professional circular design
+
+# Icon elements:
+# Background: Black to dark gradient (#000000 to #1a1a1a)
+# Primary: Gold (#FFD700) 
+# Accent: Orange-gold (#FF8C00)
+# Symbol: Dollar sign with crown
+
+# For now, let's create a simple placeholder that you can replace
+# with a professional icon made in design software like:
+# - Canva.com (free, easy templates)
+# - GIMP (free)
+# - Adobe Illustrator/Photoshop
+# - Online icon generators
+
+echo "Creating Street Tycoon App Icon..."
+echo ""
+echo "Icon Theme: Criminal Empire / Money Tycoon"
+echo "Colors: Black background, Gold foreground (#FFD700)"
+echo "Symbol: Dollar sign ($) with crown"
+echo "Style: Professional, circular, high contrast"
+echo ""
+echo "Recommended icon elements:"
+echo "1. Black/dark gradient background" 
+echo "2. Large golden dollar sign ($) in center"
+echo "3. Small crown above dollar sign"
+echo "4. Gold circular border"
+echo "5. 1024x1024 resolution for best quality"
+echo ""
+echo "You can create this icon at:"
+echo "- https://canva.com (search 'app icon templates')"
+echo "- https://www.designevo.com/apps/"
+echo "- https://appicon.co/"

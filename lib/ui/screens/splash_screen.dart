@@ -141,8 +141,8 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                         return Transform.scale(
                           scale: _logoScale.value,
                           child: Container(
-                            width: 120,
-                            height: 120,
+                            width: 140,
+                            height: 140,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               gradient: const RadialGradient(
@@ -154,16 +154,55 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.amber.withOpacity(0.5),
-                                  blurRadius: 20,
-                                  spreadRadius: 5,
+                                  color: Colors.amber.withOpacity(0.8),
+                                  blurRadius: 30,
+                                  spreadRadius: 8,
+                                ),
+                                BoxShadow(
+                                  color: Colors.orange.withOpacity(0.4),
+                                  blurRadius: 15,
+                                  spreadRadius: 3,
                                 ),
                               ],
                             ),
-                            child: const Icon(
-                              Icons.monetization_on,
-                              size: 60,
-                              color: Colors.black,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                // Crown at top
+                                Positioned(
+                                  top: 15,
+                                  child: Icon(
+                                    Icons.star,
+                                    size: 30,
+                                    color: Colors.black.withOpacity(0.8),
+                                  ),
+                                ),
+                                // Main dollar sign
+                                const Icon(
+                                  Icons.attach_money,
+                                  size: 80,
+                                  color: Colors.black,
+                                ),
+                                // Small money symbols around
+                                Positioned(
+                                  top: 25,
+                                  right: 25,
+                                  child: Icon(
+                                    Icons.monetization_on,
+                                    size: 20,
+                                    color: Colors.black.withOpacity(0.6),
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 25,
+                                  left: 25,
+                                  child: Icon(
+                                    Icons.monetization_on,
+                                    size: 20,
+                                    color: Colors.black.withOpacity(0.6),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         );
