@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:just_audio/just_audio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin {
+class _SplashScreenState extends ConsumerState<SplashScreen> with TickerProviderStateMixin {
   late AnimationController _logoController;
   late AnimationController _textController;
   late AnimationController _fadeController;
   late Animation<double> _logoScale;
   late Animation<double> _textOpacity;
   late Animation<double> _fadeOut;
-  
-  final AudioPlayer _audioPlayer = AudioPlayer();
 
   @override
   void initState() {
@@ -68,13 +66,12 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
   }
   
   void _startSplashSequence() async {
-    // Play startup sound
+    // Use SystemSound instead of AudioPlayer
     try {
-      await _audioPlayer.setAsset('assets/startup_sound.mp3');
-      _audioPlayer.play();
+      SystemSound.play(SystemSoundType.click);
+      print('🎵 Startup sound played via SystemSound');
     } catch (e) {
-      // Sound file might not exist, continue without sound
-      print('Startup sound not found: $e');
+      print('🎵 Startup sound failed: $e');
     }
     
     // Haptic feedback
@@ -94,7 +91,9 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     await _fadeController.forward();
     
     if (mounted) {
-      context.go('/home');
+      // Always go to save game selection screen
+      // It will handle character creation if no saves exist
+      context.go('/save-selection');
     }
   }
 
@@ -103,7 +102,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     _logoController.dispose();
     _textController.dispose();
     _fadeController.dispose();
-    _audioPlayer.dispose();
+    // No need to dispose AudioPlayer since we're using SystemSound
     super.dispose();
   }
 

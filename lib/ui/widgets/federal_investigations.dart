@@ -12,37 +12,38 @@ class FederalInvestigationsWidget extends ConsumerWidget {
     final agencies = FederalService.getAllAgencies();
     
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Card(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(12.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.account_balance, color: Colors.blue),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Federal Investigations',
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
+                      Icon(Icons.account_balance, color: Colors.blue, size: 20),
+                      const SizedBox(width: 6),
+                      Expanded(
+                        child: Text(
+                          'Federal Investigations',
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                      const Spacer(),
                       _buildOverallHeatLevel(context, gameState.statistics['totalSales'] ?? 0),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 12),
                   
                   // Agency Status Cards
                   ...agencies.map((agency) => _buildAgencyCard(context, ref, agency, gameState)),
                   
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 12),
                   
                   // Active Investigations Summary
                   _buildActiveInvestigations(context, gameState),
@@ -96,26 +97,27 @@ class FederalInvestigationsWidget extends ConsumerWidget {
     final riskColor = _getRiskColor(investigationChance);
     
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: 8), // Reduced margin
       child: Card(
-        elevation: 2,
+        elevation: 1, // Reduced elevation
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(6),
             border: Border.all(
               color: riskColor.withOpacity(0.3),
               width: 1,
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(8), // Reduced padding
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(6), // Reduced padding
                       decoration: BoxDecoration(
                         color: riskColor.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(8),

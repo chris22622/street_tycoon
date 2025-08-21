@@ -129,6 +129,36 @@ class EnforcementService {
     }
   }
 
+  static CourtOutcome rollCourtWithLawyer(
+    EnforcementCase case_, 
+    List<RapEntry> rapSheet, 
+    int lawyerLevel,
+    double lawyerSuccessRate
+  ) {
+    final baseConvictionProb = calculateConvictionProbability(case_, rapSheet, lawyerLevel);
+    
+    // Apply lawyer success rate bonus (reduces conviction probability)
+    final adjustedConvictionProb = (baseConvictionProb * (1 - lawyerSuccessRate)).clamp(0.05, 0.95);
+    
+    if (_random.nextDouble() < adjustedConvictionProb) {
+      // Convicted - determine sentence (lawyer can also help reduce sentence severity)
+      final stashSize = case_.stashAtArrest;
+      final felonies = rapSheet.where((entry) => entry.felony).length;
+      
+      // Lawyer reduces chance of prison vs jail
+      final prisonChance = stashSize > 30 || felonies > 2 ? 0.5 : 0.3;
+      final adjustedPrisonChance = (prisonChance * (1 - lawyerSuccessRate * 0.5)).clamp(0.1, 0.8);
+      
+      if (_random.nextDouble() < adjustedPrisonChance) {
+        return CourtOutcome.prison;
+      } else {
+        return CourtOutcome.jail;
+      }
+    } else {
+      return CourtOutcome.acquittal;
+    }
+  }
+
   static int calculateSentenceLength(CourtOutcome outcome, EnforcementCase case_, List<RapEntry> rapSheet) {
     final felonies = rapSheet.where((entry) => entry.felony).length;
     final stashSize = case_.stashAtArrest;

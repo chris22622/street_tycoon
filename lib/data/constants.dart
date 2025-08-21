@@ -74,7 +74,7 @@ const Map<String, int> BASE_PRICES = {
 };
 
 // Game constants
-const int INITIAL_CASH = 300;
+const int INITIAL_CASH = 1000;
 const int INITIAL_BANK = 0;
 const int INITIAL_CAPACITY = 40;
 const int INITIAL_HEAT = 0;
@@ -99,8 +99,22 @@ const int SAFEHOUSE_COST_MULTIPLIER = 140;
 const int LAWYER_BASE_COST = 300;
 const int LAWYER_COST_MULTIPLIER = 180;
 
+// Energy System
+const int kEnergyMax = 100;
+const int kEnergyEndDayThreshold = 0;
+const int kEnergyBaseRegenNightly = 25; // + 10 per Safehouse level
+const int kEnergyBuy = 1;
+const int kEnergySell = 1;
+const int kEnergyTravel = 4;
+const int kEnergyLayLow = 2;
+
+// Crime System (fictional)
+const double kCrimeBaseArrestBump = 0.03;   // added to enforcement odds when a crime is attempted
+const double kCrimeFailHeat = 6;            // heat added on failed crime
+const double kCrimeSuccessHeat = 2;         // small heat even on success
+
 // Other constants
-const int TRAVEL_COST = 20;
+const int TRAVEL_COST = 5;
 const int LAY_LOW_BASE_COST = 40;
 const int LAY_LOW_COST_PER_HEAT = 5;
 const int LAY_LOW_HEAT_REDUCTION = 12;

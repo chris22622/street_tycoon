@@ -12,72 +12,90 @@ class WeaponsShop extends ConsumerWidget {
     final gameState = ref.watch(gameControllerProvider);
     final availableWeapons = FederalService.getAvailableWeapons();
     
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(Icons.security, color: Colors.red),
-                const SizedBox(width: 8),
-                Text(
-                  'Black Market Arsenal',
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const Spacer(),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.red.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    '⚠️ HIGH RISK',
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: constraints.maxHeight,
+            ),
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.security, color: Colors.red, size: 20),
+                        const SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                            'Black Market Arsenal',
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: Colors.red.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            '⚠️ HIGH RISK',
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 10,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
+                    const SizedBox(height: 6),
+                    Text(
+                      'Weapons increase federal heat and investigation risk',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Colors.red.shade700,
+                        fontStyle: FontStyle.italic,
+                        fontSize: 11,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    
+                    // Weapons Grid
+                    LayoutBuilder(
+                      builder: (context, gridConstraints) {
+                        return GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: gridConstraints.maxWidth > 400 ? 3 : 2,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
+                            childAspectRatio: 0.7,
+                          ),
+                          itemCount: availableWeapons.length,
+                          itemBuilder: (context, index) {
+                            final weapon = availableWeapons[index];
+                            final owned = gameState.weapons[weapon.id] ?? 0;
+                            
+                            return _buildWeaponCard(context, ref, weapon, owned, gameState.cash);
+                          },
+                        );
+                      },
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Weapons significantly increase federal heat and investigation risk',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Colors.red.shade700,
-                fontStyle: FontStyle.italic,
               ),
             ),
-            const SizedBox(height: 16),
-            
-            // Weapons Grid
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                  childAspectRatio: 0.75,
-                ),
-                itemCount: availableWeapons.length,
-                itemBuilder: (context, index) {
-                  final weapon = availableWeapons[index];
-                  final owned = gameState.weapons[weapon.id] ?? 0;
-                  
-                  return _buildWeaponCard(context, ref, weapon, owned, gameState.cash);
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -92,13 +110,13 @@ class WeaponsShop extends ConsumerWidget {
     final categoryColor = _getCategoryColor(weapon.category);
     
     return Card(
-      elevation: 4,
+      elevation: 2,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(6),
           border: Border.all(
             color: categoryColor.withOpacity(0.3),
-            width: 2,
+            width: 1,
           ),
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -110,37 +128,38 @@ class WeaponsShop extends ConsumerWidget {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
               // Header
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
                       color: categoryColor.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(
                       weapon.icon,
-                      style: const TextStyle(fontSize: 24),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                   const Spacer(),
                   if (owned > 0)
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
                       decoration: BoxDecoration(
                         color: Colors.green,
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text(
                         'x$owned',
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 12,
+                          fontSize: 9,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -148,51 +167,42 @@ class WeaponsShop extends ConsumerWidget {
                 ],
               ),
               
-              const SizedBox(height: 8),
+              const SizedBox(height: 4),
               
               // Name and Category
               Text(
                 weapon.name,
-                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   fontWeight: FontWeight.bold,
+                  fontSize: 11,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
               
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
                 decoration: BoxDecoration(
                   color: categoryColor.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
                   weapon.category,
                   style: TextStyle(
-                    fontSize: 10,
+                    fontSize: 8,
                     fontWeight: FontWeight.bold,
                     color: categoryColor,
                   ),
                 ),
               ),
               
-              const SizedBox(height: 8),
+              const SizedBox(height: 4),
               
-              // Description
-              Text(
-                weapon.description,
-                style: Theme.of(context).textTheme.bodySmall,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              
-              const SizedBox(height: 8),
-              
-              // Stats
+              // Stats (simplified)
               _buildStatBar(context, 'DMG', weapon.damage, 100, Colors.red),
-              const SizedBox(height: 4),
+              const SizedBox(height: 2),
               _buildStatBar(context, 'REL', weapon.reliability, 100, Colors.blue),
-              const SizedBox(height: 4),
+              const SizedBox(height: 2),
               _buildStatBar(context, 'CON', weapon.concealability, 100, Colors.green),
               
               const Spacer(),
@@ -200,17 +210,21 @@ class WeaponsShop extends ConsumerWidget {
               // Price and Buy Button
               Row(
                 children: [
-                  Text(
-                    '\$${Formatters.money(weapon.price)}',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: canAfford ? Colors.green : Colors.red,
+                  Expanded(
+                    child: Text(
+                      '\$${Formatters.money(weapon.price)}',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10,
+                        color: canAfford ? Colors.green : Colors.red,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  const Spacer(),
+                  const SizedBox(width: 4),
                   SizedBox(
-                    width: 60,
-                    height: 32,
+                    width: 40,
+                    height: 24,
                     child: ElevatedButton(
                       onPressed: canAfford ? () => _buyWeapon(ref, weapon) : null,
                       style: ElevatedButton.styleFrom(
@@ -220,7 +234,7 @@ class WeaponsShop extends ConsumerWidget {
                       ),
                       child: const Text(
                         'BUY',
-                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
@@ -239,22 +253,22 @@ class WeaponsShop extends ConsumerWidget {
     return Row(
       children: [
         SizedBox(
-          width: 24,
+          width: 18,
           child: Text(
             label,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              fontSize: 10,
+              fontSize: 8,
               fontWeight: FontWeight.bold,
             ),
           ),
         ),
-        const SizedBox(width: 4),
+        const SizedBox(width: 2),
         Expanded(
           child: Container(
-            height: 6,
+            height: 4,
             decoration: BoxDecoration(
               color: Colors.grey.withOpacity(0.3),
-              borderRadius: BorderRadius.circular(3),
+              borderRadius: BorderRadius.circular(2),
             ),
             child: FractionallySizedBox(
               alignment: Alignment.centerLeft,
@@ -262,19 +276,19 @@ class WeaponsShop extends ConsumerWidget {
               child: Container(
                 decoration: BoxDecoration(
                   color: color,
-                  borderRadius: BorderRadius.circular(3),
+                  borderRadius: BorderRadius.circular(2),
                 ),
               ),
             ),
           ),
         ),
-        const SizedBox(width: 4),
+        const SizedBox(width: 2),
         SizedBox(
-          width: 24,
+          width: 16,
           child: Text(
             value.toString(),
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              fontSize: 10,
+              fontSize: 8,
               fontWeight: FontWeight.bold,
             ),
             textAlign: TextAlign.end,

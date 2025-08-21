@@ -1,3 +1,10 @@
+# APK files are too large for GitHub
+*.apk
+
+# Build outputs
+build/
+/build/
+
 # Miscellaneous
 *.class
 *.log

@@ -33,19 +33,21 @@ class MissionDashboard extends ConsumerWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(8.0), // Reduced from 16.0
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               children: [
-                Icon(Icons.assignment, color: Theme.of(context).primaryColor),
-                const SizedBox(width: 8),
-                Text(
-                  'Missions',
-                  style: Theme.of(context).textTheme.headlineSmall,
+                Icon(Icons.assignment, color: Theme.of(context).primaryColor, size: 18),
+                const SizedBox(width: 6),
+                Expanded(
+                  child: Text(
+                    'Missions',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
                 ),
-                const Spacer(),
                 TextButton.icon(
                   onPressed: () => _showAllMissions(context, ref),
                   icon: const Icon(Icons.list),

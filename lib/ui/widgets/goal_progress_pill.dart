@@ -32,7 +32,7 @@ class GoalProgressPill extends ConsumerWidget {
       duration: const Duration(milliseconds: 300),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceVariant,
+        color: theme.colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: progressColor.withOpacity(0.3),
@@ -64,14 +64,14 @@ class GoalProgressPill extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '\$${Formatters.money(netWorth)}',
+                '${Formatters.money(netWorth)}',
                 style: theme.textTheme.titleLarge?.copyWith(
                   color: progressColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
-                '/ \$${Formatters.money(gameState.goalNetWorth)}',
+                '/ ${Formatters.money(gameState.goalNetWorth)}',
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),

@@ -61,7 +61,7 @@ class InventoryDrawer extends ConsumerWidget {
             margin: const EdgeInsets.symmetric(horizontal: 16),
             child: LinearProgressIndicator(
               value: gameState.capacity > 0 ? gameState.usedCapacity / gameState.capacity : 0,
-              backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+              backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
             ),
           ),
           
@@ -163,19 +163,26 @@ class _InventoryTile extends ConsumerWidget {
                   ],
                 ),
               ),
-              Column(
-                children: [
-                  IconButton(
-                    onPressed: () => _showSellDialog(context, ref, item, price, quantity),
-                    icon: const Icon(Icons.sell),
-                    tooltip: 'Sell',
-                  ),
-                  IconButton(
-                    onPressed: () => _quickSell(ref, item, 1),
-                    icon: const Icon(Icons.remove),
-                    tooltip: 'Sell 1',
-                  ),
-                ],
+              // Fixed overflow with Flexible wrapper
+              Flexible(
+                child: Column(
+                  children: [
+                    IconButton(
+                      onPressed: () => _showSellDialog(context, ref, item, price, quantity),
+                      icon: const Icon(Icons.sell),
+                      tooltip: 'Sell',
+                      constraints: BoxConstraints(minWidth: 24, minHeight: 24),
+                      padding: EdgeInsets.all(4),
+                    ),
+                    IconButton(
+                      onPressed: () => _quickSell(ref, item, 1),
+                      icon: const Icon(Icons.remove),
+                      tooltip: 'Sell 1',
+                      constraints: BoxConstraints(minWidth: 24, minHeight: 24),
+                      padding: EdgeInsets.all(4),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -198,27 +205,29 @@ class _InventoryTile extends ConsumerWidget {
       builder: (context) => StatefulBuilder(
         builder: (context, setState) => AlertDialog(
           title: Text('Sell $item'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Price: \$${Formatters.money(price)} each'),
-              Text('Available: $maxQuantity'),
-              const SizedBox(height: 16),
-              Text('Quantity: $quantity'),
-              Slider(
-                value: quantity.toDouble(),
-                min: 1,
-                max: maxQuantity.toDouble(),
-                divisions: maxQuantity - 1,
-                onChanged: (value) {
-                  setState(() {
-                    quantity = value.round();
-                  });
-                },
-              ),
-              const SizedBox(height: 8),
-              Text('Total: \$${Formatters.money(price * quantity)}'),
-            ],
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Price: \$${Formatters.money(price)} each'),
+                Text('Available: $maxQuantity'),
+                const SizedBox(height: 16),
+                Text('Quantity: $quantity'),
+                Slider(
+                  value: quantity.toDouble(),
+                  min: 1,
+                  max: maxQuantity.toDouble(),
+                  divisions: maxQuantity - 1,
+                  onChanged: (value) {
+                    setState(() {
+                      quantity = value.round();
+                    });
+                  },
+                ),
+                const SizedBox(height: 8),
+                Text('Total: \$${Formatters.money(price * quantity)}'),
+              ],
+            ),
           ),
           actions: [
             TextButton(

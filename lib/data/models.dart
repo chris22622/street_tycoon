@@ -1,4 +1,13 @@
 import 'dart:convert';
+import 'federal_models.dart';
+import 'crew_models.dart';
+import 'territory_models.dart';
+import 'prestige_models.dart';
+import 'transaction_models.dart';
+import 'lawyer_models.dart';
+import 'character_models.dart';
+import 'activity_log.dart';
+import 'gang_models.dart';
 
 class GameState {
   final int day;
@@ -9,6 +18,8 @@ class GameState {
   final int capacity;
   final int heat;
   final int goalNetWorth;
+  final int energy; // 0..kEnergyMax
+  final Map<String, int> skills; // {'stealth':0,'intimidation':0,'hacking':0,'driving':0}
   final Map<String, int> stash;
   final Map<String, double> trend;
   final Map<String, int> upgrades;
@@ -20,6 +31,16 @@ class GameState {
   final Map<String, int> weapons;
   final bool inPrison;
   final Map<String, dynamic> prisonData;
+  final FederalMeter? federalMeter;
+  final Crew? crew;
+  final TerritoryControl? territoryControl;
+  final PrestigeSystem? prestigeSystem;
+  final TransactionHistory? transactionHistory;
+  final ActivityLog? activityLog;
+  final LegalSystem? legalSystem;
+  final CharacterAppearance? character;
+  final PlayerGang? playerGang;
+  final GangWarfare? gangWarfare;
 
   const GameState({
     required this.day,
@@ -30,6 +51,8 @@ class GameState {
     required this.capacity,
     required this.heat,
     required this.goalNetWorth,
+    required this.energy,
+    required this.skills,
     required this.stash,
     required this.trend,
     required this.upgrades,
@@ -41,6 +64,16 @@ class GameState {
     this.weapons = const {},
     this.inPrison = false,
     this.prisonData = const {},
+    this.federalMeter,
+    this.crew,
+    this.territoryControl,
+    this.prestigeSystem,
+    this.transactionHistory,
+    this.activityLog,
+    this.legalSystem,
+    this.character,
+    this.playerGang,
+    this.gangWarfare,
   });
 
   GameState copyWith({
@@ -52,6 +85,8 @@ class GameState {
     int? capacity,
     int? heat,
     int? goalNetWorth,
+    int? energy,
+    Map<String, int>? skills,
     Map<String, int>? stash,
     Map<String, double>? trend,
     Map<String, int>? upgrades,
@@ -63,6 +98,16 @@ class GameState {
     Map<String, int>? weapons,
     bool? inPrison,
     Map<String, dynamic>? prisonData,
+    FederalMeter? federalMeter,
+    Crew? crew,
+    TerritoryControl? territoryControl,
+    PrestigeSystem? prestigeSystem,
+    TransactionHistory? transactionHistory,
+    ActivityLog? activityLog,
+    LegalSystem? legalSystem,
+    CharacterAppearance? character,
+    PlayerGang? playerGang,
+    GangWarfare? gangWarfare,
   }) {
     return GameState(
       day: day ?? this.day,
@@ -73,6 +118,8 @@ class GameState {
       capacity: capacity ?? this.capacity,
       heat: heat ?? this.heat,
       goalNetWorth: goalNetWorth ?? this.goalNetWorth,
+      energy: energy ?? this.energy,
+      skills: skills ?? Map.from(this.skills),
       stash: stash ?? Map.from(this.stash),
       trend: trend ?? Map.from(this.trend),
       upgrades: upgrades ?? Map.from(this.upgrades),
@@ -84,6 +131,16 @@ class GameState {
       weapons: weapons ?? Map.from(this.weapons),
       inPrison: inPrison ?? this.inPrison,
       prisonData: prisonData ?? Map.from(this.prisonData),
+      federalMeter: federalMeter ?? this.federalMeter,
+      crew: crew ?? this.crew,
+      territoryControl: territoryControl ?? this.territoryControl,
+      prestigeSystem: prestigeSystem ?? this.prestigeSystem,
+      transactionHistory: transactionHistory ?? this.transactionHistory,
+      activityLog: activityLog ?? this.activityLog,
+      legalSystem: legalSystem ?? this.legalSystem,
+      character: character ?? this.character,
+      playerGang: playerGang ?? this.playerGang,
+      gangWarfare: gangWarfare ?? this.gangWarfare,
     );
   }
 
@@ -120,6 +177,8 @@ class GameState {
       'capacity': capacity,
       'heat': heat,
       'goalNetWorth': goalNetWorth,
+      'energy': energy,
+      'skills': skills,
       'stash': stash,
       'trend': trend,
       'upgrades': upgrades,
@@ -131,6 +190,16 @@ class GameState {
       'weapons': weapons,
       'inPrison': inPrison,
       'prisonData': prisonData,
+      'federalMeter': federalMeter?.toJson(),
+      'crew': crew?.toJson(),
+      'territoryControl': territoryControl?.toJson(),
+      'prestigeSystem': prestigeSystem?.toJson(),
+      'transactionHistory': transactionHistory?.toJson(),
+      'activityLog': activityLog?.toJson(),
+      'legalSystem': legalSystem?.toJson(),
+      'character': character?.toJson(),
+      'playerGang': playerGang?.toJson(),
+      'gangWarfare': gangWarfare?.toJson(),
     };
   }
 
@@ -144,6 +213,8 @@ class GameState {
       capacity: json['capacity'] ?? 40,
       heat: json['heat'] ?? 0,
       goalNetWorth: json['goalNetWorth'] ?? 50000,
+      energy: json['energy'] ?? 100,
+      skills: Map<String, int>.from(json['skills'] ?? {'stealth': 0, 'intimidation': 0, 'hacking': 0, 'driving': 0}),
       stash: Map<String, int>.from(json['stash'] ?? {}),
       trend: Map<String, double>.from(json['trend'] ?? {}),
       upgrades: Map<String, int>.from(json['upgrades'] ?? {}),
@@ -158,6 +229,36 @@ class GameState {
       weapons: Map<String, int>.from(json['weapons'] ?? {}),
       inPrison: json['inPrison'] ?? false,
       prisonData: Map<String, dynamic>.from(json['prisonData'] ?? {}),
+      federalMeter: json['federalMeter'] != null 
+          ? FederalMeter.fromJson(json['federalMeter'])
+          : null,
+      crew: json['crew'] != null 
+          ? Crew.fromJson(json['crew'])
+          : null,
+      territoryControl: json['territoryControl'] != null 
+          ? TerritoryControl.fromJson(json['territoryControl'])
+          : null,
+      prestigeSystem: json['prestigeSystem'] != null 
+          ? PrestigeSystem.fromJson(json['prestigeSystem'])
+          : null,
+      transactionHistory: json['transactionHistory'] != null 
+          ? TransactionHistory.fromJson(json['transactionHistory'])
+          : null,
+      activityLog: json['activityLog'] != null 
+          ? ActivityLog.fromJson(json['activityLog'])
+          : null,
+      legalSystem: json['legalSystem'] != null 
+          ? LegalSystem.fromJson(json['legalSystem'])
+          : null,
+      character: json['character'] != null 
+          ? CharacterAppearance.fromJson(json['character'])
+          : null,
+      playerGang: json['playerGang'] != null 
+          ? PlayerGang.fromJson(json['playerGang'])
+          : null,
+      gangWarfare: json['gangWarfare'] != null 
+          ? GangWarfare.fromJson(json['gangWarfare'])
+          : null,
     );
   }
 
@@ -167,6 +268,22 @@ class GameState {
 
   factory GameState.fromJsonString(String jsonString) {
     return GameState.fromJson(jsonDecode(jsonString));
+  }
+
+  // Energy and Skills Helper Methods
+  GameState withEnergy(int v) => copyWith(energy: v.clamp(0, 100)); // Using constant kEnergyMax would create import cycle
+  
+  int skill(String k) => (skills[k] ?? 0);
+  
+  GameState gainSkill(String k, int xp) {
+    final m = Map<String, int>.from(skills);
+    m[k] = (m[k] ?? 0) + xp;
+    return copyWith(skills: m);
+  }
+  
+  GameState regenEnergy(int safehouseLv) {
+    final regen = 25 + 10 * safehouseLv; // kEnergyBaseRegenNightly + 10*safehouseLv
+    return withEnergy(energy + regen);
   }
 }
 

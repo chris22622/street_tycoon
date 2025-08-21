@@ -15,42 +15,47 @@ class StatisticsDashboard extends ConsumerWidget {
     final unlockedIds = gameState.unlockedAchievements;
     final allAchievements = AchievementService.getDefaultAchievements();
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(Icons.analytics, color: Theme.of(context).primaryColor),
-                const SizedBox(width: 8),
-                Text(
-                  'Statistics & Achievements',
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
+    return SingleChildScrollView(
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(12.0), // Reduced from 16.0
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.analytics, color: Theme.of(context).primaryColor, size: 20),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      'Statistics & Achievements',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12), // Reduced from 16
+              
+              // Statistics Section
+              _buildStatsSection(context, stats),
+              
+              const SizedBox(height: 16), // Reduced from 24
+              
+              // Market Specialization Info
+              _buildMarketSpecializationSection(context, gameState.area),
+              
+              const SizedBox(height: 16), // Reduced from 24
+              
+              // Missions Section
+              const MissionDashboard(),
+              
+              const SizedBox(height: 16), // Reduced from 24
             
-            // Statistics Section
-            _buildStatsSection(context, stats),
-            
-            const SizedBox(height: 24),
-            
-            // Market Specialization Info
-            _buildMarketSpecializationSection(context, gameState.area),
-            
-            const SizedBox(height: 24),
-            
-            // Missions Section
-            const MissionDashboard(),
-            
-            const SizedBox(height: 24),
-            
-            // Achievements Section
-            _buildAchievementsSection(context, allAchievements, unlockedIds),
-          ],
+              // Achievements Section
+              _buildAchievementsSection(context, allAchievements, unlockedIds),
+            ],
+          ),
         ),
       ),
     );
@@ -322,22 +327,26 @@ class StatisticsDashboard extends ConsumerWidget {
         
         const SizedBox(height: 16),
         
-        // Achievement grid
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
-            childAspectRatio: 3,
-          ),
-          itemCount: allAchievements.length,
-          itemBuilder: (context, index) {
-            final achievement = allAchievements[index];
-            final isUnlocked = unlockedIds.contains(achievement.id);
-            
-            return _buildAchievementCard(context, achievement, isUnlocked);
+        // Achievement grid - Make it more compact and prevent overflow
+        LayoutBuilder(
+          builder: (context, constraints) {
+            return GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: constraints.maxWidth > 600 ? 3 : 2,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
+                childAspectRatio: 2.5, // Reduced from 3 to make cards shorter
+              ),
+              itemCount: allAchievements.length,
+              itemBuilder: (context, index) {
+                final achievement = allAchievements[index];
+                final isUnlocked = unlockedIds.contains(achievement.id);
+                
+                return _buildAchievementCard(context, achievement, isUnlocked);
+              },
+            );
           },
         ),
       ],
@@ -350,12 +359,12 @@ class StatisticsDashboard extends ConsumerWidget {
     bool isUnlocked,
   ) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(8), // Reduced padding from 12 to 8
       decoration: BoxDecoration(
         color: isUnlocked 
           ? Theme.of(context).primaryColor.withOpacity(0.1)
           : Colors.grey.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(6), // Reduced border radius
         border: Border.all(
           color: isUnlocked 
             ? Theme.of(context).primaryColor.withOpacity(0.3)
@@ -365,8 +374,8 @@ class StatisticsDashboard extends ConsumerWidget {
       child: Row(
         children: [
           Container(
-            width: 32,
-            height: 32,
+            width: 24, // Reduced from 32 to 24
+            height: 24, // Reduced from 32 to 24
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: isUnlocked 
@@ -376,32 +385,34 @@ class StatisticsDashboard extends ConsumerWidget {
             child: Center(
               child: Text(
                 achievement.icon,
-                style: const TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 12), // Reduced from 16 to 12
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 8), // Reduced from 12 to 8
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   achievement.title,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith( // Changed from bodyMedium to bodySmall
                     fontWeight: FontWeight.bold,
                     color: isUnlocked ? null : Colors.grey,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 2),
+                const SizedBox(height: 1), // Reduced from 2 to 1
                 Text(
                   achievement.description,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: isUnlocked ? null : Colors.grey,
+                    fontSize: 10, // Even smaller font for description
                   ),
-                  maxLines: 2,
+                  maxLines: 1, // Reduced from 2 to 1
                   overflow: TextOverflow.ellipsis,
                 ),
               ],
@@ -411,7 +422,7 @@ class StatisticsDashboard extends ConsumerWidget {
             Icon(
               Icons.check_circle,
               color: Theme.of(context).primaryColor,
-              size: 20,
+              size: 16, // Reduced from 20 to 16
             ),
         ],
       ),

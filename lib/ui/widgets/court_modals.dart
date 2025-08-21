@@ -10,8 +10,13 @@ class CourtModals {
     if (case_ == null) return;
     
     final gameState = ref.read(gameControllerProvider);
+    final controller = ref.read(gameControllerProvider.notifier);
+    final lawyerSuccessRate = controller.getLawyerSuccessBonus();
     final lawyerLevel = gameState.upgrades['lawyer'] ?? 0;
     final bailAmount = EnforcementService.calculateBailAmount(case_, lawyerLevel);
+    
+    // Apply lawyer bail reduction
+    final adjustedBail = (bailAmount * (1 - (lawyerSuccessRate * 0.2))).round();
     
     showDialog(
       context: context,
@@ -24,36 +29,47 @@ class CourtModals {
             Text('ARRESTED!'),
           ],
         ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('You have been arrested and are awaiting a court hearing.'),
-            const SizedBox(height: 16),
-            Text('Items found: ${case_.stashAtArrest}'),
-            Text('Heat level: ${case_.heatAtArrest}'),
-            const SizedBox(height: 16),
-            Text('Bail amount: \$${Formatters.money(bailAmount)}'),
-            if (lawyerLevel > 0) ...[
-              const SizedBox(height: 8),
-              Text(
-                'Your lawyer reduced bail by ${lawyerLevel * 15}%',
-                style: const TextStyle(
-                  color: Colors.green,
-                  fontStyle: FontStyle.italic,
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('You have been arrested and are awaiting a court hearing.'),
+              const SizedBox(height: 16),
+              Text('Items found: ${case_.stashAtArrest}'),
+              Text('Heat level: ${case_.heatAtArrest}'),
+              const SizedBox(height: 16),
+              Text('Bail amount: \$${Formatters.money(adjustedBail)}'),
+              if (gameState.legalSystem?.currentRetainer != null) ...[
+                const SizedBox(height: 8),
+                Text(
+                  'Your ${gameState.legalSystem!.currentRetainer!.tier.name} reduced bail by ${(lawyerSuccessRate * 20).round()}%',
+                  style: const TextStyle(
+                    color: Colors.green,
+                    fontStyle: FontStyle.italic,
+                  ),
                 ),
-              ),
+              ] else if (lawyerLevel > 0) ...[
+                const SizedBox(height: 8),
+                Text(
+                  'Your lawyer reduced bail by ${lawyerLevel * 15}%',
+                  style: const TextStyle(
+                    color: Colors.green,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ],
             ],
-          ],
+          ),
         ),
         actions: [
-          if (gameState.cash >= bailAmount)
+          if (gameState.cash >= adjustedBail)
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                ref.read(gameControllerProvider.notifier).postBail(bailAmount);
+                ref.read(gameControllerProvider.notifier).postBail(adjustedBail);
               },
-              child: Text('Post Bail (\$${Formatters.money(bailAmount)})'),
+              child: Text('Post Bail (\$${Formatters.money(adjustedBail)})'),
             ),
           FilledButton(
             onPressed: () {
@@ -72,12 +88,18 @@ class CourtModals {
     if (case_ == null) return;
     
     final gameState = ref.read(gameControllerProvider);
+    final controller = ref.read(gameControllerProvider.notifier);
+    final lawyerSuccessRate = controller.getLawyerSuccessBonus();
     final lawyerLevel = gameState.upgrades['lawyer'] ?? 0;
-    final convictionProb = EnforcementService.calculateConvictionProbability(
+    
+    // Calculate conviction probability with lawyer bonus
+    final baseConvictionProb = EnforcementService.calculateConvictionProbability(
       case_, 
       gameState.rapSheet, 
       lawyerLevel
     );
+    
+    final adjustedConvictionProb = (baseConvictionProb * (1 - lawyerSuccessRate)).clamp(0.05, 0.95);
     
     showDialog(
       context: context,
@@ -90,39 +112,50 @@ class CourtModals {
             Text('Court Hearing'),
           ],
         ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('Your case is being heard by the judge.'),
-            const SizedBox(height: 16),
-            Text('Charge: ${EnforcementService.getChargeType(case_)}'),
-            Text('Evidence: ${case_.stashAtArrest} items, heat level ${case_.heatAtArrest}'),
-            Text('Prior convictions: ${gameState.rapSheet.length}'),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                const Text('Conviction chance: '),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Your case is being heard by the judge.'),
+              const SizedBox(height: 16),
+              Text('Charge: ${EnforcementService.getChargeType(case_)}'),
+              Text('Evidence: ${case_.stashAtArrest} items, heat level ${case_.heatAtArrest}'),
+              Text('Prior convictions: ${gameState.rapSheet.length}'),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  const Text('Conviction chance: '),
+                  Text(
+                    '${(adjustedConvictionProb * 100).toStringAsFixed(1)}%',
+                    style: TextStyle(
+                      color: adjustedConvictionProb > 0.5 ? Colors.red : Colors.orange,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              if (gameState.legalSystem?.currentRetainer != null) ...[
+                const SizedBox(height: 8),
                 Text(
-                  '${(convictionProb * 100).toStringAsFixed(1)}%',
-                  style: TextStyle(
-                    color: convictionProb > 0.5 ? Colors.red : Colors.orange,
-                    fontWeight: FontWeight.bold,
+                  'Your ${gameState.legalSystem!.currentRetainer!.tier.name} reduced conviction chance by ${(lawyerSuccessRate * 100).round()}%',
+                  style: const TextStyle(
+                    color: Colors.green,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ] else if (lawyerLevel > 0) ...[
+                const SizedBox(height: 8),
+                Text(
+                  'Your lawyer reduced conviction chance by ${lawyerLevel * 15}%',
+                  style: const TextStyle(
+                    color: Colors.green,
+                    fontStyle: FontStyle.italic,
                   ),
                 ),
               ],
-            ),
-            if (lawyerLevel > 0) ...[
-              const SizedBox(height: 8),
-              Text(
-                'Your lawyer reduced conviction chance by ${lawyerLevel * 15}%',
-                style: const TextStyle(
-                  color: Colors.green,
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
             ],
-          ],
+          ),
         ),
         actions: [
           FilledButton(
@@ -149,20 +182,22 @@ class CourtModals {
             Text('Sentenced to $facilityType'),
           ],
         ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('You have been sentenced to $days days in $facilityType.'),
-            const SizedBox(height: 16),
-            const Text('Time will pass automatically and some of your stash may be confiscated.'),
-            const SizedBox(height: 16),
-            LinearProgressIndicator(
-              value: 0,
-              backgroundColor: Colors.grey[300],
-            ),
-            const SizedBox(height: 8),
-            Text('Day 1 of $days'),
-          ],
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('You have been sentenced to $days days in $facilityType.'),
+              const SizedBox(height: 16),
+              const Text('Time will pass automatically and some of your stash may be confiscated.'),
+              const SizedBox(height: 16),
+              LinearProgressIndicator(
+                value: 0,
+                backgroundColor: Colors.grey[300],
+              ),
+              const SizedBox(height: 8),
+              Text('Day 1 of $days'),
+            ],
+          ),
         ),
         actions: [
           FilledButton(
