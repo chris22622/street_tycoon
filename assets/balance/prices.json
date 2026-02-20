@@ -1,0 +1,10 @@
+{
+  "volatility": 0.15,
+  "meanReversion": 0.18,
+  "shockProbability": 0.05,
+  "shockMagnitude": 0.35,
+  "minPrice": 0.5,
+  "maxPrice": 3.0,
+  "priceChangeUpdateInterval": 1,
+  "seasonalityEnabled": true
+}
