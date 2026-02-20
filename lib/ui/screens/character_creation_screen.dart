@@ -60,7 +60,7 @@ class _CharacterCreationScreenState extends ConsumerState<CharacterCreationScree
           labelColor: Colors.amber,
           unselectedLabelColor: Colors.grey,
           indicatorColor: Colors.amber,
-          tabs: FaceCategory.values.map((c) => Tab(text: c.label)).toList(),
+          tabs: FaceCategory.values.map((c) => Tab(text: c.displayName)).toList(),
         ),
         Expanded(
           child: TabBarView(
