@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../systems/meta_features_manager.dart';
 import '../../data/customization_models.dart';
 import '../../data/expanded_constants.dart';
@@ -12,14 +13,16 @@ class AchievementsScreen extends ConsumerStatefulWidget {
   ConsumerState<AchievementsScreen> createState() => _AchievementsScreenState();
 }
 
-class _AchievementsScreenState extends ConsumerState<AchievementsScreen> with SingleTickerProviderStateMixin {
+class _AchievementsScreenState extends ConsumerState<AchievementsScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
   String _selectedCategory = 'All';
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: ACHIEVEMENT_CATEGORIES.length + 1, vsync: this);
+    _tabController =
+        TabController(length: ACHIEVEMENT_CATEGORIES.length + 1, vsync: this);
   }
 
   @override
@@ -32,198 +35,182 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen> with Si
   Widget build(BuildContext context) {
     final metaState = ref.watch(metaFeaturesProvider);
     final achievements = _getFilteredAchievements(metaState.achievements);
-    
+
     return Scaffold(
+      backgroundColor: AppTheme.bg,
       appBar: AppBar(
-        title: const Text('Achievements'),
-        backgroundColor: AppTheme.primaryColor,
+        title: Text('Achievements', style: AppTheme.heading.copyWith(fontSize: 20)),
+        backgroundColor: AppTheme.surface,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () => context.pop(),
+          icon: const Icon(Icons.arrow_back, color: AppTheme.gold),
+        ),
         bottom: TabBar(
           controller: _tabController,
           isScrollable: true,
-          indicatorColor: AppTheme.accentColor,
+          indicatorColor: AppTheme.gold,
+          indicatorWeight: 3,
+          labelColor: AppTheme.gold,
+          unselectedLabelColor: Colors.white54,
+          labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
           tabs: [
             const Tab(text: 'All'),
-            ...ACHIEVEMENT_CATEGORIES.map((category) => Tab(text: category)),
+            ...ACHIEVEMENT_CATEGORIES.map((cat) => Tab(text: cat)),
           ],
           onTap: (index) {
             setState(() {
-              _selectedCategory = index == 0 ? 'All' : ACHIEVEMENT_CATEGORIES[index - 1];
+              _selectedCategory =
+                  index == 0 ? 'All' : ACHIEVEMENT_CATEGORIES[index - 1];
             });
           },
         ),
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [AppTheme.backgroundColor, AppTheme.cardColor],
+      body: Column(
+        children: [
+          _buildProgressOverview(metaState),
+          if (_getRecentAchievements(metaState).isNotEmpty)
+            _buildRecentSection(metaState),
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              itemCount: achievements.length,
+              itemBuilder: (context, index) =>
+                  _buildAchievementCard(achievements[index]),
+            ),
           ),
-        ),
-        child: Column(
-          children: [
-            // Progress Overview
-            Container(
-              margin: const EdgeInsets.all(16),
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: AppTheme.cardColor,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppTheme.accentColor, width: 2),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Overall Progress',
-                          style: AppTheme.headingStyle.copyWith(fontSize: 16),
-                        ),
-                        const SizedBox(height: 8),
-                        LinearProgressIndicator(
-                          value: ref.read(metaFeaturesProvider.notifier).getOverallProgress(),
-                          backgroundColor: Colors.grey[700],
-                          valueColor: const AlwaysStoppedAnimation<Color>(AppTheme.accentColor),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          '${_getUnlockedCount(metaState.achievements)}/${metaState.achievements.length} Unlocked',
-                          style: AppTheme.bodyStyle.copyWith(fontSize: 12),
-                        ),
-                      ],
-                    ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProgressOverview(MetaFeaturesState metaState) {
+    final progress =
+        ref.read(metaFeaturesProvider.notifier).getOverallProgress();
+    final unlocked = _getUnlockedCount(metaState.achievements);
+    final total = metaState.achievements.length;
+
+    return Container(
+      margin: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppTheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppTheme.gold.withAlpha(80)),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Overall Progress',
+                    style: AppTheme.heading.copyWith(fontSize: 15)),
+                const SizedBox(height: 10),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(6),
+                  child: LinearProgressIndicator(
+                    value: progress,
+                    minHeight: 8,
+                    backgroundColor: Colors.white10,
+                    valueColor:
+                        const AlwaysStoppedAnimation<Color>(AppTheme.gold),
                   ),
-                  const SizedBox(width: 16),
-                  Column(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: AppTheme.accentColor,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.star,
-                          color: AppTheme.backgroundColor,
-                          size: 24,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Level ${metaState.prestigeLevel}',
-                        style: AppTheme.bodyStyle.copyWith(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 6),
+                Text('$unlocked / $total Unlocked',
+                    style: AppTheme.body.copyWith(
+                        fontSize: 12, color: Colors.white60)),
+              ],
             ),
-            
-            // Recent Achievements
-            if (_getRecentAchievements(metaState).isNotEmpty) ...[
+          ),
+          const SizedBox(width: 16),
+          Column(
+            children: [
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: AppTheme.primaryColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppTheme.primaryColor, width: 1),
+                padding: const EdgeInsets.all(14),
+                decoration: const BoxDecoration(
+                  color: AppTheme.gold,
+                  shape: BoxShape.circle,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        const Icon(Icons.new_releases, color: AppTheme.primaryColor, size: 20),
-                        const SizedBox(width: 8),
-                        Text(
-                          'Recent Achievements',
-                          style: AppTheme.headingStyle.copyWith(
-                            fontSize: 14,
-                            color: AppTheme.primaryColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    ..._getRecentAchievements(metaState).take(3).map((achievement) => 
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 4),
-                        child: Text(
-                          '• ${achievement.name}',
-                          style: AppTheme.bodyStyle.copyWith(fontSize: 12),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                child: const Icon(Icons.star, color: AppTheme.bg, size: 22),
               ),
+              const SizedBox(height: 6),
+              Text('Level ${metaState.prestigeLevel}',
+                  style: AppTheme.body
+                      .copyWith(fontSize: 12, fontWeight: FontWeight.bold)),
             ],
-            
-            // Achievements List
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.all(16),
-                itemCount: achievements.length,
-                itemBuilder: (context, index) {
-                  final achievement = achievements[index];
-                  return _buildAchievementCard(achievement);
-                },
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRecentSection(MetaFeaturesState metaState) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppTheme.gold.withAlpha(20),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppTheme.gold.withAlpha(60)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.new_releases, color: AppTheme.gold, size: 18),
+              const SizedBox(width: 8),
+              Text('Recent Achievements',
+                  style: AppTheme.heading
+                      .copyWith(fontSize: 13, color: AppTheme.gold)),
+            ],
+          ),
+          const SizedBox(height: 8),
+          ..._getRecentAchievements(metaState).take(3).map((a) => Padding(
+                padding: const EdgeInsets.only(bottom: 3),
+                child: Text('• ${a.name}',
+                    style: AppTheme.body.copyWith(fontSize: 12)),
+              )),
+        ],
       ),
     );
   }
 
   Widget _buildAchievementCard(Achievement achievement) {
-    final isUnlocked = achievement.isUnlocked;
+    final unlocked = achievement.isUnlocked;
     final progress = achievement.progress;
-    
+    final rColor = _getRarityColor(achievement.rarity);
+
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
-        color: isUnlocked ? AppTheme.cardColor : AppTheme.cardColor.withOpacity(0.5),
-        borderRadius: BorderRadius.circular(12),
+        color: unlocked ? AppTheme.surface : AppTheme.surface.withAlpha(120),
+        borderRadius: BorderRadius.circular(14),
         border: Border.all(
-          color: isUnlocked ? _getRarityColor(achievement.rarity) : Colors.grey,
-          width: isUnlocked ? 2 : 1,
+          color: unlocked ? rColor : Colors.white12,
+          width: unlocked ? 1.5 : 1,
         ),
-        boxShadow: isUnlocked ? [
-          BoxShadow(
-            color: _getRarityColor(achievement.rarity).withOpacity(0.3),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          ),
-        ] : null,
+        boxShadow: unlocked
+            ? [BoxShadow(color: rColor.withAlpha(50), blurRadius: 8, offset: const Offset(0, 3))]
+            : null,
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(14),
         child: Row(
           children: [
-            // Achievement Icon
             Container(
-              width: 48,
-              height: 48,
+              width: 46,
+              height: 46,
               decoration: BoxDecoration(
-                color: isUnlocked ? _getRarityColor(achievement.rarity) : Colors.grey,
+                color: unlocked ? rColor : Colors.grey[700],
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                _getAchievementIcon(achievement.category),
-                color: Colors.white,
-                size: 24,
-              ),
+              child: Icon(_getAchievementIcon(achievement.category),
+                  color: Colors.white, size: 22),
             ),
-            const SizedBox(width: 16),
-            
-            // Achievement Details
+            const SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -231,64 +218,56 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen> with Si
                   Row(
                     children: [
                       Expanded(
-                        child: Text(
-                          achievement.name,
-                          style: AppTheme.headingStyle.copyWith(
-                            fontSize: 16,
-                            color: isUnlocked ? AppTheme.textColor : Colors.grey,
-                          ),
-                        ),
+                        child: Text(achievement.name,
+                            style: AppTheme.heading.copyWith(
+                                fontSize: 14,
+                                color: unlocked ? Colors.white : Colors.grey)),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 2),
                         decoration: BoxDecoration(
-                          color: _getRarityColor(achievement.rarity),
-                          borderRadius: BorderRadius.circular(12),
+                          color: rColor.withAlpha(unlocked ? 200 : 80),
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Text(
-                          achievement.rarity.toUpperCase(),
-                          style: AppTheme.bodyStyle.copyWith(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
+                        child: Text(achievement.rarity.toUpperCase(),
+                            style: const TextStyle(
+                                fontSize: 9,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white)),
                       ),
                     ],
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    achievement.isHidden && !isUnlocked ? 'Hidden Achievement' : achievement.description,
-                    style: AppTheme.bodyStyle.copyWith(
-                      fontSize: 12,
-                      color: isUnlocked ? AppTheme.textColor.withOpacity(0.8) : Colors.grey,
-                    ),
+                    achievement.isHidden && !unlocked
+                        ? 'Hidden Achievement'
+                        : achievement.description,
+                    style: AppTheme.body.copyWith(
+                        fontSize: 11,
+                        color: unlocked ? Colors.white70 : Colors.grey),
                   ),
-                  const SizedBox(height: 8),
-                  
-                  // Progress Bar (if not unlocked)
-                  if (!isUnlocked && progress > 0) ...[
-                    LinearProgressIndicator(
-                      value: progress,
-                      backgroundColor: Colors.grey[700],
-                      valueColor: AlwaysStoppedAnimation<Color>(_getRarityColor(achievement.rarity)),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      '${(progress * 100).toInt()}% Complete',
-                      style: AppTheme.bodyStyle.copyWith(fontSize: 10),
-                    ),
-                  ],
-                  
-                  // Unlock Date (if unlocked)
-                  if (isUnlocked && achievement.unlockedDate != null) ...[
-                    Text(
-                      'Unlocked: ${_formatDate(achievement.unlockedDate!)}',
-                      style: AppTheme.bodyStyle.copyWith(
-                        fontSize: 10,
-                        color: AppTheme.accentColor,
+                  if (!unlocked && progress > 0) ...[
+                    const SizedBox(height: 8),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(4),
+                      child: LinearProgressIndicator(
+                        value: progress,
+                        minHeight: 5,
+                        backgroundColor: Colors.white10,
+                        valueColor: AlwaysStoppedAnimation<Color>(rColor),
                       ),
                     ),
+                    const SizedBox(height: 3),
+                    Text('${(progress * 100).toInt()}% Complete',
+                        style: AppTheme.body.copyWith(fontSize: 10)),
+                  ],
+                  if (unlocked && achievement.unlockedDate != null) ...[
+                    const SizedBox(height: 4),
+                    Text(
+                        'Unlocked: ${_formatDate(achievement.unlockedDate!)}',
+                        style: AppTheme.body
+                            .copyWith(fontSize: 10, color: AppTheme.accent)),
                   ],
                 ],
               ),
@@ -299,14 +278,11 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen> with Si
     );
   }
 
-  List<Achievement> _getFilteredAchievements(Map<String, Achievement> achievements) {
-    final achievementList = achievements.values.toList();
-    
-    if (_selectedCategory == 'All') {
-      return achievementList;
-    }
-    
-    return achievementList.where((achievement) => achievement.category == _selectedCategory).toList();
+  List<Achievement> _getFilteredAchievements(
+      Map<String, Achievement> achievements) {
+    final list = achievements.values.toList();
+    if (_selectedCategory == 'All') return list;
+    return list.where((a) => a.category == _selectedCategory).toList();
   }
 
   List<Achievement> _getRecentAchievements(MetaFeaturesState metaState) {
@@ -314,7 +290,7 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen> with Si
   }
 
   int _getUnlockedCount(Map<String, Achievement> achievements) {
-    return achievements.values.where((achievement) => achievement.isUnlocked).length;
+    return achievements.values.where((a) => a.isUnlocked).length;
   }
 
   Color _getRarityColor(String rarity) {
@@ -328,7 +304,7 @@ class _AchievementsScreenState extends ConsumerState<AchievementsScreen> with Si
       case 'epic':
         return Colors.purple;
       case 'legendary':
-        return Colors.orange;
+        return AppTheme.gold;
       default:
         return Colors.grey;
     }
