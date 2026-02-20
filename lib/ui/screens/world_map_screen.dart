@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../systems/world_manager.dart';
 import '../../data/expanded_constants.dart';
+import 'package:go_router/go_router.dart';
 import '../../theme/app_theme.dart';
 
 class WorldMapScreen extends ConsumerWidget {
@@ -14,15 +15,19 @@ class WorldMapScreen extends ConsumerWidget {
     
     return Scaffold(
       appBar: AppBar(
-        title: const Text('World Map'),
-        backgroundColor: AppTheme.primaryColor,
+        title: Text('World Map', style: AppTheme.heading.copyWith(fontSize: 20)),
+        backgroundColor: AppTheme.surface,
+        leading: IconButton(
+          onPressed: () => context.pop(),
+          icon: const Icon(Icons.arrow_back, color: AppTheme.gold),
+        ),
       ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [AppTheme.backgroundColor, AppTheme.secondaryColor],
+            colors: [AppTheme.bg, AppTheme.accent],
           ),
         ),
         child: Column(
@@ -32,9 +37,9 @@ class WorldMapScreen extends ConsumerWidget {
               margin: const EdgeInsets.all(16),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppTheme.cardColor,
+                color: AppTheme.surface,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppTheme.accentColor, width: 2),
+                border: Border.all(color: AppTheme.accent, width: 2),
               ),
               child: Column(
                 children: [
@@ -46,12 +51,12 @@ class WorldMapScreen extends ConsumerWidget {
                         children: [
                           Text(
                             'Time Period',
-                            style: AppTheme.headingStyle.copyWith(fontSize: 14),
+                            style: AppTheme.heading.copyWith(fontSize: 14),
                           ),
                           Text(
                             worldState.currentTimePeriod,
-                            style: AppTheme.bodyStyle.copyWith(
-                              color: AppTheme.accentColor,
+                            style: AppTheme.body.copyWith(
+                              color: AppTheme.accent,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -62,12 +67,12 @@ class WorldMapScreen extends ConsumerWidget {
                         children: [
                           Text(
                             'Season',
-                            style: AppTheme.headingStyle.copyWith(fontSize: 14),
+                            style: AppTheme.heading.copyWith(fontSize: 14),
                           ),
                           Text(
                             worldState.currentSeason.name,
-                            style: AppTheme.bodyStyle.copyWith(
-                              color: AppTheme.accentColor,
+                            style: AppTheme.body.copyWith(
+                              color: AppTheme.accent,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -78,12 +83,12 @@ class WorldMapScreen extends ConsumerWidget {
                         children: [
                           Text(
                             'Date',
-                            style: AppTheme.headingStyle.copyWith(fontSize: 14),
+                            style: AppTheme.heading.copyWith(fontSize: 14),
                           ),
                           Text(
                             '${worldState.gameTime.month}/${worldState.gameTime.year}',
-                            style: AppTheme.bodyStyle.copyWith(
-                              color: AppTheme.accentColor,
+                            style: AppTheme.body.copyWith(
+                              color: AppTheme.accent,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -94,7 +99,7 @@ class WorldMapScreen extends ConsumerWidget {
                   const SizedBox(height: 12),
                   Text(
                     worldState.currentSeason.description,
-                    style: AppTheme.bodyStyle.copyWith(fontSize: 12),
+                    style: AppTheme.body.copyWith(fontSize: 12),
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -121,16 +126,16 @@ class WorldMapScreen extends ConsumerWidget {
                     onTap: () => _onCityTapped(context, ref, city, isUnlocked, worldManager),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: isCurrent ? AppTheme.accentColor.withOpacity(0.3) : AppTheme.cardColor,
+                        color: isCurrent ? AppTheme.accent.withOpacity(0.3) : AppTheme.surface,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: isCurrent ? AppTheme.accentColor : 
-                                 isUnlocked ? AppTheme.primaryColor : Colors.grey,
+                          color: isCurrent ? AppTheme.accent : 
+                                 isUnlocked ? AppTheme.gold : Colors.grey,
                           width: isCurrent ? 3 : 2,
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: (isCurrent ? AppTheme.accentColor : AppTheme.primaryColor).withOpacity(0.3),
+                            color: (isCurrent ? AppTheme.accent : AppTheme.gold).withOpacity(0.3),
                             blurRadius: 8,
                             offset: const Offset(0, 4),
                           ),
@@ -144,22 +149,22 @@ class WorldMapScreen extends ConsumerWidget {
                             Icon(
                               isUnlocked ? Icons.location_city : Icons.lock,
                               size: 32,
-                              color: isUnlocked ? AppTheme.accentColor : Colors.grey,
+                              color: isUnlocked ? AppTheme.accent : Colors.grey,
                             ),
                             const SizedBox(height: 8),
                             Text(
                               city.name,
-                              style: AppTheme.headingStyle.copyWith(
+                              style: AppTheme.heading.copyWith(
                                 fontSize: 16,
-                                color: isUnlocked ? AppTheme.textColor : Colors.grey,
+                                color: isUnlocked ? Colors.white : Colors.grey,
                               ),
                               textAlign: TextAlign.center,
                             ),
                             Text(
                               city.country,
-                              style: AppTheme.bodyStyle.copyWith(
+                              style: AppTheme.body.copyWith(
                                 fontSize: 12,
-                                color: isUnlocked ? AppTheme.textColor.withOpacity(0.7) : Colors.grey,
+                                color: isUnlocked ? Colors.white.withOpacity(0.7) : Colors.grey,
                               ),
                             ),
                             if (isCurrent) ...[
@@ -167,15 +172,15 @@ class WorldMapScreen extends ConsumerWidget {
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                                 decoration: BoxDecoration(
-                                  color: AppTheme.accentColor,
+                                  color: AppTheme.accent,
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Text(
                                   'CURRENT',
-                                  style: AppTheme.bodyStyle.copyWith(
+                                  style: AppTheme.body.copyWith(
                                     fontSize: 10,
                                     fontWeight: FontWeight.bold,
-                                    color: AppTheme.backgroundColor,
+                                    color: AppTheme.bg,
                                   ),
                                 ),
                               ),
@@ -184,7 +189,7 @@ class WorldMapScreen extends ConsumerWidget {
                               const SizedBox(height: 4),
                               Text(
                                 '\$${_formatMoney(city.unlockCost)}',
-                                style: AppTheme.bodyStyle.copyWith(
+                                style: AppTheme.body.copyWith(
                                   fontSize: 10,
                                   color: Colors.orange,
                                   fontWeight: FontWeight.bold,
@@ -206,7 +211,7 @@ class WorldMapScreen extends ConsumerWidget {
                 margin: const EdgeInsets.all(16),
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: AppTheme.cardColor,
+                  color: AppTheme.surface,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: Colors.red, width: 2),
                 ),
@@ -219,7 +224,7 @@ class WorldMapScreen extends ConsumerWidget {
                         const SizedBox(width: 8),
                         Text(
                           'Active Events',
-                          style: AppTheme.headingStyle.copyWith(
+                          style: AppTheme.heading.copyWith(
                             fontSize: 16,
                             color: Colors.red,
                           ),
@@ -231,7 +236,7 @@ class WorldMapScreen extends ConsumerWidget {
                       padding: const EdgeInsets.only(bottom: 4),
                       child: Text(
                         '• ${event.name}: ${event.description}',
-                        style: AppTheme.bodyStyle.copyWith(fontSize: 12),
+                        style: AppTheme.body.copyWith(fontSize: 12),
                       ),
                     )),
                   ],
@@ -258,36 +263,36 @@ class WorldMapScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: AppTheme.cardColor,
-        title: Text('Unlock ${city.name}', style: AppTheme.headingStyle),
+        backgroundColor: AppTheme.surface,
+        title: Text('Unlock ${city.name}', style: AppTheme.heading),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(city.description, style: AppTheme.bodyStyle),
+            Text(city.description, style: AppTheme.body),
             const SizedBox(height: 16),
             Text(
               'Cost: \$${_formatMoney(city.unlockCost)}',
-              style: AppTheme.bodyStyle.copyWith(
+              style: AppTheme.body.copyWith(
                 fontWeight: FontWeight.bold,
-                color: AppTheme.accentColor,
+                color: AppTheme.accent,
               ),
             ),
             const SizedBox(height: 8),
             Text(
               'Profit Modifier: ${(city.economicModifiers['profit_margin'] ?? 1.0) * 100}%',
-              style: AppTheme.bodyStyle,
+              style: AppTheme.body,
             ),
             Text(
               'Risk Level: ${(city.riskModifiers['police_presence'] ?? 1.0) * 100}%',
-              style: AppTheme.bodyStyle,
+              style: AppTheme.body,
             ),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text('Cancel', style: AppTheme.bodyStyle),
+            child: Text('Cancel', style: AppTheme.body),
           ),
           ElevatedButton(
             onPressed: () {
@@ -295,8 +300,8 @@ class WorldMapScreen extends ConsumerWidget {
               ref.read(worldManagerProvider.notifier).unlockCity(city.id);
               Navigator.of(context).pop();
             },
-            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
-            child: Text('Unlock', style: AppTheme.bodyStyle.copyWith(color: Colors.white)),
+            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.gold),
+            child: Text('Unlock', style: AppTheme.body.copyWith(color: Colors.white)),
           ),
         ],
       ),
@@ -307,24 +312,24 @@ class WorldMapScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: AppTheme.cardColor,
-        title: Text('Travel to ${city.name}', style: AppTheme.headingStyle),
+        backgroundColor: AppTheme.surface,
+        title: Text('Travel to ${city.name}', style: AppTheme.heading),
         content: Text(
           'Are you sure you want to travel to ${city.name}? This will change your current location and market conditions.',
-          style: AppTheme.bodyStyle,
+          style: AppTheme.body,
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text('Cancel', style: AppTheme.bodyStyle),
+            child: Text('Cancel', style: AppTheme.body),
           ),
           ElevatedButton(
             onPressed: () {
               worldManager.travelToCity(city.id);
               Navigator.of(context).pop();
             },
-            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
-            child: Text('Travel', style: AppTheme.bodyStyle.copyWith(color: Colors.white)),
+            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.gold),
+            child: Text('Travel', style: AppTheme.body.copyWith(color: Colors.white)),
           ),
         ],
       ),
@@ -335,27 +340,27 @@ class WorldMapScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: AppTheme.cardColor,
-        title: Text('${city.name} Details', style: AppTheme.headingStyle),
+        backgroundColor: AppTheme.surface,
+        title: Text('${city.name} Details', style: AppTheme.heading),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Current Location', style: AppTheme.headingStyle.copyWith(fontSize: 16)),
+            Text('Current Location', style: AppTheme.heading.copyWith(fontSize: 16)),
             const SizedBox(height: 8),
-            Text(city.description, style: AppTheme.bodyStyle),
+            Text(city.description, style: AppTheme.body),
             const SizedBox(height: 16),
-            Text('Districts:', style: AppTheme.headingStyle.copyWith(fontSize: 14)),
-            ...city.districts.map((district) => Text('• $district', style: AppTheme.bodyStyle)),
+            Text('Districts:', style: AppTheme.heading.copyWith(fontSize: 14)),
+            ...city.districts.map((district) => Text('• $district', style: AppTheme.body)),
             const SizedBox(height: 16),
-            Text('Available Goods:', style: AppTheme.headingStyle.copyWith(fontSize: 14)),
-            ...city.availableGoods.map((good) => Text('• $good', style: AppTheme.bodyStyle)),
+            Text('Available Goods:', style: AppTheme.heading.copyWith(fontSize: 14)),
+            ...city.availableGoods.map((good) => Text('• $good', style: AppTheme.body)),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text('Close', style: AppTheme.bodyStyle),
+            child: Text('Close', style: AppTheme.body),
           ),
         ],
       ),
