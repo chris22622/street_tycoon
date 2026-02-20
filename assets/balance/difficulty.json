@@ -1,0 +1,26 @@
+{
+  "easy": {
+    "heatMultiplier": 0.6,
+    "profitMultiplier": 1.3,
+    "costMultiplier": 0.8,
+    "successRateBonus": 0.15
+  },
+  "normal": {
+    "heatMultiplier": 1.0,
+    "profitMultiplier": 1.0,
+    "costMultiplier": 1.0,
+    "successRateBonus": 0.0
+  },
+  "hard": {
+    "heatMultiplier": 1.4,
+    "profitMultiplier": 1.5,
+    "costMultiplier": 1.1,
+    "successRateBonus": -0.1
+  },
+  "hardcore": {
+    "heatMultiplier": 2.0,
+    "profitMultiplier": 2.5,
+    "costMultiplier": 1.3,
+    "successRateBonus": -0.25
+  }
+}
