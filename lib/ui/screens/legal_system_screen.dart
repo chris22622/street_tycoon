@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../theme/app_theme.dart';
 
 class LegalSystemScreen extends ConsumerStatefulWidget {
@@ -28,11 +29,15 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Legal System'),
-        backgroundColor: AppTheme.primaryColor,
+        title: Text('Legal System', style: AppTheme.heading.copyWith(fontSize: 20)),
+        backgroundColor: AppTheme.surface,
+        leading: IconButton(
+          onPressed: () => context.pop(),
+          icon: const Icon(Icons.arrow_back, color: AppTheme.gold),
+        ),
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: AppTheme.accentColor,
+          indicatorColor: AppTheme.accent,
           tabs: const [
             Tab(text: 'Lawyers'),
             Tab(text: 'Court Cases'),
@@ -46,7 +51,7 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [AppTheme.backgroundColor, AppTheme.cardColor],
+            colors: [AppTheme.bg, AppTheme.surface],
           ),
         ),
         child: TabBarView(
@@ -72,23 +77,23 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
           margin: const EdgeInsets.all(16),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: AppTheme.cardColor,
+            color: AppTheme.surface,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: Colors.blue, width: 2),
           ),
           child: Column(
             children: [
-              Text('Legal Representation', style: AppTheme.headingStyle),
+              Text('Legal Representation', style: AppTheme.heading),
               const SizedBox(height: 8),
               Row(
                 children: [
                   Expanded(
                     child: Column(
                       children: [
-                        Text('Active Lawyers', style: AppTheme.bodyStyle.copyWith(fontSize: 12)),
+                        Text('Active Lawyers', style: AppTheme.body.copyWith(fontSize: 12)),
                         Text(
                           '${lawyers.length}',
-                          style: AppTheme.headingStyle.copyWith(fontSize: 20),
+                          style: AppTheme.heading.copyWith(fontSize: 20),
                         ),
                       ],
                     ),
@@ -96,10 +101,10 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
                   Expanded(
                     child: Column(
                       children: [
-                        Text('Monthly Retainer', style: AppTheme.bodyStyle.copyWith(fontSize: 12)),
+                        Text('Monthly Retainer', style: AppTheme.body.copyWith(fontSize: 12)),
                         Text(
                           '\$${_calculateRetainerFees(lawyers)}',
-                          style: AppTheme.headingStyle.copyWith(
+                          style: AppTheme.heading.copyWith(
                             fontSize: 20,
                             color: Colors.red,
                           ),
@@ -139,7 +144,7 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: AppTheme.cardColor,
+        color: AppTheme.surface,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.blue, width: 1),
       ),
@@ -165,15 +170,15 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
                     children: [
                       Text(
                         lawyer['name'],
-                        style: AppTheme.headingStyle.copyWith(fontSize: 16),
+                        style: AppTheme.heading.copyWith(fontSize: 16),
                       ),
                       Text(
                         lawyer['specialization'].toUpperCase(),
-                        style: AppTheme.bodyStyle.copyWith(fontSize: 12),
+                        style: AppTheme.body.copyWith(fontSize: 12),
                       ),
                       Text(
                         'Experience: ${lawyer['experience']} years',
-                        style: AppTheme.bodyStyle.copyWith(fontSize: 12),
+                        style: AppTheme.body.copyWith(fontSize: 12),
                       ),
                     ],
                   ),
@@ -183,14 +188,14 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
                   children: [
                     Text(
                       '\$${lawyer['retainerFee']}/mo',
-                      style: AppTheme.headingStyle.copyWith(
+                      style: AppTheme.heading.copyWith(
                         fontSize: 16,
                         color: Colors.blue,
                       ),
                     ),
                     Text(
                       'Win Rate: ${(lawyer['winRate'] * 100).toInt()}%',
-                      style: AppTheme.bodyStyle.copyWith(fontSize: 10),
+                      style: AppTheme.body.copyWith(fontSize: 10),
                     ),
                   ],
                 ),
@@ -201,7 +206,7 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
             // Success Rate Indicator
             Row(
               children: [
-                Text('Success Rate: ', style: AppTheme.bodyStyle.copyWith(fontSize: 12)),
+                Text('Success Rate: ', style: AppTheme.body.copyWith(fontSize: 12)),
                 Expanded(
                   child: LinearProgressIndicator(
                     value: lawyer['winRate'],
@@ -213,7 +218,7 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
                   ),
                 ),
                 const SizedBox(width: 8),
-                Text('${(lawyer['winRate'] * 100).toInt()}%', style: AppTheme.bodyStyle.copyWith(fontSize: 12)),
+                Text('${(lawyer['winRate'] * 100).toInt()}%', style: AppTheme.body.copyWith(fontSize: 12)),
               ],
             ),
             
@@ -231,7 +236,7 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
                   ),
                   child: Text(
                     spec.toUpperCase(),
-                    style: AppTheme.bodyStyle.copyWith(fontSize: 10),
+                    style: AppTheme.body.copyWith(fontSize: 10),
                   ),
                 ),
               ).toList(),
@@ -252,7 +257,7 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
           margin: const EdgeInsets.all(16),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: AppTheme.cardColor,
+            color: AppTheme.surface,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: Colors.red, width: 2),
           ),
@@ -261,10 +266,10 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
               Expanded(
                 child: Column(
                   children: [
-                    Text('Active Cases', style: AppTheme.bodyStyle.copyWith(fontSize: 12)),
+                    Text('Active Cases', style: AppTheme.body.copyWith(fontSize: 12)),
                     Text(
                       '${courtCases.where((c) => c['status'] == 'active').length}',
-                      style: AppTheme.headingStyle.copyWith(fontSize: 20, color: Colors.red),
+                      style: AppTheme.heading.copyWith(fontSize: 20, color: Colors.red),
                     ),
                   ],
                 ),
@@ -272,10 +277,10 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
               Expanded(
                 child: Column(
                   children: [
-                    Text('Won Cases', style: AppTheme.bodyStyle.copyWith(fontSize: 12)),
+                    Text('Won Cases', style: AppTheme.body.copyWith(fontSize: 12)),
                     Text(
                       '${courtCases.where((c) => c['status'] == 'won').length}',
-                      style: AppTheme.headingStyle.copyWith(fontSize: 20, color: Colors.green),
+                      style: AppTheme.heading.copyWith(fontSize: 20, color: Colors.green),
                     ),
                   ],
                 ),
@@ -283,10 +288,10 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
               Expanded(
                 child: Column(
                   children: [
-                    Text('Lost Cases', style: AppTheme.bodyStyle.copyWith(fontSize: 12)),
+                    Text('Lost Cases', style: AppTheme.body.copyWith(fontSize: 12)),
                     Text(
                       '${courtCases.where((c) => c['status'] == 'lost').length}',
-                      style: AppTheme.headingStyle.copyWith(fontSize: 20, color: Colors.red),
+                      style: AppTheme.heading.copyWith(fontSize: 20, color: Colors.red),
                     ),
                   ],
                 ),
@@ -316,7 +321,7 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: AppTheme.cardColor,
+        color: AppTheme.surface,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: statusColor, width: 1),
       ),
@@ -335,15 +340,15 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
                     children: [
                       Text(
                         courtCase['caseNumber'],
-                        style: AppTheme.headingStyle.copyWith(fontSize: 16),
+                        style: AppTheme.heading.copyWith(fontSize: 16),
                       ),
                       Text(
                         courtCase['chargeType'].toUpperCase(),
-                        style: AppTheme.bodyStyle.copyWith(fontSize: 12),
+                        style: AppTheme.body.copyWith(fontSize: 12),
                       ),
                       Text(
                         'Court: ${courtCase['court']}',
-                        style: AppTheme.bodyStyle.copyWith(fontSize: 12),
+                        style: AppTheme.body.copyWith(fontSize: 12),
                       ),
                     ],
                   ),
@@ -356,7 +361,7 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
                   ),
                   child: Text(
                     courtCase['status'].toUpperCase(),
-                    style: AppTheme.bodyStyle.copyWith(
+                    style: AppTheme.body.copyWith(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -369,7 +374,7 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
             
             Text(
               'Charges: ${courtCase['charges'].join(', ')}',
-              style: AppTheme.bodyStyle.copyWith(fontSize: 12),
+              style: AppTheme.body.copyWith(fontSize: 12),
             ),
             const SizedBox(height: 8),
             
@@ -379,7 +384,7 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Evidence Strength', style: AppTheme.bodyStyle.copyWith(fontSize: 10)),
+                      Text('Evidence Strength', style: AppTheme.body.copyWith(fontSize: 10)),
                       LinearProgressIndicator(
                         value: courtCase['evidenceStrength'],
                         backgroundColor: Colors.grey[700],
@@ -395,10 +400,10 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text('Next Hearing', style: AppTheme.bodyStyle.copyWith(fontSize: 10)),
+                    Text('Next Hearing', style: AppTheme.body.copyWith(fontSize: 10)),
                     Text(
                       courtCase['nextHearing'],
-                      style: AppTheme.bodyStyle.copyWith(fontSize: 12, fontWeight: FontWeight.bold),
+                      style: AppTheme.body.copyWith(fontSize: 12, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -443,24 +448,24 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: AppTheme.cardColor,
+              color: AppTheme.surface,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.orange, width: 2),
             ),
             child: Column(
               children: [
-                Text('Prison System', style: AppTheme.headingStyle),
+                Text('Prison System', style: AppTheme.heading),
                 const SizedBox(height: 16),
                 const Icon(Icons.lock, size: 64, color: Colors.orange),
                 const SizedBox(height: 16),
                 Text(
                   'Currently Free',
-                  style: AppTheme.headingStyle.copyWith(color: Colors.green),
+                  style: AppTheme.heading.copyWith(color: Colors.green),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   'Keep a low profile and avoid getting caught!',
-                  style: AppTheme.bodyStyle.copyWith(fontSize: 12),
+                  style: AppTheme.body.copyWith(fontSize: 12),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -470,14 +475,14 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
           const SizedBox(height: 16),
           
           // Prison Intel
-          Text('Prison Intelligence', style: AppTheme.headingStyle),
+          Text('Prison Intelligence', style: AppTheme.heading),
           const SizedBox(height: 8),
           
           ..._getPrisonIntel().map((intel) => Container(
             margin: const EdgeInsets.only(bottom: 8),
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: AppTheme.cardColor,
+              color: AppTheme.surface,
               borderRadius: BorderRadius.circular(8),
               border: Border.all(color: Colors.orange),
             ),
@@ -491,11 +496,11 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
                     children: [
                       Text(
                         intel['title'],
-                        style: AppTheme.bodyStyle.copyWith(fontWeight: FontWeight.bold),
+                        style: AppTheme.body.copyWith(fontWeight: FontWeight.bold),
                       ),
                       Text(
                         intel['description'],
-                        style: AppTheme.bodyStyle.copyWith(fontSize: 12),
+                        style: AppTheme.body.copyWith(fontSize: 12),
                       ),
                     ],
                   ),
@@ -518,23 +523,23 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
           margin: const EdgeInsets.all(16),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: AppTheme.cardColor,
+            color: AppTheme.surface,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: Colors.green, width: 2),
           ),
           child: Column(
             children: [
-              Text('Legal Business Empire', style: AppTheme.headingStyle),
+              Text('Legal Business Empire', style: AppTheme.heading),
               const SizedBox(height: 8),
               Row(
                 children: [
                   Expanded(
                     child: Column(
                       children: [
-                        Text('Legal Entities', style: AppTheme.bodyStyle.copyWith(fontSize: 12)),
+                        Text('Legal Entities', style: AppTheme.body.copyWith(fontSize: 12)),
                         Text(
                           '${legalBusinesses.length}',
-                          style: AppTheme.headingStyle.copyWith(fontSize: 20),
+                          style: AppTheme.heading.copyWith(fontSize: 20),
                         ),
                       ],
                     ),
@@ -542,10 +547,10 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
                   Expanded(
                     child: Column(
                       children: [
-                        Text('Legal Protection', style: AppTheme.bodyStyle.copyWith(fontSize: 12)),
+                        Text('Legal Protection', style: AppTheme.body.copyWith(fontSize: 12)),
                         Text(
                           '${_calculateLegalProtection(legalBusinesses)}%',
-                          style: AppTheme.headingStyle.copyWith(
+                          style: AppTheme.heading.copyWith(
                             fontSize: 20,
                             color: Colors.green,
                           ),
@@ -585,7 +590,7 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: AppTheme.cardColor,
+        color: AppTheme.surface,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.green, width: 1),
       ),
@@ -612,15 +617,15 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
                     children: [
                       Text(
                         business['name'],
-                        style: AppTheme.headingStyle.copyWith(fontSize: 16),
+                        style: AppTheme.heading.copyWith(fontSize: 16),
                       ),
                       Text(
                         business['type'].toUpperCase(),
-                        style: AppTheme.bodyStyle.copyWith(fontSize: 12),
+                        style: AppTheme.body.copyWith(fontSize: 12),
                       ),
                       Text(
                         'Jurisdiction: ${business['jurisdiction']}',
-                        style: AppTheme.bodyStyle.copyWith(fontSize: 12),
+                        style: AppTheme.body.copyWith(fontSize: 12),
                       ),
                     ],
                   ),
@@ -630,14 +635,14 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
                   children: [
                     Text(
                       'Protection: ${business['protectionLevel']}%',
-                      style: AppTheme.headingStyle.copyWith(
+                      style: AppTheme.heading.copyWith(
                         fontSize: 16,
                         color: Colors.green,
                       ),
                     ),
                     Text(
                       'Annual Fee: \$${business['annualFee']}',
-                      style: AppTheme.bodyStyle.copyWith(fontSize: 10),
+                      style: AppTheme.body.copyWith(fontSize: 10),
                     ),
                   ],
                 ),
@@ -648,7 +653,7 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
             // Protection Level
             Row(
               children: [
-                Text('Legal Protection: ', style: AppTheme.bodyStyle.copyWith(fontSize: 12)),
+                Text('Legal Protection: ', style: AppTheme.body.copyWith(fontSize: 12)),
                 Expanded(
                   child: LinearProgressIndicator(
                     value: business['protectionLevel'] / 100,
@@ -657,7 +662,7 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
                   ),
                 ),
                 const SizedBox(width: 8),
-                Text('${business['protectionLevel']}%', style: AppTheme.bodyStyle.copyWith(fontSize: 12)),
+                Text('${business['protectionLevel']}%', style: AppTheme.body.copyWith(fontSize: 12)),
               ],
             ),
             
@@ -665,7 +670,7 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
             
             // Services
             if (business['services'].isNotEmpty) ...[
-              Text('Services:', style: AppTheme.bodyStyle.copyWith(fontSize: 12, fontWeight: FontWeight.bold)),
+              Text('Services:', style: AppTheme.body.copyWith(fontSize: 12, fontWeight: FontWeight.bold)),
               Wrap(
                 spacing: 4,
                 children: (business['services'] as List<String>).map((service) => 
@@ -677,7 +682,7 @@ class _LegalSystemScreenState extends ConsumerState<LegalSystemScreen> with Sing
                     ),
                     child: Text(
                       service.toUpperCase(),
-                      style: AppTheme.bodyStyle.copyWith(fontSize: 10),
+                      style: AppTheme.body.copyWith(fontSize: 10),
                     ),
                   ),
                 ).toList(),
