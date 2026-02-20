@@ -1,0 +1,1344 @@
+[
+  {
+    "id": "snitch_in_the_hallway",
+    "title": "Rumors of a snitch",
+    "description": "Someone's talking. Pay to find out who or keep moving like nothing's wrong.",
+    "icon": "🕵️",
+    "weight": 7,
+    "conditions": [
+      {
+        "key": "age_years",
+        "op": ">=",
+        "value": 14
+      }
+    ],
+    "choices": [
+      {
+        "id": "pay_for_info",
+        "text": "Pay for info ($500)",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": -500
+          },
+          {
+            "type": "heat",
+            "delta": -3
+          },
+          {
+            "type": "stressLevel",
+            "delta": -3
+          }
+        ],
+        "followups": [
+          {
+            "weight": 3,
+            "effects": [
+              {
+                "type": "heat",
+                "delta": -2
+              }
+            ]
+          },
+          {
+            "weight": 1,
+            "effects": [
+              {
+                "type": "heat",
+                "delta": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "ignore",
+        "text": "Ignore the rumors",
+        "effects": [
+          {
+            "type": "heat",
+            "delta": 2
+          },
+          {
+            "type": "stressLevel",
+            "delta": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bulk_buyer_calls",
+    "title": "Bulk buyer reaches out",
+    "description": "A distributor offers a simple cash flip if you can move quickly.",
+    "icon": "📞",
+    "weight": 6,
+    "conditions": [
+      {
+        "key": "age_years",
+        "op": ">=",
+        "value": 16
+      }
+    ],
+    "choices": [
+      {
+        "id": "accept",
+        "text": "Accept the deal",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": 1500
+          },
+          {
+            "type": "energy",
+            "delta": -5
+          }
+        ],
+        "followups": [
+          {
+            "weight": 3,
+            "effects": [
+              {
+                "type": "cash",
+                "delta": 1000
+              }
+            ]
+          },
+          {
+            "weight": 1,
+            "effects": [
+              {
+                "type": "heat",
+                "delta": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "decline",
+        "text": "Decline",
+        "effects": [
+          {
+            "type": "stressLevel",
+            "delta": -2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "feds_patrolling",
+    "title": "Feds increase patrols",
+    "description": "Marked cars are crawling around. Every move draws attention.",
+    "icon": "🚔",
+    "weight": 5,
+    "conditions": [
+      {
+        "key": "age_years",
+        "op": ">=",
+        "value": 16
+      }
+    ],
+    "choices": [
+      {
+        "id": "lay_low",
+        "text": "Lay low (-Heat, -Energy)",
+        "effects": [
+          {
+            "type": "heat",
+            "delta": -6
+          },
+          {
+            "type": "energy",
+            "delta": -5
+          }
+        ]
+      },
+      {
+        "id": "operate_anyway",
+        "text": "Operate anyway (+Heat)",
+        "effects": [
+          {
+            "type": "heat",
+            "delta": 6
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "found_dead_drop",
+    "title": "Found a dead drop",
+    "description": "A taped package behind a dumpster. Yours if you take the risk.",
+    "icon": "📦",
+    "weight": 4,
+    "conditions": [
+      {
+        "key": "age_years",
+        "op": ">=",
+        "value": 14
+      }
+    ],
+    "choices": [
+      {
+        "id": "grab_it",
+        "text": "Grab it",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": 800
+          },
+          {
+            "type": "heat",
+            "delta": 2
+          }
+        ],
+        "followups": [
+          {
+            "weight": 3,
+            "effects": [
+              {
+                "type": "cash",
+                "delta": 700
+              }
+            ]
+          },
+          {
+            "weight": 1,
+            "effects": [
+              {
+                "type": "heat",
+                "delta": 5
+              },
+              {
+                "type": "stressLevel",
+                "delta": 4
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "leave_it",
+        "text": "Leave it",
+        "effects": [
+          {
+            "type": "stressLevel",
+            "delta": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "corrupt_inspector",
+    "title": "Corrupt inspector drops a hint",
+    "description": "Paperwork can disappear for a price.",
+    "icon": "💰",
+    "weight": 4,
+    "conditions": [
+      {
+        "key": "age_years",
+        "op": ">=",
+        "value": 16
+      }
+    ],
+    "choices": [
+      {
+        "id": "pay_bribe",
+        "text": "Pay bribe ($2,000)",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": -2000
+          },
+          {
+            "type": "heat",
+            "delta": -6
+          }
+        ]
+      },
+      {
+        "id": "walk_away",
+        "text": "Walk away",
+        "effects": [
+          {
+            "type": "stressLevel",
+            "delta": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "crew_argument",
+    "title": "Crew argument",
+    "description": "Two lieutenants are at each other's throats.",
+    "icon": "⚠️",
+    "weight": 5,
+    "conditions": [
+      {
+        "key": "age_years",
+        "op": ">=",
+        "value": 15
+      }
+    ],
+    "choices": [
+      {
+        "id": "mediate",
+        "text": "Mediate (+Energy, -Stress)",
+        "effects": [
+          {
+            "type": "energy",
+            "delta": -3
+          },
+          {
+            "type": "stressLevel",
+            "delta": -4
+          }
+        ]
+      },
+      {
+        "id": "throw_money",
+        "text": "Throw money at it ($800)",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": -800
+          },
+          {
+            "type": "stressLevel",
+            "delta": -2
+          }
+        ]
+      },
+      {
+        "id": "ignore",
+        "text": "Ignore it",
+        "effects": [
+          {
+            "type": "stressLevel",
+            "delta": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cheap_fence",
+    "title": "Cheap fence has a buyer",
+    "description": "Quick flip opportunity through a shady middleman.",
+    "icon": "💸",
+    "weight": 5,
+    "conditions": [
+      {
+        "key": "age_years",
+        "op": ">=",
+        "value": 15
+      }
+    ],
+    "choices": [
+      {
+        "id": "sell_now",
+        "text": "Sell now (+$1,200, +Heat)",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": 1200
+          },
+          {
+            "type": "heat",
+            "delta": 3
+          },
+          {
+            "type": "energy",
+            "delta": -2
+          }
+        ]
+      },
+      {
+        "id": "pass",
+        "text": "Pass",
+        "effects": [
+          {
+            "type": "stressLevel",
+            "delta": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "clinic_checkup",
+    "title": "Clinic check-up",
+    "description": "A fast walk-in appointment opens up.",
+    "icon": "⚕️",
+    "weight": 3,
+    "conditions": [
+      {
+        "key": "age_years",
+        "op": ">=",
+        "value": 14
+      }
+    ],
+    "choices": [
+      {
+        "id": "take_it",
+        "text": "Take it ($200)",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": -200
+          },
+          {
+            "type": "physicalHealth",
+            "delta": 4
+          },
+          {
+            "type": "mentalHealth",
+            "delta": 3
+          }
+        ]
+      },
+      {
+        "id": "skip",
+        "text": "Skip",
+        "effects": [
+          {
+            "type": "stressLevel",
+            "delta": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "anonymous_tipster",
+    "title": "Anonymous tipster",
+    "description": "Someone will call in a false lead for a price.",
+    "icon": "📲",
+    "weight": 3,
+    "conditions": [
+      {
+        "key": "age_years",
+        "op": ">=",
+        "value": 16
+      }
+    ],
+    "choices": [
+      {
+        "id": "pay",
+        "text": "Pay $600",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": -600
+          }
+        ],
+        "followups": [
+          {
+            "weight": 3,
+            "effects": [
+              {
+                "type": "heat",
+                "delta": -5
+              }
+            ]
+          },
+          {
+            "weight": 1,
+            "effects": [
+              {
+                "type": "heat",
+                "delta": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "decline",
+        "text": "Decline",
+        "effects": [
+          {
+            "type": "mentalHealth",
+            "delta": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "warehouse_short_handed",
+    "title": "Warehouse is short-handed",
+    "description": "They need you for an hour. Payment is quick.",
+    "icon": "📦",
+    "weight": 4,
+    "conditions": [
+      {
+        "key": "age_years",
+        "op": ">=",
+        "value": 15
+      }
+    ],
+    "choices": [
+      {
+        "id": "help_out",
+        "text": "Help out (+$900, -Energy)",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": 900
+          },
+          {
+            "type": "energy",
+            "delta": -6
+          }
+        ]
+      },
+      {
+        "id": "too_busy",
+        "text": "Too busy",
+        "effects": [
+          {
+            "type": "stressLevel",
+            "delta": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "street_rumor_spike",
+    "title": "Street rumor spike",
+    "description": "Everyone expects a price jump soon.",
+    "icon": "🔎",
+    "weight": 2,
+    "conditions": [
+      {
+        "key": "age_years",
+        "op": ">=",
+        "value": 14
+      }
+    ],
+    "choices": [
+      {
+        "id": "gear_up",
+        "text": "Gear up (-Cash, +Stress)",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": -500
+          },
+          {
+            "type": "stressLevel",
+            "delta": 2
+          }
+        ]
+      },
+      {
+        "id": "stay_calm",
+        "text": "Stay calm (-Stress)",
+        "effects": [
+          {
+            "type": "stressLevel",
+            "delta": -2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "lucky_break",
+    "title": "Lucky break",
+    "description": "Your name didn't end up on a list it should've.",
+    "icon": "🍀",
+    "weight": 1,
+    "conditions": [
+      {
+        "key": "age_years",
+        "op": ">=",
+        "value": 14
+      }
+    ],
+    "choices": [
+      {
+        "id": "celebrate",
+        "text": "Celebrate (+$500, +Stress)",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": 500
+          },
+          {
+            "type": "stressLevel",
+            "delta": 1
+          }
+        ]
+      },
+      {
+        "id": "double_down",
+        "text": "Double down (+$0 now, -Heat)",
+        "effects": [
+          {
+            "type": "heat",
+            "delta": -4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "drug_bust_nearby",
+    "title": "Drug bust near your area",
+    "description": "Police raided a nearby location. They're being aggressive tonight.",
+    "icon": "🚨",
+    "weight": 6,
+    "conditions": [
+      {
+        "key": "age_years",
+        "op": ">=",
+        "value": 16
+      }
+    ],
+    "choices": [
+      {
+        "id": "lay_low_bust",
+        "text": "Lay low for the night (-Heat, -Energy, -Cash)",
+        "effects": [
+          {
+            "type": "heat",
+            "delta": -4
+          },
+          {
+            "type": "energy",
+            "delta": -3
+          },
+          {
+            "type": "cash",
+            "delta": -200
+          }
+        ]
+      },
+      {
+        "id": "exploit_chaos",
+        "text": "Exploit the chaos (+Cash, +Heat)",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": 1500
+          },
+          {
+            "type": "heat",
+            "delta": 5
+          }
+        ],
+        "followups": [
+          {
+            "weight": 2,
+            "effects": [
+              {
+                "type": "cash",
+                "delta": 800
+              }
+            ]
+          },
+          {
+            "weight": 1,
+            "effects": [
+              {
+                "type": "heat",
+                "delta": 8
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "business_as_usual",
+        "text": "Keep business as usual (+Heat)",
+        "effects": [
+          {
+            "type": "heat",
+            "delta": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "rival_dealer_moves_in",
+    "title": "Rival dealer encroaching",
+    "description": "Competition is moving into your territory.",
+    "icon": "⚔️",
+    "weight": 5,
+    "conditions": [
+      {
+        "key": "age_years",
+        "op": ">=",
+        "value": 17
+      }
+    ],
+    "choices": [
+      {
+        "id": "negotiate",
+        "text": "Negotiate for peace (-Cash)",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": -1000
+          },
+          {
+            "type": "stressLevel",
+            "delta": -3
+          }
+        ]
+      },
+      {
+        "id": "price_war",
+        "text": "Start a price war (-Cash)",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": -2000
+          },
+          {
+            "type": "heat",
+            "delta": 2
+          }
+        ]
+      },
+      {
+        "id": "aggressive_response",
+        "text": "Aggressive response (+Heat)",
+        "effects": [
+          {
+            "type": "heat",
+            "delta": 10
+          },
+          {
+            "type": "stressLevel",
+            "delta": 5
+          }
+        ]
+      },
+      {
+        "id": "ignore_rival",
+        "text": "Ignore and compete",
+        "effects": [
+          {
+            "type": "stressLevel",
+            "delta": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "celebrity_customer",
+    "title": "Celebrity customer wants a deal",
+    "description": "A famous person is looking for a special arrangement.",
+    "icon": "⭐",
+    "weight": 3,
+    "conditions": [
+      {
+        "key": "age_years",
+        "op": ">=",
+        "value": 16
+      }
+    ],
+    "choices": [
+      {
+        "id": "take_celebrity_deal",
+        "text": "Accept (+$3,500, +Heat)",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": 3500
+          },
+          {
+            "type": "heat",
+            "delta": 6
+          },
+          {
+            "type": "energy",
+            "delta": -4
+          }
+        ],
+        "followups": [
+          {
+            "weight": 4,
+            "effects": [
+              {
+                "type": "cash",
+                "delta": 2000
+              }
+            ]
+          },
+          {
+            "weight": 1,
+            "effects": [
+              {
+                "type": "heat",
+                "delta": 12
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "decline_celebrity",
+        "text": "Decline (too risky)",
+        "effects": [
+          {
+            "type": "stressLevel",
+            "delta": -2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "neighborhood_watch_patrol",
+    "title": "Neighborhood watch increases patrols",
+    "description": "Local residents organized and are watching the streets.",
+    "icon": "👁️",
+    "weight": 4,
+    "conditions": [
+      {
+        "key": "age_years",
+        "op": ">=",
+        "value": 14
+      }
+    ],
+    "choices": [
+      {
+        "id": "keep_low_profile",
+        "text": "Keep low profile",
+        "effects": [
+          {
+            "type": "heat",
+            "delta": -3
+          },
+          {
+            "type": "cash",
+            "delta": -300
+          }
+        ]
+      },
+      {
+        "id": "move_operations",
+        "text": "Move operations",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": -800
+          },
+          {
+            "type": "energy",
+            "delta": -4
+          }
+        ]
+      },
+      {
+        "id": "ignore_watch",
+        "text": "Ignore them",
+        "effects": [
+          {
+            "type": "heat",
+            "delta": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "underground_fight_ring",
+    "title": "Underground fight ring opportunity",
+    "description": "A promoter offers you a cut of betting operations.",
+    "icon": "🥊",
+    "weight": 3,
+    "conditions": [
+      {
+        "key": "age_years",
+        "op": ">=",
+        "value": 18
+      }
+    ],
+    "choices": [
+      {
+        "id": "join_fight_ring",
+        "text": "Join (+$2,500, +Heat)",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": 2500
+          },
+          {
+            "type": "heat",
+            "delta": 8
+          },
+          {
+            "type": "stressLevel",
+            "delta": 3
+          }
+        ]
+      },
+      {
+        "id": "pass_on_fights",
+        "text": "Pass",
+        "effects": [
+          {
+            "type": "stressLevel",
+            "delta": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "prison_break_news",
+    "title": "Prison break news",
+    "description": "A dangerous person escaped. Heat goes up citywide.",
+    "icon": "🔓",
+    "weight": 2,
+    "conditions": [
+      {
+        "key": "age_years",
+        "op": ">=",
+        "value": 16
+      }
+    ],
+    "choices": [
+      {
+        "id": "shelter_in_place",
+        "text": "Shelter in place",
+        "effects": [
+          {
+            "type": "heat",
+            "delta": 3
+          },
+          {
+            "type": "energy",
+            "delta": -8
+          },
+          {
+            "type": "cash",
+            "delta": -500
+          }
+        ]
+      },
+      {
+        "id": "prepare_for_chaos",
+        "text": "Prepare for chaos",
+        "effects": [
+          {
+            "type": "stressLevel",
+            "delta": 4
+          },
+          {
+            "type": "cash",
+            "delta": -1000
+          }
+        ]
+      },
+      {
+        "id": "operate_during_escape",
+        "text": "Operate during chaos (+Cash, +Heat)",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": 2000
+          },
+          {
+            "type": "heat",
+            "delta": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "weather_storm_warning",
+    "title": "Severe storm warning",
+    "description": "Bad weather makes the streets dangerous.",
+    "icon": "⛈️",
+    "weight": 5,
+    "conditions": [
+      {
+        "key": "age_years",
+        "op": ">=",
+        "value": 14
+      }
+    ],
+    "choices": [
+      {
+        "id": "stay_indoors",
+        "text": "Stay indoors",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": -200
+          },
+          {
+            "type": "energy",
+            "delta": -3
+          }
+        ]
+      },
+      {
+        "id": "operate_in_storm",
+        "text": "Operate in the storm",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": 800
+          },
+          {
+            "type": "physicalHealth",
+            "delta": -3
+          }
+        ]
+      },
+      {
+        "id": "prepare_deliveries",
+        "text": "Prepare for after",
+        "effects": [
+          {
+            "type": "stressLevel",
+            "delta": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "holiday_rush_season",
+    "title": "Holiday rush incoming",
+    "description": "Holidays are coming. Demand and prices spike.",
+    "icon": "🎄",
+    "weight": 4,
+    "conditions": [
+      {
+        "key": "age_years",
+        "op": ">=",
+        "value": 14
+      }
+    ],
+    "choices": [
+      {
+        "id": "stock_up_heavy",
+        "text": "Stock up heavy (-$2,000)",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": -2000
+          },
+          {
+            "type": "energy",
+            "delta": -5
+          }
+        ],
+        "followups": [
+          {
+            "weight": 4,
+            "effects": [
+              {
+                "type": "cash",
+                "delta": 5000
+              }
+            ]
+          },
+          {
+            "weight": 1,
+            "effects": [
+              {
+                "type": "heat",
+                "delta": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "moderate_stock",
+        "text": "Stock moderately (-$800)",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": -800
+          }
+        ]
+      },
+      {
+        "id": "skip_rush",
+        "text": "Skip the rush",
+        "effects": [
+          {
+            "type": "stressLevel",
+            "delta": -2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "corrupt_cop_offer",
+    "title": "Corrupt cop offers protection",
+    "description": "A cop wants a cut for heads up on raids.",
+    "icon": "👮",
+    "weight": 4,
+    "conditions": [
+      {
+        "key": "age_years",
+        "op": ">=",
+        "value": 17
+      }
+    ],
+    "choices": [
+      {
+        "id": "accept_cop_deal",
+        "text": "Accept ($1,500/week, -Heat)",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": -1500
+          },
+          {
+            "type": "heat",
+            "delta": -8
+          },
+          {
+            "type": "stressLevel",
+            "delta": 2
+          }
+        ]
+      },
+      {
+        "id": "negotiate_cop",
+        "text": "Negotiate better terms",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": -1000
+          },
+          {
+            "type": "heat",
+            "delta": -5
+          }
+        ]
+      },
+      {
+        "id": "refuse_cop",
+        "text": "Refuse (risky)",
+        "effects": [
+          {
+            "type": "heat",
+            "delta": 1
+          },
+          {
+            "type": "stressLevel",
+            "delta": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "street_race_challenge",
+    "title": "Street race challenge",
+    "description": "Rival racers organizing a big race with a prize pool.",
+    "icon": "🏎️",
+    "weight": 3,
+    "conditions": [
+      {
+        "key": "age_years",
+        "op": ">=",
+        "value": 16
+      }
+    ],
+    "choices": [
+      {
+        "id": "enter_race",
+        "text": "Enter the race",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": 2000
+          },
+          {
+            "type": "heat",
+            "delta": 4
+          },
+          {
+            "type": "energy",
+            "delta": -3
+          }
+        ],
+        "followups": [
+          {
+            "weight": 3,
+            "effects": [
+              {
+                "type": "cash",
+                "delta": 3000
+              }
+            ]
+          },
+          {
+            "weight": 2,
+            "effects": [
+              {
+                "type": "cash",
+                "delta": -2000
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "skip_race",
+        "text": "Skip",
+        "effects": [
+          {
+            "type": "stressLevel",
+            "delta": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "underground_auction",
+    "title": "Underground auction happening",
+    "description": "Rare auction of stolen goods.",
+    "icon": "🔨",
+    "weight": 3,
+    "conditions": [
+      {
+        "key": "age_years",
+        "op": ">=",
+        "value": 17
+      }
+    ],
+    "choices": [
+      {
+        "id": "attend_auction",
+        "text": "Attend and bid",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": -1500
+          },
+          {
+            "type": "heat",
+            "delta": 3
+          },
+          {
+            "type": "energy",
+            "delta": -2
+          }
+        ],
+        "followups": [
+          {
+            "weight": 2,
+            "effects": [
+              {
+                "type": "cash",
+                "delta": 4500
+              }
+            ]
+          },
+          {
+            "weight": 1,
+            "effects": [
+              {
+                "type": "heat",
+                "delta": 5
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "skip_auction",
+        "text": "Skip",
+        "effects": [
+          {
+            "type": "stressLevel",
+            "delta": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mysterious_package_delivery",
+    "title": "Mysterious package delivery",
+    "description": "Someone needs a package delivered discreetly.",
+    "icon": "📫",
+    "weight": 4,
+    "conditions": [
+      {
+        "key": "age_years",
+        "op": ">=",
+        "value": 15
+      }
+    ],
+    "choices": [
+      {
+        "id": "deliver_mysterious",
+        "text": "Take the job (+$1,800, +Heat)",
+        "effects": [
+          {
+            "type": "cash",
+            "delta": 1800
+          },
+          {
+            "type": "heat",
+            "delta": 4
+          },
+          {
+            "type": "energy",
+            "delta": -4
+          }
+        ],
+        "followups": [
+          {
+            "weight": 3,
+            "effects": [
+              {
+                "type": "cash",
+                "delta": 1000
+              }
+            ]
+          },
+          {
+            "weight": 1,
+            "effects": [
+              {
+                "type": "heat",
+                "delta": 6
+              },
+              {
+                "type": "stressLevel",
+                "delta": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "decline_mystery",
+        "text": "Decline",
+        "effects": [
+          {
+            "type": "stressLevel",
+            "delta": 2
+          }
+        ]
+      }
+    ]
+  }
+]
