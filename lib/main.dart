@@ -10,6 +10,7 @@ import 'ui/screens/character_development_screen.dart';
 import 'ui/screens/business_management_screen.dart';
 import 'ui/screens/world_map_screen.dart';
 import 'ui/screens/legal_system_screen.dart';
+import 'ui/screens/save_game_selection_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +28,7 @@ final _router = GoRouter(
     GoRoute(path: '/business-management', builder: (context, state) => const BusinessManagementScreen()),
     GoRoute(path: '/world-map', builder: (context, state) => const WorldMapScreen()),
     GoRoute(path: '/legal-system', builder: (context, state) => const LegalSystemScreen()),
+    GoRoute(path: '/save-selection', builder: (context, state) => const SaveGameSelectionScreen()),
   ],
 );
 
