@@ -1,0 +1,15 @@
+{
+  "successCap": 0.25,
+  "attemptClamp": [-4, 8],
+  "successClamp": [-4, 12],
+  "weapons": {
+    "knife": {"name": "Knife", "tier": 1, "cost": 50, "minAge": 14, "successBonus": 0.05, "heatIncrease": 1},
+    "handgun": {"name": "Handgun", "tier": 2, "cost": 250, "minAge": 18, "successBonus": 0.15, "heatIncrease": 3},
+    "submachine_gun": {"name": "Submachine Gun", "tier": 3, "cost": 800, "minAge": 18, "successBonus": 0.25, "heatIncrease": 5},
+    "rifle": {"name": "Rifle", "tier": 3, "cost": 1200, "minAge": 18, "successBonus": 0.28, "heatIncrease": 6},
+    "shotgun": {"name": "Shotgun", "tier": 2, "cost": 400, "minAge": 18, "successBonus": 0.18, "heatIncrease": 4},
+    "assault_rifle": {"name": "Assault Rifle", "tier": 4, "cost": 2000, "minAge": 21, "successBonus": 0.35, "heatIncrease": 8},
+    "heavy_machine_gun": {"name": "Heavy Machine Gun", "tier": 5, "cost": 5000, "minAge": 21, "successBonus": 0.45, "heatIncrease": 12},
+    "explosives": {"name": "Explosives", "tier": 4, "cost": 3000, "minAge": 21, "successBonus": 0.40, "heatIncrease": 10}
+  }
+}
