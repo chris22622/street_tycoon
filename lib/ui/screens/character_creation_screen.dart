@@ -174,11 +174,7 @@ class _CharacterCreationScreenState extends ConsumerState<CharacterCreationScree
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Enter a first name'), backgroundColor: Colors.red));
       return;
     }
-    final gameState = ref.read(gameStateProvider);
-    if (gameState != null) {
-      context.go('/dashboard');
-    } else {
-      context.go('/dashboard');
-    }
+    // Navigate to dashboard with character created
+    context.go('/dashboard');
   }
 }
