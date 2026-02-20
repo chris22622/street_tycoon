@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../theme/app_theme.dart';
 import 'dart:math';
@@ -38,14 +39,14 @@ class _ActionMinigamesScreenState extends ConsumerState<ActionMinigamesScreen> w
     return Scaffold(
       appBar: AppBar(
         title: const Text('Action Minigames'),
-        backgroundColor: AppTheme.primaryColor,
+        backgroundColor: AppTheme.gold,
       ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [AppTheme.backgroundColor, AppTheme.cardColor],
+            colors: [AppTheme.bg, AppTheme.surface],
           ),
         ),
         child: SingleChildScrollView(
@@ -57,7 +58,7 @@ class _ActionMinigamesScreenState extends ConsumerState<ActionMinigamesScreen> w
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: AppTheme.cardColor,
+                  color: AppTheme.surface,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: Colors.red, width: 2),
                 ),
@@ -65,11 +66,11 @@ class _ActionMinigamesScreenState extends ConsumerState<ActionMinigamesScreen> w
                   children: [
                     const Icon(Icons.flash_on, size: 48, color: Colors.red),
                     const SizedBox(height: 8),
-                    Text('High-Stakes Operations', style: AppTheme.headingStyle),
+                    Text('High-Stakes Operations', style: AppTheme.heading),
                     const SizedBox(height: 8),
                     Text(
                       'Engage in dangerous activities that require skill and quick thinking.',
-                      style: AppTheme.bodyStyle.copyWith(fontSize: 12),
+                      style: AppTheme.body.copyWith(fontSize: 12),
                       textAlign: TextAlign.center,
                     ),
                   ],
@@ -176,7 +177,7 @@ class _ActionMinigamesScreenState extends ConsumerState<ActionMinigamesScreen> w
             const SizedBox(width: 8),
             Text(
               title,
-              style: AppTheme.headingStyle.copyWith(color: color),
+              style: AppTheme.heading.copyWith(color: color),
             ),
           ],
         ),
@@ -190,7 +191,7 @@ class _ActionMinigamesScreenState extends ConsumerState<ActionMinigamesScreen> w
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: AppTheme.cardColor,
+        color: AppTheme.surface,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: color, width: 1),
       ),
@@ -220,12 +221,12 @@ class _ActionMinigamesScreenState extends ConsumerState<ActionMinigamesScreen> w
                     children: [
                       Text(
                         title,
-                        style: AppTheme.headingStyle.copyWith(fontSize: 18),
+                        style: AppTheme.heading.copyWith(fontSize: 18),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         description,
-                        style: AppTheme.bodyStyle.copyWith(fontSize: 12),
+                        style: AppTheme.body.copyWith(fontSize: 12),
                       ),
                       const SizedBox(height: 8),
                       Row(
@@ -234,12 +235,12 @@ class _ActionMinigamesScreenState extends ConsumerState<ActionMinigamesScreen> w
                           const SizedBox(width: 4),
                           Text(
                             'Difficulty: ${_getRandomDifficulty()}',
-                            style: AppTheme.bodyStyle.copyWith(fontSize: 10),
+                            style: AppTheme.body.copyWith(fontSize: 10),
                           ),
                           const Spacer(),
                           Text(
                             'Tap to Play',
-                            style: AppTheme.bodyStyle.copyWith(
+                            style: AppTheme.body.copyWith(
                               fontSize: 10,
                               color: color,
                               fontWeight: FontWeight.bold,
@@ -367,13 +368,13 @@ class _ShootoutMinigameDialogState extends State<_ShootoutMinigameDialog> with T
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            Text('Shootout Minigame', style: AppTheme.headingStyle.copyWith(color: Colors.red)),
+            Text('Shootout Minigame', style: AppTheme.heading.copyWith(color: Colors.red)),
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Score: $score', style: AppTheme.bodyStyle.copyWith(color: Colors.white)),
-                Text('Time: $timeLeft', style: AppTheme.bodyStyle.copyWith(color: Colors.white)),
+                Text('Score: $score', style: AppTheme.body.copyWith(color: Colors.white)),
+                Text('Time: $timeLeft', style: AppTheme.body.copyWith(color: Colors.white)),
               ],
             ),
             const SizedBox(height: 20),
@@ -505,7 +506,7 @@ class _CarChaseMinigameDialog extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            Text('Car Chase Minigame', style: AppTheme.headingStyle.copyWith(color: Colors.orange)),
+            Text('Car Chase Minigame', style: AppTheme.heading.copyWith(color: Colors.orange)),
             const SizedBox(height: 20),
             const Expanded(
               child: Center(
@@ -552,7 +553,7 @@ class _StealthMinigameDialog extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            Text('Stealth Mission', style: AppTheme.headingStyle.copyWith(color: Colors.purple)),
+            Text('Stealth Mission', style: AppTheme.heading.copyWith(color: Colors.purple)),
             const SizedBox(height: 20),
             const Expanded(
               child: Center(
@@ -598,7 +599,7 @@ class _SurveillanceMinigameDialog extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            Text('Surveillance Operation', style: AppTheme.headingStyle.copyWith(color: Colors.indigo)),
+            Text('Surveillance Operation', style: AppTheme.heading.copyWith(color: Colors.indigo)),
             const SizedBox(height: 20),
             const Expanded(
               child: Center(
@@ -644,7 +645,7 @@ class _HackingMinigameDialog extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            Text('Hacking Terminal', style: AppTheme.headingStyle.copyWith(color: Colors.blue)),
+            Text('Hacking Terminal', style: AppTheme.heading.copyWith(color: Colors.blue)),
             const SizedBox(height: 20),
             const Expanded(
               child: Center(
@@ -690,7 +691,7 @@ class _DemolitionMinigameDialog extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            Text('Demolition Expert', style: AppTheme.headingStyle.copyWith(color: Colors.deepOrange)),
+            Text('Demolition Expert', style: AppTheme.heading.copyWith(color: Colors.deepOrange)),
             const SizedBox(height: 20),
             const Expanded(
               child: Center(
@@ -736,7 +737,7 @@ class _NegotiationMinigameDialog extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            Text('Negotiation Table', style: AppTheme.headingStyle.copyWith(color: Colors.green)),
+            Text('Negotiation Table', style: AppTheme.heading.copyWith(color: Colors.green)),
             const SizedBox(height: 20),
             const Expanded(
               child: Center(
@@ -782,7 +783,7 @@ class _IntimidationMinigameDialog extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            Text('Intimidation Tactics', style: AppTheme.headingStyle.copyWith(color: Colors.amber)),
+            Text('Intimidation Tactics', style: AppTheme.heading.copyWith(color: Colors.amber)),
             const SizedBox(height: 20),
             const Expanded(
               child: Center(
