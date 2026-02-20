@@ -8,7 +8,6 @@ class AppTheme {
     primary: const Color(0xFFFFD700), // Gold
     secondary: const Color(0xFFFF8C00), // Orange-gold
     surface: const Color(0xFF1a1a1a), // Dark surface
-    background: const Color(0xFF000000), // Black background
   );
 
   static final ColorScheme _lightColorScheme = ColorScheme.fromSeed(
@@ -47,11 +46,8 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       colorScheme: _darkColorScheme,
-      cardTheme: CardThemeData(
+      cardTheme: const CardTheme(
         elevation: 4,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -81,11 +77,8 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       colorScheme: _lightColorScheme,
-      cardTheme: CardThemeData(
+      cardTheme: const CardTheme(
         elevation: 4,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -112,8 +105,9 @@ class AppTheme {
   }
 
   // Utility method to replace deprecated withOpacity
+  // ignore: deprecated_member_use
   static Color withOpacity(Color color, double opacity) {
-    return color.withValues(alpha: opacity);
+    return color.withOpacity(opacity);
   }
 
   // Android-optimized colors for better visibility
