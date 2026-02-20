@@ -219,7 +219,7 @@ class _SaveGameCard extends StatelessWidget {
     final character = saveData.character;
     
     return Card(
-      color: AppTheme.surface,
+      color: const Color(0xFF1A1A2E),
       margin: const EdgeInsets.only(bottom: 12),
       child: InkWell(
         onTap: onLoad,
