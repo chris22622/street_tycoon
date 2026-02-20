@@ -48,6 +48,34 @@ class LawyerSpecialization {
       caseTypeModifiers: caseTypeModifiers ?? this.caseTypeModifiers,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'specialty': specialty,
+      'level': level,
+      'experience': experience,
+      'successRate': successRate,
+      'baseCost': baseCost,
+      'specialAbilities': specialAbilities,
+      'caseTypeModifiers': caseTypeModifiers,
+    };
+  }
+
+  factory LawyerSpecialization.fromJson(Map<String, dynamic> json) {
+    return LawyerSpecialization(
+      id: json['id'],
+      name: json['name'],
+      specialty: json['specialty'],
+      level: json['level'],
+      experience: json['experience'],
+      successRate: json['successRate'],
+      baseCost: json['baseCost'],
+      specialAbilities: List<String>.from(json['specialAbilities']),
+      caseTypeModifiers: Map<String, double>.from(json['caseTypeModifiers']),
+    );
+  }
 }
 
 @immutable
@@ -108,6 +136,38 @@ class CourtCase {
 
   double get evidenceStrength => evidence.values.fold(0.0, (a, b) => a + b) / evidence.length;
   int get maxSentence => charges.length * 10; // Simplified calculation
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'type': type,
+      'severity': severity,
+      'charges': charges,
+      'evidence': evidence,
+      'prosecutorName': prosecutorName,
+      'prosecutorLevel': prosecutorLevel,
+      'judgeName': judgeName,
+      'judgeCorruption': judgeCorruption,
+      'trialDate': trialDate.toIso8601String(),
+      'status': status,
+    };
+  }
+
+  factory CourtCase.fromJson(Map<String, dynamic> json) {
+    return CourtCase(
+      id: json['id'],
+      type: json['type'],
+      severity: json['severity'],
+      charges: List<String>.from(json['charges']),
+      evidence: Map<String, double>.from(json['evidence']),
+      prosecutorName: json['prosecutorName'],
+      prosecutorLevel: json['prosecutorLevel'],
+      judgeName: json['judgeName'],
+      judgeCorruption: json['judgeCorruption'],
+      trialDate: DateTime.parse(json['trialDate']),
+      status: json['status'],
+    );
+  }
 }
 
 @immutable
@@ -159,6 +219,36 @@ class Witness {
       protectionLevel: protectionLevel ?? this.protectionLevel,
       leverage: leverage ?? this.leverage,
       isHostile: isHostile ?? this.isHostile,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'type': type,
+      'credibility': credibility,
+      'reliability': reliability,
+      'testimony': testimony,
+      'isProtected': isProtected,
+      'protectionLevel': protectionLevel,
+      'leverage': leverage,
+      'isHostile': isHostile,
+    };
+  }
+
+  factory Witness.fromJson(Map<String, dynamic> json) {
+    return Witness(
+      id: json['id'],
+      name: json['name'],
+      type: json['type'],
+      credibility: json['credibility'],
+      reliability: json['reliability'],
+      testimony: List<String>.from(json['testimony']),
+      isProtected: json['isProtected'] ?? false,
+      protectionLevel: json['protectionLevel'] ?? 'none',
+      leverage: json['leverage'],
+      isHostile: json['isHostile'] ?? false,
     );
   }
 }
@@ -218,6 +308,38 @@ class PrisonSystem {
       hasOutsideConnections: hasOutsideConnections ?? this.hasOutsideConnections,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'facilityId': facilityId,
+      'name': name,
+      'securityLevel': securityLevel,
+      'gangs': gangs,
+      'allies': allies,
+      'enemies': enemies,
+      'respect': respect,
+      'protection': protection,
+      'availableActivities': availableActivities,
+      'resources': resources,
+      'hasOutsideConnections': hasOutsideConnections,
+    };
+  }
+
+  factory PrisonSystem.fromJson(Map<String, dynamic> json) {
+    return PrisonSystem(
+      facilityId: json['facilityId'],
+      name: json['name'],
+      securityLevel: json['securityLevel'],
+      gangs: Map<String, int>.from(json['gangs']),
+      allies: Map<String, int>.from(json['allies']),
+      enemies: Map<String, int>.from(json['enemies']),
+      respect: json['respect'],
+      protection: json['protection'],
+      availableActivities: List<String>.from(json['availableActivities']),
+      resources: Map<String, int>.from(json['resources']),
+      hasOutsideConnections: json['hasOutsideConnections'] ?? false,
+    );
+  }
 }
 
 @immutable
@@ -265,6 +387,34 @@ class ParoleStatus {
       paroleOfficer: paroleOfficer ?? this.paroleOfficer,
       successProbability: successProbability ?? this.successProbability,
       requirements: requirements ?? this.requirements,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'isEligible': isEligible,
+      'eligibilityDate': eligibilityDate.toIso8601String(),
+      'hearingDate': hearingDate.toIso8601String(),
+      'goodBehaviorPoints': goodBehaviorPoints,
+      'violationPoints': violationPoints,
+      'conditions': conditions,
+      'paroleOfficer': paroleOfficer,
+      'successProbability': successProbability,
+      'requirements': requirements,
+    };
+  }
+
+  factory ParoleStatus.fromJson(Map<String, dynamic> json) {
+    return ParoleStatus(
+      isEligible: json['isEligible'],
+      eligibilityDate: DateTime.parse(json['eligibilityDate']),
+      hearingDate: DateTime.parse(json['hearingDate']),
+      goodBehaviorPoints: json['goodBehaviorPoints'],
+      violationPoints: json['violationPoints'],
+      conditions: List<String>.from(json['conditions']),
+      paroleOfficer: json['paroleOfficer'],
+      successProbability: json['successProbability'],
+      requirements: Map<String, String>.from(json['requirements']),
     );
   }
 }
@@ -320,6 +470,36 @@ class LegalBusiness {
       lastInspection: lastInspection ?? this.lastInspection,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'type': type,
+      'legitimacy': legitimacy,
+      'monthlyIncome': monthlyIncome,
+      'suspicionLevel': suspicionLevel,
+      'licenses': licenses,
+      'inspectionHistory': inspectionHistory,
+      'hasAudits': hasAudits,
+      'lastInspection': lastInspection.toIso8601String(),
+    };
+  }
+
+  factory LegalBusiness.fromJson(Map<String, dynamic> json) {
+    return LegalBusiness(
+      id: json['id'],
+      name: json['name'],
+      type: json['type'],
+      legitimacy: json['legitimacy'],
+      monthlyIncome: json['monthlyIncome'],
+      suspicionLevel: json['suspicionLevel'],
+      licenses: List<String>.from(json['licenses']),
+      inspectionHistory: Map<String, String>.from(json['inspectionHistory']),
+      hasAudits: json['hasAudits'] ?? false,
+      lastInspection: DateTime.parse(json['lastInspection']),
+    );
+  }
 }
 
 @immutable
@@ -359,6 +539,30 @@ class InternationalLaw {
       safeHavens: safeHavens ?? this.safeHavens,
       corruptionLevels: corruptionLevels ?? this.corruptionLevels,
       internationalWarrants: internationalWarrants ?? this.internationalWarrants,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'countryId': countryId,
+      'extraditionTreaties': extraditionTreaties,
+      'diplomaticImmunities': diplomaticImmunities,
+      'jurisdictionStrengths': jurisdictionStrengths,
+      'safeHavens': safeHavens,
+      'corruptionLevels': corruptionLevels,
+      'internationalWarrants': internationalWarrants,
+    };
+  }
+
+  factory InternationalLaw.fromJson(Map<String, dynamic> json) {
+    return InternationalLaw(
+      countryId: json['countryId'],
+      extraditionTreaties: Map<String, String>.from(json['extraditionTreaties']),
+      diplomaticImmunities: List<String>.from(json['diplomaticImmunities']),
+      jurisdictionStrengths: Map<String, double>.from(json['jurisdictionStrengths']),
+      safeHavens: List<String>.from(json['safeHavens']),
+      corruptionLevels: Map<String, int>.from(json['corruptionLevels']),
+      internationalWarrants: List<String>.from(json['internationalWarrants']),
     );
   }
 }
