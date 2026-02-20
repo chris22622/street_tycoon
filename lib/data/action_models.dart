@@ -52,6 +52,36 @@ class ShootoutScenario {
       rewards: rewards ?? this.rewards,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'location': location,
+      'scenario': scenario,
+      'enemies': enemies,
+      'enemyStats': enemyStats,
+      'availableWeapons': availableWeapons,
+      'cover': cover,
+      'objectives': objectives,
+      'timeLimit': timeLimit,
+      'rewards': rewards,
+    };
+  }
+
+  factory ShootoutScenario.fromJson(Map<String, dynamic> json) {
+    return ShootoutScenario(
+      id: json['id'],
+      location: json['location'],
+      scenario: json['scenario'],
+      enemies: List<String>.from(json['enemies']),
+      enemyStats: Map<String, int>.from(json['enemyStats']),
+      availableWeapons: List<String>.from(json['availableWeapons']),
+      cover: Map<String, String>.from(json['cover']),
+      objectives: List<String>.from(json['objectives']),
+      timeLimit: json['timeLimit'],
+      rewards: Map<String, double>.from(json['rewards']),
+    );
+  }
 }
 
 @immutable
@@ -103,6 +133,36 @@ class CarChase {
       duration: duration ?? this.duration,
       difficulty: difficulty ?? this.difficulty,
       penalties: penalties ?? this.penalties,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'startLocation': startLocation,
+      'route': route,
+      'pursuers': pursuers,
+      'vehicleStats': vehicleStats,
+      'obstacles': obstacles,
+      'escapeRoutes': escapeRoutes,
+      'duration': duration,
+      'difficulty': difficulty,
+      'penalties': penalties,
+    };
+  }
+
+  factory CarChase.fromJson(Map<String, dynamic> json) {
+    return CarChase(
+      id: json['id'],
+      startLocation: json['startLocation'],
+      route: json['route'],
+      pursuers: List<String>.from(json['pursuers']),
+      vehicleStats: Map<String, int>.from(json['vehicleStats']),
+      obstacles: List<String>.from(json['obstacles']),
+      escapeRoutes: Map<String, String>.from(json['escapeRoutes']),
+      duration: json['duration'],
+      difficulty: json['difficulty'],
+      penalties: Map<String, double>.from(json['penalties']),
     );
   }
 }
@@ -158,6 +218,36 @@ class StealthMission {
       detectionRisk: detectionRisk ?? this.detectionRisk,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'target': target,
+      'objective': objective,
+      'securityLevels': securityLevels,
+      'guards': guards,
+      'securitySystems': securitySystems,
+      'entryPoints': entryPoints,
+      'disguises': disguises,
+      'timeWindow': timeWindow,
+      'detectionRisk': detectionRisk,
+    };
+  }
+
+  factory StealthMission.fromJson(Map<String, dynamic> json) {
+    return StealthMission(
+      id: json['id'],
+      target: json['target'],
+      objective: json['objective'],
+      securityLevels: Map<String, int>.from(json['securityLevels']),
+      guards: List<String>.from(json['guards']),
+      securitySystems: Map<String, String>.from(json['securitySystems']),
+      entryPoints: List<String>.from(json['entryPoints']),
+      disguises: Map<String, String>.from(json['disguises']),
+      timeWindow: json['timeWindow'],
+      detectionRisk: json['detectionRisk'],
+    );
+  }
 }
 
 @immutable
@@ -205,6 +295,34 @@ class Negotiation {
       possibleOutcomes: possibleOutcomes ?? this.possibleOutcomes,
       timeLimit: timeLimit ?? this.timeLimit,
       successRates: successRates ?? this.successRates,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'scenario': scenario,
+      'participants': participants,
+      'relationships': relationships,
+      'demands': demands,
+      'leverages': leverages,
+      'possibleOutcomes': possibleOutcomes,
+      'timeLimit': timeLimit,
+      'successRates': successRates,
+    };
+  }
+
+  factory Negotiation.fromJson(Map<String, dynamic> json) {
+    return Negotiation(
+      id: json['id'],
+      scenario: json['scenario'],
+      participants: List<String>.from(json['participants']),
+      relationships: Map<String, int>.from(json['relationships']),
+      demands: Map<String, String>.from(json['demands']),
+      leverages: Map<String, String>.from(json['leverages']),
+      possibleOutcomes: List<String>.from(json['possibleOutcomes']),
+      timeLimit: json['timeLimit'],
+      successRates: Map<String, double>.from(json['successRates']),
     );
   }
 }
@@ -256,6 +374,34 @@ class HackingMinigame {
       rewards: rewards ?? this.rewards,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'target': target,
+      'difficulty': difficulty,
+      'requiredSkills': requiredSkills,
+      'securityLayers': securityLayers,
+      'tools': tools,
+      'timeLimit': timeLimit,
+      'detectionChance': detectionChance,
+      'rewards': rewards,
+    };
+  }
+
+  factory HackingMinigame.fromJson(Map<String, dynamic> json) {
+    return HackingMinigame(
+      id: json['id'],
+      target: json['target'],
+      difficulty: json['difficulty'],
+      requiredSkills: List<String>.from(json['requiredSkills']),
+      securityLayers: Map<String, int>.from(json['securityLayers']),
+      tools: List<String>.from(json['tools']),
+      timeLimit: json['timeLimit'],
+      detectionChance: json['detectionChance'],
+      rewards: json['rewards'],
+    );
+  }
 }
 
 @immutable
@@ -305,6 +451,34 @@ class DemolitionMission {
       escapeTime: escapeTime ?? this.escapeTime,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'target': target,
+      'explosiveType': explosiveType,
+      'structuralPoints': structuralPoints,
+      'civilianAreas': civilianAreas,
+      'collateralDamage': collateralDamage,
+      'preparationTime': preparationTime,
+      'requiredMaterials': requiredMaterials,
+      'escapeTime': escapeTime,
+    };
+  }
+
+  factory DemolitionMission.fromJson(Map<String, dynamic> json) {
+    return DemolitionMission(
+      id: json['id'],
+      target: json['target'],
+      explosiveType: json['explosiveType'],
+      structuralPoints: Map<String, int>.from(json['structuralPoints']),
+      civilianAreas: List<String>.from(json['civilianAreas']),
+      collateralDamage: json['collateralDamage'],
+      preparationTime: json['preparationTime'],
+      requiredMaterials: List<String>.from(json['requiredMaterials']),
+      escapeTime: json['escapeTime'],
+    );
+  }
 }
 
 @immutable
@@ -352,6 +526,34 @@ class SurveillanceOperation {
       detectionRisk: detectionRisk ?? this.detectionRisk,
       intelligence: intelligence ?? this.intelligence,
       operatives: operatives ?? this.operatives,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'target': target,
+      'method': method,
+      'equipment': equipment,
+      'locations': locations,
+      'duration': duration,
+      'detectionRisk': detectionRisk,
+      'intelligence': intelligence,
+      'operatives': operatives,
+    };
+  }
+
+  factory SurveillanceOperation.fromJson(Map<String, dynamic> json) {
+    return SurveillanceOperation(
+      id: json['id'],
+      target: json['target'],
+      method: json['method'],
+      equipment: Map<String, String>.from(json['equipment']),
+      locations: List<String>.from(json['locations']),
+      duration: json['duration'],
+      detectionRisk: json['detectionRisk'],
+      intelligence: json['intelligence'],
+      operatives: List<String>.from(json['operatives']),
     );
   }
 }
