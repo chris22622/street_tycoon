@@ -1,134 +1,131 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  // Street Tycoon themed colors - Gold and Black like money/luxury
-  static final ColorScheme _darkColorScheme = ColorScheme.fromSeed(
-    seedColor: const Color(0xFFFFD700), // Gold primary
-    brightness: Brightness.dark,
-    primary: const Color(0xFFFFD700), // Gold
-    secondary: const Color(0xFFFF8C00), // Orange-gold
-    surface: const Color(0xFF1a1a1a), // Dark surface
-  );
+  // ── Core Colors ──
+  static const Color gold = Color(0xFFFFD700);
+  static const Color darkGold = Color(0xFFFF8C00);
+  static const Color accent = Color(0xFF00FFFF);
+  static const Color bg = Color(0xFF0D0D0D);
+  static const Color surface = Color(0xFF1A1A1A);
+  static const Color surfaceLight = Color(0xFF2A2A2A);
 
-  static final ColorScheme _lightColorScheme = ColorScheme.fromSeed(
-    seedColor: const Color(0xFFFFD700), // Gold primary
-    brightness: Brightness.light,
-    primary: const Color(0xFFFFD700), // Gold
-    secondary: const Color(0xFFFF8C00), // Orange-gold
-  );
-
-  // Static color properties for easy access
-  static const Color primaryColor = Color(0xFFFFD700); // Gold
-  static const Color secondaryColor = Color(0xFFFF8C00); // Orange-gold
-  static const Color accentColor = Color(0xFF00FFFF); // Cyan accent
-  static const Color backgroundColor = Color(0xFF000000); // Black
-  static const Color cardColor = Color(0xFF1a1a1a); // Dark surface
-  static const Color textColor = Color(0xFFFFFFFF); // White text
-
-  // Text styles
-  static const TextStyle headingStyle = TextStyle(
-    fontSize: 18,
-    fontWeight: FontWeight.bold,
-    color: textColor,
-  );
-
-  static const TextStyle bodyStyle = TextStyle(
-    fontSize: 14,
-    color: textColor,
-  );
-
-  static const TextStyle labelStyle = TextStyle(
-    fontSize: 12,
-    color: Color(0xFFCCCCCC),
-  );
+  // ── Status Colors ──
+  static const Color success = Color(0xFF4CAF50);
+  static const Color danger = Color(0xFFEF5350);
+  static const Color warning = Color(0xFFFF9800);
+  static const Color info = Color(0xFF42A5F5);
 
   static ThemeData get darkTheme {
     return ThemeData(
       useMaterial3: true,
-      colorScheme: _darkColorScheme,
-      cardTheme: const CardTheme(
-        elevation: 4,
+      brightness: Brightness.dark,
+      scaffoldBackgroundColor: bg,
+      colorScheme: const ColorScheme.dark(
+        primary: gold,
+        secondary: darkGold,
+        tertiary: accent,
+        surface: surface,
+        onPrimary: Colors.black,
+        onSecondary: Colors.black,
+        onSurface: Colors.white,
       ),
+
+      // ── Navigation Bar ──
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: surface,
+        height: 64,
+        indicatorColor: gold.withOpacity(0.15),
+        labelTextStyle: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: gold);
+          }
+          return TextStyle(fontSize: 11, color: Colors.grey.shade500);
+        }),
+        iconTheme: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return const IconThemeData(color: gold, size: 22);
+          }
+          return IconThemeData(color: Colors.grey.shade500, size: 22);
+        }),
+      ),
+
+      // ── Tab Bar ──
+      tabBarTheme: TabBarTheme(
+        labelColor: gold,
+        unselectedLabelColor: Colors.grey.shade500,
+        indicatorColor: gold,
+        indicatorSize: TabBarIndicatorSize.label,
+        labelStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+        unselectedLabelStyle: const TextStyle(fontSize: 13),
+      ),
+
+      // ── Cards ──
+      cardTheme: CardTheme(
+        color: surface,
+        elevation: 0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        margin: const EdgeInsets.symmetric(vertical: 4),
+      ),
+
+      // ── Chips ──
+      chipTheme: ChipThemeData(
+        backgroundColor: surfaceLight,
+        selectedColor: gold.withOpacity(0.2),
+        labelStyle: const TextStyle(fontSize: 12),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        side: BorderSide.none,
+      ),
+
+      // ── Buttons ──
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          backgroundColor: gold,
+          foregroundColor: Colors.black,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         ),
       ),
-      filledButtonTheme: FilledButtonThemeData(
-        style: FilledButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        ),
+
+      // ── Text ──
+      textTheme: const TextTheme(
+        headlineMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+        titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
+        bodyMedium: TextStyle(fontSize: 14, color: Colors.white70),
+        labelSmall: TextStyle(fontSize: 11, color: Colors.white54),
       ),
-      chipTheme: ChipThemeData(
+
+      // ── AppBar ──
+      appBarTheme: const AppBarTheme(
+        backgroundColor: bg,
+        elevation: 0,
+        centerTitle: true,
+        titleTextStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: gold),
+      ),
+
+      // ── Popup Menu ──
+      popupMenuTheme: PopupMenuThemeData(
+        color: surfaceLight,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
+
+      // ── Dialogs ──
+      dialogTheme: DialogTheme(
+        backgroundColor: surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      ),
+
+      // ── Bottom Sheet ──
+      bottomSheetTheme: const BottomSheetThemeData(
+        backgroundColor: surface,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
         ),
       ),
     );
   }
 
-  static ThemeData get lightTheme {
-    return ThemeData(
-      useMaterial3: true,
-      colorScheme: _lightColorScheme,
-      cardTheme: const CardTheme(
-        elevation: 4,
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        ),
-      ),
-      filledButtonTheme: FilledButtonThemeData(
-        style: FilledButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        ),
-      ),
-      chipTheme: ChipThemeData(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-      ),
-    );
-  }
-
-  // Utility method to replace deprecated withOpacity
-  // ignore: deprecated_member_use
-  static Color withOpacity(Color color, double opacity) {
-    return color.withOpacity(opacity);
-  }
-
-  // Android-optimized colors for better visibility
-  static Color get androidGreen => const Color(0xFF4CAF50);
-  static Color get androidRed => const Color(0xFFF44336);
-  static Color get androidBlue => const Color(0xFF2196F3);
-  static Color get androidOrange => const Color(0xFFFF9800);
-  static Color get androidPurple => const Color(0xFF9C27B0);
-
-  // Performance optimized gradients for Android
-  static const LinearGradient androidBackgroundGradient = LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    stops: [0.0, 1.0],
-    colors: [Color(0xFF000000), Color(0xFF1a1a1a)],
-  );
-
-  static const LinearGradient androidCardGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    stops: [0.0, 1.0],
-    colors: [Color(0xFF1a1a1a), Color(0xFF2d2d2d)],
-  );
+  // ── Utility ──
+  static TextStyle get heading => const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white);
+  static TextStyle get body => const TextStyle(fontSize: 14, color: Colors.white70);
+  static TextStyle get label => const TextStyle(fontSize: 12, color: Colors.white54);
 }
