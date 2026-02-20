@@ -68,9 +68,7 @@ class _CharacterCreationScreenState extends ConsumerState<CharacterCreationScree
             children: FaceCategory.values.map((category) {
               return GridView.builder(
                 padding: const EdgeInsets.all(12),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4, crossAxisSpacing: 8, mainAxisSpacing: 8,
-                ),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4, crossAxisSpacing: 8, mainAxisSpacing: 8),
                 itemCount: 16,
                 itemBuilder: (ctx, index) {
                   final row = index ~/ 4;
@@ -78,11 +76,7 @@ class _CharacterCreationScreenState extends ConsumerState<CharacterCreationScree
                   final face = FaceSelection(category: category, row: row, col: col);
                   return GestureDetector(
                     onTap: () => setState(() => _selectedFace = face),
-                    child: FaceSpriteWidget(
-                      face: face,
-                      size: 70,
-                      isSelected: _selectedFace == face,
-                    ),
+                    child: FaceSpriteWidget(face: face, size: 70, isSelected: _selectedFace == face),
                   );
                 },
               );
@@ -104,8 +98,7 @@ class _CharacterCreationScreenState extends ConsumerState<CharacterCreationScree
             controller: _firstNameController,
             style: const TextStyle(color: Colors.white),
             decoration: InputDecoration(
-              labelText: 'First Name',
-              labelStyle: const TextStyle(color: Colors.grey),
+              labelText: 'First Name', labelStyle: const TextStyle(color: Colors.grey),
               enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey[700]!)),
               focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.amber)),
             ),
@@ -115,8 +108,7 @@ class _CharacterCreationScreenState extends ConsumerState<CharacterCreationScree
             controller: _lastNameController,
             style: const TextStyle(color: Colors.white),
             decoration: InputDecoration(
-              labelText: 'Last Name',
-              labelStyle: const TextStyle(color: Colors.grey),
+              labelText: 'Last Name', labelStyle: const TextStyle(color: Colors.grey),
               enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey[700]!)),
               focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.amber)),
             ),
@@ -157,8 +149,7 @@ class _CharacterCreationScreenState extends ConsumerState<CharacterCreationScree
           ElevatedButton(
             onPressed: _currentStep == 0 ? () => setState(() => _currentStep = 1) : _createCharacter,
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.amber,
-              foregroundColor: Colors.black,
+              backgroundColor: Colors.amber, foregroundColor: Colors.black,
               padding: const EdgeInsets.symmetric(vertical: 14),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
@@ -174,7 +165,6 @@ class _CharacterCreationScreenState extends ConsumerState<CharacterCreationScree
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Enter a first name'), backgroundColor: Colors.red));
       return;
     }
-    // Navigate to dashboard with character created
-    context.go('/dashboard');
+    context.go('/home');
   }
 }
