@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers.dart';
 import '../../data/character_development_models.dart';
+import 'package:go_router/go_router.dart';
 import '../../theme/app_theme.dart';
 import '../../util/formatters.dart';
 
@@ -42,12 +43,16 @@ class _CharacterDevelopmentScreenState extends ConsumerState<CharacterDevelopmen
     
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Character Development'),
-        backgroundColor: AppTheme.primaryColor,
+        title: Text('Character Development', style: AppTheme.heading.copyWith(fontSize: 20)),
+        backgroundColor: AppTheme.surface,
+        leading: IconButton(
+          onPressed: () => context.pop(),
+          icon: const Icon(Icons.arrow_back, color: AppTheme.gold),
+        ),
         elevation: 0,
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: AppTheme.accentColor,
+          indicatorColor: AppTheme.accent,
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
           tabs: const [
@@ -64,7 +69,7 @@ class _CharacterDevelopmentScreenState extends ConsumerState<CharacterDevelopmen
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [AppTheme.primaryColor, AppTheme.backgroundColor],
+            colors: [AppTheme.surface, AppTheme.bg],
           ),
         ),
         child: TabBarView(
@@ -102,10 +107,10 @@ class _CharacterDevelopmentScreenState extends ConsumerState<CharacterDevelopmen
                   margin: const EdgeInsets.only(right: 12),
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   decoration: BoxDecoration(
-                    color: isSelected ? AppTheme.accentColor : Colors.white24,
+                    color: isSelected ? AppTheme.accent : Colors.white24,
                     borderRadius: BorderRadius.circular(25),
                     border: Border.all(
-                      color: isSelected ? AppTheme.accentColor : Colors.white54,
+                      color: isSelected ? AppTheme.accent : Colors.white54,
                       width: 2,
                     ),
                   ),
@@ -157,7 +162,7 @@ class _CharacterDevelopmentScreenState extends ConsumerState<CharacterDevelopmen
   Widget _buildSkillCard(String skill, int level, double progress) {
     return Card(
       elevation: 8,
-      color: Colors.white10,
+      color: AppTheme.surface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: InkWell(
         onTap: () => _showSkillDetails(skill, level),
@@ -208,7 +213,7 @@ class _CharacterDevelopmentScreenState extends ConsumerState<CharacterDevelopmen
               ElevatedButton(
                 onPressed: () => _trainSkill(skill),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.accentColor,
+                  backgroundColor: AppTheme.accent,
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   minimumSize: const Size(0, 30),
                 ),
@@ -237,7 +242,7 @@ class _CharacterDevelopmentScreenState extends ConsumerState<CharacterDevelopmen
           // Reputation Overview Card
           Card(
             elevation: 8,
-            color: Colors.white10,
+            color: AppTheme.surface,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             child: Padding(
               padding: const EdgeInsets.all(20),
@@ -307,7 +312,7 @@ class _CharacterDevelopmentScreenState extends ConsumerState<CharacterDevelopmen
     final progress = (value / maxValue).clamp(0.0, 1.0);
     final color = label == 'Police Heat' 
         ? (progress > 0.7 ? Colors.red : progress > 0.4 ? Colors.orange : Colors.green)
-        : AppTheme.accentColor;
+        : AppTheme.accent;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
@@ -354,7 +359,7 @@ class _CharacterDevelopmentScreenState extends ConsumerState<CharacterDevelopmen
           // Health Overview
           Card(
             elevation: 8,
-            color: Colors.white10,
+            color: AppTheme.surface,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             child: Padding(
               padding: const EdgeInsets.all(20),
@@ -447,7 +452,7 @@ class _CharacterDevelopmentScreenState extends ConsumerState<CharacterDevelopmen
           // Relationships Overview
           Card(
             elevation: 8,
-            color: Colors.white10,
+            color: AppTheme.surface,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             child: Padding(
               padding: const EdgeInsets.all(20),
@@ -725,7 +730,7 @@ class _CharacterDevelopmentScreenState extends ConsumerState<CharacterDevelopmen
   Widget _buildTrainingCard(Map<String, dynamic> program) {
     return Card(
       elevation: 8,
-      color: Colors.white10,
+      color: AppTheme.surface,
       margin: const EdgeInsets.only(bottom: 16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Padding(
@@ -873,7 +878,7 @@ class _CharacterDevelopmentScreenState extends ConsumerState<CharacterDevelopmen
   Widget _buildHealthActivity(String name, IconData icon, Color color, VoidCallback onTap) {
     return Card(
       elevation: 8,
-      color: Colors.white10,
+      color: AppTheme.surface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: InkWell(
         onTap: onTap,
@@ -944,7 +949,7 @@ class _CharacterDevelopmentScreenState extends ConsumerState<CharacterDevelopmen
   Widget _buildRelationshipAction(String title, String description, IconData icon, Color color, VoidCallback onTap) {
     return Card(
       elevation: 8,
-      color: Colors.white10,
+      color: AppTheme.surface,
       margin: const EdgeInsets.only(bottom: 12),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: ListTile(
@@ -976,7 +981,7 @@ class _CharacterDevelopmentScreenState extends ConsumerState<CharacterDevelopmen
   Widget _buildReputationAction(String title, IconData icon, Color color, VoidCallback onTap) {
     return Card(
       elevation: 8,
-      color: Colors.white10,
+      color: AppTheme.surface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: InkWell(
         onTap: onTap,
@@ -1048,7 +1053,7 @@ class _CharacterDevelopmentScreenState extends ConsumerState<CharacterDevelopmen
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: Colors.grey[900],
+        backgroundColor: AppTheme.surface,
         title: Text(
           skill,
           style: const TextStyle(color: Colors.white),
