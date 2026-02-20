@@ -1,0 +1,10 @@
+{
+  "baseRate": 0.95,
+  "decay": 0.82,
+  "bribeMultiplier": 0.85,
+  "maxHeat": 100,
+  "minHeat": 0,
+  "warningThreshold": 75,
+  "criticalThreshold": 90,
+  "decayIntervalDays": 1
+}
