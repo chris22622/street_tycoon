@@ -2,75 +2,61 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../providers.dart';
-import '../../data/constants.dart';
 import '../../data/models.dart';
-import '../../data/character_models.dart';
+import '../../data/constants.dart';
 import '../../util/formatters.dart';
-import '../../util/responsive_helper.dart';
-import '../../theme/app_theme.dart';
-import 'advanced_banking_screen.dart';
 import '../widgets/market_table_ultra_clean.dart';
-import '../widgets/heat_gauge.dart';
 import '../widgets/event_feed.dart';
-import '../widgets/inventory_drawer.dart';
-import '../widgets/upgrades_modal.dart';
-import '../widgets/court_modals.dart';
-import '../widgets/confirm_end_day.dart';
-import '../widgets/goal_progress_pill.dart';
-import '../widgets/statistics_dashboard.dart';
-import '../widgets/random_event_dialog.dart';
+import '../widgets/contracts_board.dart';
 import '../widgets/weapons_shop.dart';
-import '../widgets/prison_operations.dart';
-import '../widgets/interstate_operations.dart';
-import '../widgets/gang_warfare.dart';
-import '../widgets/assets_management_new.dart';
-import '../widgets/bribery_corruption_new.dart';
 import '../widgets/combat_heist_new.dart';
-import '../widgets/territory_control.dart';
-import '../widgets/prestige_system.dart';
-import '../widgets/federal_investigation.dart';
-import '../widgets/activity_log_sheet.dart';
-import '../widgets/crime_sheet.dart';
-import '../widgets/face_sprite_widget.dart';
+import '../widgets/prison_operations.dart';
+import '../widgets/assets_management_new.dart';
+import '../widgets/territory_control_widget.dart';
+import '../widgets/interstate_operations.dart';
+import '../widgets/prestige_system_widget.dart';
+import '../widgets/federal_investigations.dart';
+import '../widgets/gang_warfare.dart';
+import '../widgets/bribery_corruption_new.dart';
+import '../widgets/lawyer_system_widget.dart';
+import '../widgets/crew_loyalty_widget.dart';
+import '../widgets/goal_progress_pill.dart';
 import '../widgets/transaction_history_widget.dart';
+import '../widgets/inventory_drawer.dart';
+import '../widgets/energy_pill.dart';
+import '../widgets/heat_gauge.dart';
+import '../widgets/statistics_dashboard.dart';
+import '../widgets/activity_log_sheet.dart';
+import '../widgets/confirm_end_day.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
+
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  int _currentIndex = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final gameState = ref.read(gameControllerProvider);
-      if (gameState.day == 1) {
-        _showDisclaimerDialog();
-      }
-    });
-  }
+  int _currentTab = 0;
 
   @override
   Widget build(BuildContext context) {
-    final gameState = ref.watch(gameControllerProvider);
+    final gs = ref.watch(gameControllerProvider);
+
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
-            _buildTopBar(context, gameState),
+            _buildTopBar(gs),
             Expanded(
               child: IndexedStack(
-                index: _currentIndex,
+                index: _currentTab,
                 children: [
-                  _marketPage(context, gameState),
-                  _opsPage(context, gameState),
-                  _empirePage(context, gameState),
-                  _crewPage(context, gameState),
-                  _youPage(context, gameState),
+                  _marketPage(gs),
+                  _opsPage(),
+                  _empirePage(),
+                  _crewPage(),
+                  _youPage(gs),
                 ],
               ),
             ),
@@ -78,13 +64,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
       ),
       bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex,
-        onDestinationSelected: (i) => setState(() => _currentIndex = i),
-        height: 64,
-        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+        selectedIndex: _currentTab,
+        onDestinationSelected: (i) => setState(() => _currentTab = i),
         destinations: const [
           NavigationDestination(icon: Icon(Icons.storefront), label: 'Market'),
-          NavigationDestination(icon: Icon(Icons.flash_on), label: 'Ops'),
+          NavigationDestination(icon: Icon(Icons.local_fire_department), label: 'Ops'),
           NavigationDestination(icon: Icon(Icons.domain), label: 'Empire'),
           NavigationDestination(icon: Icon(Icons.groups), label: 'Crew'),
           NavigationDestination(icon: Icon(Icons.person), label: 'You'),
@@ -93,58 +77,56 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  Widget _buildTopBar(BuildContext context, dynamic gs) {
+  Widget _buildTopBar(GameState gs) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
-        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
-      ),
+      color: Theme.of(context).colorScheme.surface,
       child: Row(
         children: [
-          GestureDetector(
-            onTap: () => context.push('/character-development'),
-            child: CircleAvatar(
-              radius: 18,
-              backgroundColor: Colors.grey.shade800,
-              child: gs.characterData != null
-                  ? ClipOval(child: FaceSpriteWidget(characterData: gs.characterData!, size: 36))
-                  : const Icon(Icons.person, size: 20),
+          CircleAvatar(
+            radius: 18,
+            backgroundColor: const Color(0xFFFFD700),
+            child: Text(
+              _getInitials(gs),
+              style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 12),
             ),
           ),
           const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(formatCurrency(gs.cash),
+                  style: const TextStyle(color: Color(0xFFFFD700), fontWeight: FontWeight.bold, fontSize: 16)),
+              Text('Day ${gs.day}/${gs.daysLimit}  \u2022  ${gs.area}',
+                  style: TextStyle(color: Colors.grey.shade400, fontSize: 11)),
+            ],
+          ),
+          const Spacer(),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: gs.heat > 60 ? Colors.red.shade900 : gs.heat > 30 ? Colors.orange.shade900 : Colors.green.shade900,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text('\$${Formatters.money(gs.cash)}',
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.greenAccent)),
-                Text('Day ${gs.day}/${gs.daysLimit} • ${gs.area}',
-                    style: TextStyle(fontSize: 11, color: Colors.grey.shade400)),
+                const Icon(Icons.whatshot, size: 14, color: Colors.white),
+                const SizedBox(width: 4),
+                Text('${gs.heat}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)),
               ],
             ),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-            decoration: BoxDecoration(
-              color: Colors.orange.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(mainAxisSize: MainAxisSize.min, children: [
-              const Icon(Icons.local_fire_department, size: 14, color: Colors.orange),
-              const SizedBox(width: 3),
-              Text('${gs.heat.toInt()}%', style: const TextStyle(fontSize: 11, color: Colors.orange)),
-            ]),
-          ),
           const SizedBox(width: 8),
           PopupMenuButton<String>(
-            icon: const Icon(Icons.menu, size: 22),
+            icon: const Icon(Icons.more_vert, color: Colors.white),
             onSelected: _handleMenuAction,
-            itemBuilder: (ctx) => [
-              const PopupMenuItem(value: 'inventory', child: Text('Inventory')),
-              const PopupMenuItem(value: 'stats', child: Text('Statistics')),
-              const PopupMenuItem(value: 'settings', child: Text('Settings')),
-              const PopupMenuItem(value: 'achievements', child: Text('Achievements')),
+            itemBuilder: (_) => const [
+              PopupMenuItem(value: 'settings', child: Text('Settings')),
+              PopupMenuItem(value: 'achievements', child: Text('Achievements')),
+              PopupMenuItem(value: 'endDay', child: Text('End Day')),
+              PopupMenuItem(value: 'save', child: Text('Save & Quit')),
             ],
           ),
         ],
@@ -152,216 +134,270 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
+  String _getInitials(GameState gs) {
+    final f = gs.character?.firstName;
+    final l = gs.character?.lastName;
+    if (f == null && l == null) return '?';
+    return '${f != null && f.isNotEmpty ? f[0] : ''}${l != null && l.isNotEmpty ? l[0] : ''}'.toUpperCase();
+  }
+
   void _handleMenuAction(String action) {
     switch (action) {
-      case 'inventory': _showInventoryDrawer(); break;
-      case 'stats': _showStatisticsDashboard(); break;
-      case 'settings': context.push('/settings'); break;
-      case 'achievements': context.push('/achievements'); break;
+      case 'settings':
+        context.push('/settings');
+      case 'achievements':
+        context.push('/achievements');
+      case 'endDay':
+        showDialog(context: context, builder: (_) => const ConfirmEndDay());
+      case 'save':
+        context.go('/save-selection');
     }
   }
 
-  Widget _marketPage(BuildContext context, dynamic gs) {
+  Widget _marketPage(GameState gs) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Area selector
           SizedBox(
             height: 36,
             child: ListView(
               scrollDirection: Axis.horizontal,
-              children: GameConstants.areas.map((area) {
-                final isSelected = gs.area == area;
-                return Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: ChoiceChip(
-                    label: Text(area, style: const TextStyle(fontSize: 12)),
-                    selected: isSelected,
-                    onSelected: (_) {
-                      ref.read(gameControllerProvider.notifier).changeArea(area);
-                    },
-                  ),
-                );
-              }).toList(),
+              children: AREAS.map((area) => Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: ChoiceChip(
+                  label: Text(area),
+                  selected: gs.area == area,
+                  onSelected: (_) {
+                    if (area != gs.area) {
+                      ref.read(gameControllerProvider.notifier).travel(area);
+                    }
+                  },
+                ),
+              )).toList(),
             ),
           ),
           const SizedBox(height: 12),
-          const MarketTableUltraClean(),
-          const SizedBox(height: 12),
+          const MarketTable(),
+          const SizedBox(height: 16),
+          // Quick actions
           Row(
             children: [
-              _actionChip(Icons.inventory_2, 'Pack', () => _showInventoryDrawer()),
+              Expanded(child: _actionChip(Icons.backpack, 'Stash', () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (_) => DraggableScrollableSheet(
+                    initialChildSize: 0.6,
+                    minChildSize: 0.3,
+                    maxChildSize: 0.9,
+                    builder: (_, sc) => InventoryDrawer(scrollController: sc),
+                  ),
+                );
+              })),
               const SizedBox(width: 8),
-              _actionChip(Icons.account_balance, 'Bank', () => _showBanking()),
+              Expanded(child: _actionChip(Icons.shield, 'Weapons', () {
+                showModalBottomSheet(context: context, builder: (_) => const WeaponsShop());
+              })),
               const SizedBox(width: 8),
-              _actionChip(Icons.upgrade, 'Upgrades', () => _showUpgradesModal()),
-              const SizedBox(width: 8),
-              _actionChip(Icons.nights_stay, 'End Day', () => _showEndDayConfirmation()),
+              Expanded(child: _actionChip(Icons.assignment, 'Contracts', () {
+                showModalBottomSheet(context: context, isScrollControlled: true, builder: (_) => const ContractsBoard());
+              })),
             ],
           ),
-          const SizedBox(height: 12),
-          const SizedBox(height: 200, child: EventFeed()),
+          const SizedBox(height: 16),
+          const EventFeed(),
         ],
       ),
     );
   }
 
   Widget _actionChip(IconData icon, String label, VoidCallback onTap) {
-    return Expanded(
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(10),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.3),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(mainAxisSize: MainAxisSize.min, children: [
-            Icon(icon, size: 20),
-            const SizedBox(height: 2),
-            Text(label, style: const TextStyle(fontSize: 10)),
+    return ActionChip(
+      avatar: Icon(icon, size: 16),
+      label: Text(label, style: const TextStyle(fontSize: 12)),
+      onPressed: onTap,
+    );
+  }
+
+  Widget _opsPage() {
+    return DefaultTabController(
+      length: 3,
+      child: Column(
+        children: [
+          const TabBar(tabs: [
+            Tab(text: 'Combat'),
+            Tab(text: 'Prison'),
+            Tab(text: 'Bribery'),
           ]),
-        ),
+          Expanded(
+            child: TabBarView(children: [
+              const CombatHeistWidget(),
+              const PrisonOperationsWidget(),
+              const BriberyCorruptionWidget(),
+            ]),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _opsPage(BuildContext context, dynamic gs) {
+  Widget _empirePage() {
     return DefaultTabController(
       length: 4,
-      child: Column(children: [
-        const TabBar(isScrollable: true, tabs: [
-          Tab(text: 'Contracts'),
-          Tab(text: 'Arsenal'),
-          Tab(text: 'Combat'),
-          Tab(text: 'Prison'),
-        ]),
-        Expanded(child: TabBarView(children: [
-          const CrimeSheet(),
-          const WeaponsShop(),
-          const CombatHeistNew(),
-          const PrisonOperations(),
-        ])),
-      ]),
-    );
-  }
-
-  Widget _empirePage(BuildContext context, dynamic gs) {
-    return DefaultTabController(
-      length: 5,
-      child: Column(children: [
-        const TabBar(isScrollable: true, tabs: [
-          Tab(text: 'Assets'),
-          Tab(text: 'Territory'),
-          Tab(text: 'Interstate'),
-          Tab(text: 'Prestige'),
-          Tab(text: 'Federal'),
-        ]),
-        Expanded(child: TabBarView(children: [
-          const AssetsManagementNew(),
-          const TerritoryControl(),
-          const InterstateOperations(),
-          const PrestigeSystem(),
-          const FederalInvestigation(),
-        ])),
-      ]),
-    );
-  }
-
-  Widget _crewPage(BuildContext context, dynamic gs) {
-    return DefaultTabController(
-      length: 3,
-      child: Column(children: [
-        const TabBar(tabs: [
-          Tab(text: 'Gang Wars'),
-          Tab(text: 'Corruption'),
-          Tab(text: 'Legal'),
-        ]),
-        Expanded(child: TabBarView(children: [
-          const GangWarfare(),
-          const BriberyCorruptionNew(),
-          const CourtModals(),
-        ])),
-      ]),
-    );
-  }
-
-  Widget _youPage(BuildContext context, dynamic gs) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(12),
-      child: Column(children: [
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(children: [
-              CircleAvatar(
-                radius: 32,
-                backgroundColor: Colors.grey.shade800,
-                child: gs.characterData != null
-                    ? ClipOval(child: FaceSpriteWidget(characterData: gs.characterData!, size: 64))
-                    : const Icon(Icons.person, size: 32),
-              ),
-              const SizedBox(width: 16),
-              Expanded(child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(gs.characterData?.name ?? 'Unknown',
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 4),
-                  Text('Reputation: ${gs.reputation}',
-                      style: TextStyle(fontSize: 12, color: Colors.grey.shade400)),
-                ],
-              )),
+      child: Column(
+        children: [
+          const TabBar(tabs: [
+            Tab(text: 'Territory'),
+            Tab(text: 'Interstate'),
+            Tab(text: 'Prestige'),
+            Tab(text: 'Federal'),
+          ]),
+          Expanded(
+            child: TabBarView(children: [
+              const TerritoryControlWidget(),
+              const InterstateOperations(),
+              const PrestigeSystemWidget(),
+              const FederalInvestigationsWidget(),
             ]),
           ),
-        ),
-        const SizedBox(height: 8),
-        Row(children: [
-          _statBadge('Cash', '\$${Formatters.money(gs.cash)}', Colors.green),
-          const SizedBox(width: 8),
-          _statBadge('Heat', '${gs.heat.toInt()}%', Colors.orange),
-          const SizedBox(width: 8),
-          _statBadge('Day', '${gs.day}/${gs.daysLimit}', Colors.blue),
-        ]),
-        const SizedBox(height: 8),
-        const GoalProgressPill(),
-        const SizedBox(height: 12),
-        GridView.count(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          crossAxisCount: 3,
-          mainAxisSpacing: 8,
-          crossAxisSpacing: 8,
-          childAspectRatio: 1.3,
-          children: [
-            _navTile(Icons.person_outline, 'Character', () => context.push('/character-development')),
-            _navTile(Icons.business_center, 'Business', () => context.push('/business-management')),
-            _navTile(Icons.emoji_events, 'Achieve', () => context.push('/achievements')),
-            _navTile(Icons.map, 'World Map', () => context.push('/world-map')),
-            _navTile(Icons.gavel, 'Legal', () => context.push('/legal-system')),
-            _navTile(Icons.receipt_long, 'Activity', () => _showActivityLog()),
-          ],
-        ),
-        const SizedBox(height: 12),
-        const TransactionHistoryWidget(),
-      ]),
+        ],
+      ),
+    );
+  }
+
+  Widget _crewPage() {
+    return DefaultTabController(
+      length: 3,
+      child: Column(
+        children: [
+          const TabBar(tabs: [
+            Tab(text: 'Gang Wars'),
+            Tab(text: 'Loyalty'),
+            Tab(text: 'Legal'),
+          ]),
+          Expanded(
+            child: TabBarView(children: [
+              const GangWarfareWidget(),
+              const CrewLoyaltyWidget(),
+              const LawyerSystemWidget(),
+            ]),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _youPage(GameState gs) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Character card
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 32,
+                    backgroundColor: const Color(0xFFFFD700),
+                    child: Text(
+                      _getInitials(gs),
+                      style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${gs.character?.firstName ?? "Unknown"} ${gs.character?.lastName ?? ""}',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        const SizedBox(height: 4),
+                        Text('Age: ${gs.character?.age ?? "?"}  \u2022  ${gs.area}',
+                            style: TextStyle(color: Colors.grey.shade400, fontSize: 12)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          // Stat badges row
+          Row(
+            children: [
+              _statBadge('Cash', formatCurrency(gs.cash), Colors.green),
+              const SizedBox(width: 8),
+              _statBadge('Bank', formatCurrency(gs.bank), Colors.blue),
+              const SizedBox(width: 8),
+              _statBadge('Energy', '${gs.energy}/${100}', Colors.amber),
+            ],
+          ),
+          const SizedBox(height: 12),
+          GoalProgressPill(gameState: gs),
+          const SizedBox(height: 16),
+          // Nav grid
+          GridView.count(
+            crossAxisCount: 3,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            mainAxisSpacing: 8,
+            crossAxisSpacing: 8,
+            children: [
+              _navTile(Icons.bar_chart, 'Stats', () {
+                showModalBottomSheet(context: context, isScrollControlled: true,
+                    builder: (_) => const StatisticsDashboard());
+              }),
+              _navTile(Icons.receipt_long, 'History', () {
+                showModalBottomSheet(context: context, isScrollControlled: true,
+                    builder: (_) => const TransactionHistoryWidget());
+              }),
+              _navTile(Icons.backpack, 'Inventory', () {
+                showModalBottomSheet(context: context, isScrollControlled: true,
+                    backgroundColor: Colors.transparent,
+                    builder: (_) => DraggableScrollableSheet(
+                      initialChildSize: 0.6, minChildSize: 0.3, maxChildSize: 0.9,
+                      builder: (_, sc) => InventoryDrawer(scrollController: sc),
+                    ));
+              }),
+              _navTile(Icons.emoji_events, 'Achievements', () => context.push('/achievements')),
+              _navTile(Icons.settings, 'Settings', () => context.push('/settings')),
+              _navTile(Icons.nights_stay, 'End Day', () {
+                showDialog(context: context, builder: (_) => const ConfirmEndDay());
+              }),
+            ],
+          ),
+          const SizedBox(height: 16),
+          const ActivityLogSheet(),
+        ],
+      ),
     );
   }
 
   Widget _statBadge(String label, String value, Color color) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withOpacity(0.15),
           borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: color.withOpacity(0.3)),
         ),
-        child: Column(children: [
-          Text(value, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: color)),
-          Text(label, style: TextStyle(fontSize: 10, color: Colors.grey.shade500)),
-        ]),
+        child: Column(
+          children: [
+            Text(value, style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 14)),
+            const SizedBox(height: 2),
+            Text(label, style: TextStyle(color: Colors.grey.shade400, fontSize: 10)),
+          ],
+        ),
       ),
     );
   }
@@ -372,59 +408,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       borderRadius: BorderRadius.circular(12),
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.2),
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Icon(icon, size: 24),
-          const SizedBox(height: 4),
-          Text(label, style: const TextStyle(fontSize: 11)),
-        ]),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: const Color(0xFFFFD700), size: 28),
+            const SizedBox(height: 6),
+            Text(label, style: const TextStyle(fontSize: 11)),
+          ],
+        ),
       ),
     );
-  }
-
-  void _showDisclaimerDialog() {
-    showDialog(context: context, builder: (context) => AlertDialog(
-      title: const Text('Disclaimer'),
-      content: const Text('This is a fictional simulation game. All activities depicted are entirely fictional and for entertainment purposes only.'),
-      actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text('I Understand'))],
-    ));
-  }
-
-  void _showRandomEvent() {
-    showDialog(context: context, builder: (context) => const RandomEventDialog());
-  }
-
-  void _showInventoryDrawer() {
-    showModalBottomSheet(context: context, isScrollControlled: true, backgroundColor: Colors.transparent, builder: (context) => const InventoryDrawer());
-  }
-
-  void _showBanking() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AdvancedBankingScreen()));
-  }
-
-  void _showUpgradesModal() { showDialog(context: context, builder: (context) => const UpgradesModal()); }
-
-  void _showCrimesSheet() {
-    showModalBottomSheet(context: context, isScrollControlled: true, backgroundColor: Colors.transparent, builder: (context) => const CrimeSheet());
-  }
-
-  void _showActivityLog() {
-    showModalBottomSheet(context: context, isScrollControlled: true, backgroundColor: Colors.transparent, builder: (context) => const ActivityLogSheet());
-  }
-
-  void _showEndDayConfirmation() { showDialog(context: context, builder: (context) => const ConfirmEndDay()); }
-
-  void _showStatisticsDashboard() {
-    showModalBottomSheet(context: context, isScrollControlled: true,
-      builder: (context) => DraggableScrollableSheet(initialChildSize: 0.8, maxChildSize: 0.95, minChildSize: 0.5,
-        builder: (context, sc) => Container(
-          decoration: BoxDecoration(borderRadius: const BorderRadius.vertical(top: Radius.circular(16)), color: Theme.of(context).scaffoldBackgroundColor),
-          child: Column(children: [
-            Container(margin: const EdgeInsets.only(top: 8), width: 40, height: 4, decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(2))),
-            Expanded(child: SingleChildScrollView(controller: sc, padding: const EdgeInsets.all(16), child: const StatisticsDashboard())),
-          ]),
-        )));
   }
 }
