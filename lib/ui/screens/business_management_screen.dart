@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers.dart';
+import 'package:go_router/go_router.dart';
 import '../../theme/app_theme.dart';
 import '../../util/formatters.dart';
 import 'dart:math';
@@ -59,12 +60,16 @@ class _BusinessManagementScreenState extends ConsumerState<BusinessManagementScr
     
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Business Empire'),
-        backgroundColor: AppTheme.primaryColor,
+        title: Text('Business Empire', style: AppTheme.heading.copyWith(fontSize: 20)),
+        backgroundColor: AppTheme.surface,
+        leading: IconButton(
+          onPressed: () => context.pop(),
+          icon: const Icon(Icons.arrow_back, color: AppTheme.gold),
+        ),
         elevation: 0,
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: AppTheme.accentColor,
+          indicatorColor: AppTheme.accent,
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white70,
           isScrollable: true,
@@ -83,7 +88,7 @@ class _BusinessManagementScreenState extends ConsumerState<BusinessManagementScr
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [AppTheme.primaryColor, AppTheme.backgroundColor],
+            colors: [AppTheme.surface, AppTheme.bg],
           ),
         ),
         child: TabBarView(
@@ -112,7 +117,7 @@ class _BusinessManagementScreenState extends ConsumerState<BusinessManagementScr
           // Portfolio Overview Card
           Card(
             elevation: 8,
-            color: Colors.white10,
+            color: AppTheme.surface,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             child: Padding(
               padding: const EdgeInsets.all(20),
@@ -215,7 +220,7 @@ class _BusinessManagementScreenState extends ConsumerState<BusinessManagementScr
           // Market Status
           Card(
             elevation: 8,
-            color: Colors.white10,
+            color: AppTheme.surface,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -274,7 +279,7 @@ class _BusinessManagementScreenState extends ConsumerState<BusinessManagementScr
     
     return Card(
       elevation: 8,
-      color: Colors.white10,
+      color: AppTheme.surface,
       margin: const EdgeInsets.only(bottom: 12),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Padding(
@@ -389,7 +394,7 @@ class _BusinessManagementScreenState extends ConsumerState<BusinessManagementScr
           // Crypto Market Header
           Card(
             elevation: 8,
-            color: Colors.white10,
+            color: AppTheme.surface,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -448,7 +453,7 @@ class _BusinessManagementScreenState extends ConsumerState<BusinessManagementScr
     
     return Card(
       elevation: 8,
-      color: Colors.white10,
+      color: AppTheme.surface,
       margin: const EdgeInsets.only(bottom: 12),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Padding(
@@ -563,7 +568,7 @@ class _BusinessManagementScreenState extends ConsumerState<BusinessManagementScr
           // Business Header
           Card(
             elevation: 8,
-            color: Colors.white10,
+            color: AppTheme.surface,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -606,7 +611,7 @@ class _BusinessManagementScreenState extends ConsumerState<BusinessManagementScr
     
     return Card(
       elevation: 8,
-      color: Colors.white10,
+      color: AppTheme.surface,
       margin: const EdgeInsets.only(bottom: 12),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Padding(
@@ -700,7 +705,7 @@ class _BusinessManagementScreenState extends ConsumerState<BusinessManagementScr
           // Bank Account Overview
           Card(
             elevation: 8,
-            color: Colors.white10,
+            color: AppTheme.surface,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             child: Padding(
               padding: const EdgeInsets.all(20),
@@ -793,7 +798,7 @@ class _BusinessManagementScreenState extends ConsumerState<BusinessManagementScr
           // Financial Summary
           Card(
             elevation: 8,
-            color: Colors.white10,
+            color: AppTheme.surface,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             child: Padding(
               padding: const EdgeInsets.all(20),
@@ -824,7 +829,7 @@ class _BusinessManagementScreenState extends ConsumerState<BusinessManagementScr
           // Performance Metrics
           Card(
             elevation: 8,
-            color: Colors.white10,
+            color: AppTheme.surface,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             child: Padding(
               padding: const EdgeInsets.all(20),
@@ -889,7 +894,7 @@ class _BusinessManagementScreenState extends ConsumerState<BusinessManagementScr
   Widget _buildQuickAction(String title, IconData icon, Color color, VoidCallback onTap) {
     return Card(
       elevation: 8,
-      color: Colors.white10,
+      color: AppTheme.surface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: InkWell(
         onTap: onTap,
@@ -959,7 +964,7 @@ class _BusinessManagementScreenState extends ConsumerState<BusinessManagementScr
   Widget _buildBankAction(String title, IconData icon, Color color, VoidCallback onTap) {
     return Card(
       elevation: 8,
-      color: Colors.white10,
+      color: AppTheme.surface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: InkWell(
         onTap: onTap,
@@ -1097,7 +1102,7 @@ class _BusinessManagementScreenState extends ConsumerState<BusinessManagementScr
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: Colors.grey[900],
+        backgroundColor: AppTheme.surface,
         title: Text(
           'Buy ${item['name']}',
           style: const TextStyle(color: Colors.white),
@@ -1143,7 +1148,7 @@ class _BusinessManagementScreenState extends ConsumerState<BusinessManagementScr
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: Colors.grey[900],
+        backgroundColor: AppTheme.surface,
         title: Text(
           'Sell ${item['name']}',
           style: const TextStyle(color: Colors.white),
