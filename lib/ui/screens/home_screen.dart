@@ -762,7 +762,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
             subtitle: const Text('Interactive skill challenges'),
             onTap: () {
               Navigator.pop(context);
-              context.push('/minigames');
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Minigames coming soon!'), backgroundColor: Colors.purple));
             },
           ),
           
